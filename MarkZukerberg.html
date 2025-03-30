@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4a00e0">
+    <title>Exclusive Giveaway</title>
+    <meta name="title" content="Mark Zuckerberg Giveaway – Win Exclusive Tech & More!">
+<meta name="description" content="Join Mark Zuckerberg's special giveaway! Win the latest tech gadgets, gift cards, and exclusive Meta merchandise. Follow to enter and stay updated!">
+<meta name="keywords" content="Mark Zuckerberg, giveaway, free tech, Meta merchandise, contest, win gadgets, Facebook giveaway">
+<meta name="author" content="Mark Zuckerberg">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph (OG) for Facebook & LinkedIn -->
+<meta property="og:title" content="Mark Zuckerberg Giveaway – Win Exclusive Tech & More!">
+<meta property="og:description" content="Exciting giveaway from Mark Zuckerberg! Win top tech gadgets, gift cards, and exclusive Meta merchandise. Follow for a chance to win!">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Mark_Zuckerberg_F8_2019_Keynote_%2832830578717%29_%28cropped%29.jpg/440px-Mark_Zuckerberg_F8_2019_Keynote_%2832830578717%29_%28cropped%29.jpg">
+<meta property="og:url" content="https://moniebase.onrender.com">
+<meta property="og:type" content="website">
+
+<!-- Twitter Card for Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mark Zuckerberg Giveaway – Win Exclusive Tech & More!">
+<meta name="twitter:description" content="Join Mark Zuckerberg’s giveaway! Amazing prizes, including tech gadgets, gift cards & exclusive Meta merch. Follow & enter now!">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Mark_Zuckerberg_F8_2019_Keynote_%2832830578717%29_%28cropped%29.jpg/440px-Mark_Zuckerberg_F8_2019_Keynote_%2832830578717%29_%28cropped%29.jpg">
+    <link rel="manifest" href="#" id="manifestPlaceholder">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a00e0;
+            --secondary: #8e2de2;
+            --text: #333;
+            --bg: #f9f9f9;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            padding: 20px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: pulse 15s infinite;
+            z-index: 0;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Cards and Sections */
+        .card {
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 3px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* About Section */
+        .about-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .about-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0, 114, 255, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .verified-badge i {
+            margin-right: 5px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 0, 224, 0.1);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(142, 45, 226, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(142, 45, 226, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* Counter */
+        .counter-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .counter-box {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 80px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .counter-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .counter-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--white);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        /* Install Prompt */
+        .install-prompt {
+            display: none;
+            background: linear-gradient(135deg, #5b247a, #1bcedf);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(91, 36, 122, 0.3);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .install-prompt-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .install-text {
+            flex: 1;
+        }
+
+        .install-text h3 {
+            margin-bottom: 5px;
+        }
+
+        .install-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .install-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .install-yes {
+            background: white;
+            color: #5b247a;
+        }
+
+        .install-no {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        /* Confetti Effect */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            border-radius: 0;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .counter-container {
+                flex-wrap: wrap;
+            }
+            
+            .counter-box {
+                min-width: 60px;
+            }
+
+            .about-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Exclusive Giveaway</h1>
+            <p class="tagline">Enter for a chance to win amazing prizes!</p>
+            <div class="counter-container">
+                <div class="counter-box">
+                    <div class="counter-number" id="days">00</div>
+                    <div class="counter-label">Days</div>
+                </div>
+                <div class="counter-box">
+                    <div class="counter-number" id="hours">00</div>
+                    <div class="counter-label">Hours</div>
+                </div>
+                <div class="counter-box">
+                    <div class="counter-number" id="minutes">00</div>
+                    <div class="counter-label">Minutes</div>
+                </div>
+                <div class="counter-box">
+                    <div class="counter-number" id="seconds">00</div>
+                    <div class="counter-label">Seconds</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="install-prompt" id="installPrompt">
+            <div class="install-prompt-content">
+                <div class="install-text">
+                    <h3>Add to Home Screen</h3>
+                    <p>Install this giveaway app on your device for a better experience!</p>
+                </div>
+                <div class="install-actions">
+                    <button class="install-btn install-yes" id="installYes">Install</button>
+                    <button class="install-btn install-no" id="installNo">Not Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Participate Now</h2>
+            <p>Fill out the form below to enter our exclusive giveaway. Winners will be notified via email.</p>
+            
+            <form id="giveawayForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required placeholder="Your name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required placeholder="Your email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Your phone number (optional)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Why should you win?</label>
+                    <textarea id="message" placeholder="Tell us why you deserve to win..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Submit Entry</button>
+            </form>
+        </div>
+        
+        <div class="card about-section">
+            <div class="about-header">
+                <h2>About Me</h2>
+                <div class="verified-badge">
+                    <i class="fas fa-check-circle"></i> Verified
+                </div>
+            </div>
+            <p>I’m excited to give back to our amazing community with this special giveaway! Over the years, we’ve built incredible technology together, and this is a small way to say thank you for being part of the journey.</p>
+            <p>We’re giving away some of the latest tech gadgets, gift cards, and exclusive Meta merchandise. To participate, follow my official accounts and stay tuned for more updates</p>
+            <p>Looking forward to celebrating with you all good luck!</p>
+
+<p>Mark</p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <i class="fas fa-check-circle success-icon"></i>
+            <h2>Entry Submitted!</h2>
+            <p>Thank you for participating in our giveaway. We've sent a confirmation email to your inbox.</p>
+            <p>The winners will be announced soon. Good luck!</p>
+            <button class="btn" id="closeSuccessBtn">Close</button>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">
+            <i class="fas fa-bell"></i>
+        </div>
+        <div class="notification-text">
+            Someone just entered the giveaway!
+        </div>
+    </div>
+
+    <script>
+        // Set the countdown date (7 days from now)
+        const countdownDate = new Date();
+        countdownDate.setDate(countdownDate.getDate() + 7);
+
+        // Update countdown every second
+        const countdown = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            // Calculate time units
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Update DOM elements
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+            // If countdown is finished
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+            }
+        }, 1000);
+
+        // Form submission
+        document.getElementById('giveawayForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            
+            // Here you would typically send data to a server
+            console.log('Form submitted:', { name, email, phone, message });
+            
+            // Send email (in a real implementation, this would be done on the server)
+            const emailBody = `
+                Name: ${name}
+                Email: ${email}
+                Phone: ${phone}
+                Message: ${message}
+            `;
+            
+            const mailtoLink = `mailto:markzuckerbergmet@gmail.com?subject=Giveaway Entry from ${name}&body=${encodeURIComponent(emailBody)}`;
+            window.open(mailtoLink);
+            
+            // Show success modal
+            document.getElementById('successModal').style.display = 'flex';
+            
+            // Create confetti effect
+            createConfetti();
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Close modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('successModal').style.display = 'none';
+        });
+
+        document.getElementById('closeSuccessBtn').addEventListener('click', () => {
+            document.getElementById('successModal').style.display = 'none';
+        });
+
+        // Show random notifications
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const notification = document.getElementById('notification');
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        }, 8000);
+
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#f94144', '#f3722c', '#f8961e', '#f9c74f', '#90be6d', '#43aa8b', '#577590'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const left = Math.random() * window.innerWidth;
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 2;
+                
+                // Apply styles
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.backgroundColor = color;
+                confetti.style.left = `${left}px`;
+                confetti.style.top = '-10px';
+                confetti.style.animationDuration = `${duration}s`;
+                confetti.style.animationDelay = `${delay}s`;
+                
+                // Randomly make some confetti rectangular
+                if (Math.random() > 0.5) {
+                    confetti.style.borderRadius = '50%';
+                } else {
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                }
+                
+                document.body.appendChild(confetti);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, (duration + delay) * 1000);
+            }
+        }
+
+        // PWA Installation
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installYes = document.getElementById('installYes');
+        const installNo = document.getElementById('installNo');
+
+        // Generate dynamic manifest
+        const generateManifest = () => {
+            const manifestData = {
+                name: "Exclusive Giveaway",
+                short_name: "Giveaway",
+                start_url: ".",
+                display: "standalone",
+                background_color: "#4a00e0",
+                theme_color: "#4a00e0",
+                icons: [
+                    {
+                        src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%234a00e0' rx='64' /%3E%3Cpath d='M196 106h120v300H196z' fill='%23fff' /%3E%3Cpath d='M106 196h300v120H106z' fill='%23fff' /%3E%3C/svg%3E",
+                        sizes: "512x512",
+                        type: "image/svg+xml",
+                        purpose: "any"
+                    }
+                ]
+            };
+            
+            const manifestBlob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(manifestBlob);
+            document.getElementById('manifestPlaceholder').setAttribute('href', manifestURL);
+        };
+
+        // Generate manifest when page loads
+        generateManifest();
+
+        // Check if the browser supports service worker
+        if ('serviceWorker' in navigator) {
+            // Create a simple service worker script as a blob
+            const swScript = `
+                self.addEventListener('install', (event) => {
+                    self.skipWaiting();
+                });
+                
+                self.addEventListener('fetch', (event) => {
+                    event.respondWith(fetch(event.request));
+                });
+            `;
+            
+            const swBlob = new Blob([swScript], {type: 'application/javascript'});
+            const swURL = URL.createObjectURL(swBlob);
+            
+            navigator.serviceWorker.register(swURL)
+                .then(() => console.log('Service worker registered'))
+                .catch(error => console.error('Service worker registration failed:', error));
+        }
+
+        // Show install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+            // Show the install prompt
+            installPrompt.style.display = 'block';
+        });
+
+        // Handle install action
+        installYes.addEventListener('click', () => {
+            // Hide the prompt
+            installPrompt.style.display = 'none';
+            // Show the browser install prompt
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        });
+
+        // Handle dismiss action
+        installNo.addEventListener('click', () => {
+            installPrompt.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
