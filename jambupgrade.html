@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JAMB Official Score Upgrade Portal</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #1a5276;
+        --secondary: #2980b9;
+        --accent: #e74c3c;
+        --light: #ecf0f1;
+        --dark: #2c3e50;
+        --success: #27ae60;
+        --warning: #f39c12;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background-color: #f5f7fa;
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 0 0 10px 10px;
+        margin-bottom: 30px;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo img {
+        height: 50px;
+        margin-right: 15px;
+      }
+
+      .logo-text h1 {
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      .auth-buttons button {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 30px;
+        margin-left: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .auth-buttons button:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .main-title {
+        text-align: center;
+        margin-bottom: 30px;
+        position: relative;
+      }
+
+      .main-title h2 {
+        font-size: 32px;
+        color: var(--primary);
+        margin-bottom: 10px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .main-title h2::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: var(--accent);
+        border-radius: 2px;
+      }
+
+      .main-title p {
+        color: #666;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        margin-bottom: 30px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+      }
+
+      .card-title i {
+        margin-right: 10px;
+        color: var(--secondary);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #555;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border 0.3s ease;
+      }
+
+      .form-control:focus {
+        border-color: var(--secondary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.2);
+      }
+
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+      }
+
+      .col {
+        flex: 1;
+        padding: 0 15px;
+        min-width: 250px;
+      }
+
+      .btn {
+        display: inline-block;
+        background: var(--secondary);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-align: center;
+      }
+
+      .btn:hover {
+        background: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      .btn-block {
+        display: block;
+        width: 100%;
+      }
+
+      .btn-accent {
+        background: var(--accent);
+      }
+
+      .btn-accent:hover {
+        background: #c0392b;
+      }
+
+      .subject-selection {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .subject-item {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .price-display {
+        background: linear-gradient(135deg, #f5f7fa, #e4e8eb);
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+        text-align: center;
+        border-left: 4px solid var(--secondary);
+      }
+
+      .price-display h3 {
+        color: var(--primary);
+        margin-bottom: 10px;
+      }
+
+      .price-amount {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .result-preview {
+        display: none;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 30px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .result-preview::before {
+        content: "JAMB RESULT SLIP";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        font-size: 60px;
+        font-weight: 700;
+        color: rgba(0, 0, 0, 0.05);
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .result-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #eee;
+        position: relative;
+        z-index: 1;
+      }
+
+      .result-header img {
+        height: 60px;
+      }
+
+      .result-title {
+        text-align: center;
+      }
+
+      .result-title h3 {
+        color: var(--primary);
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+
+      .result-title p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .result-body {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .result-details {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .detail-row {
+        display: flex;
+        margin-bottom: 10px;
+      }
+
+      .detail-label {
+        font-weight: 500;
+        color: #555;
+        width: 150px;
+      }
+
+      .detail-value {
+        flex: 1;
+      }
+
+      .result-scores {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .score-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .score-table th,
+      .score-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
+
+      .score-table th {
+        background: #f5f7fa;
+        color: var(--primary);
+      }
+
+      .total-score {
+        font-weight: 700;
+        color: var(--primary);
+        font-size: 18px;
+      }
+
+      .result-footer {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .barcode {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .barcode img {
+        height: 50px;
+        width: 120px;
+        margin-bottom: 5px;
+      }
+
+      .barcode p {
+        font-size: 10px;
+        color: #999;
+        letter-spacing: 2px;
+      }
+
+      .qr-code {
+        text-align: center;
+      }
+
+      .qr-code img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .qr-code p {
+        font-size: 10px;
+        color: #999;
+        margin-top: 5px;
+      }
+
+      .payment-section {
+        display: none;
+        margin-top: 30px;
+      }
+
+      .bank-details {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border-left: 4px solid var(--success);
+      }
+
+      .bank-details h3 {
+        color: var(--primary);
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+      }
+
+      .bank-details h3 i {
+        margin-right: 10px;
+        color: var(--success);
+      }
+
+      .bank-detail {
+        display: flex;
+        margin-bottom: 10px;
+      }
+
+      .bank-label {
+        font-weight: 500;
+        width: 150px;
+        color: #555;
+      }
+
+      .upload-area {
+        border: 2px dashed #ddd;
+        border-radius: 8px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+      }
+
+      .upload-area:hover {
+        border-color: var(--secondary);
+        background: rgba(41, 128, 185, 0.05);
+      }
+
+      .upload-area i {
+        font-size: 40px;
+        color: var(--secondary);
+        margin-bottom: 15px;
+      }
+
+      .upload-area p {
+        color: #666;
+        margin-bottom: 10px;
+      }
+
+      .upload-area small {
+        color: #999;
+        font-size: 12px;
+      }
+
+      #receiptPreview {
+        max-width: 100%;
+        margin-top: 15px;
+        display: none;
+        border-radius: 6px;
+        border: 1px solid #eee;
+      }
+
+      .status-message {
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 20px;
+        text-align: center;
+        font-weight: 500;
+        display: none;
+      }
+
+      .status-pending {
+        background: rgba(241, 196, 15, 0.2);
+        border-left: 4px solid var(--warning);
+        color: var(--warning);
+      }
+
+      .status-success {
+        background: rgba(46, 204, 113, 0.2);
+        border-left: 4px solid var(--success);
+        color: var(--success);
+      }
+
+      .status-error {
+        background: rgba(231, 76, 60, 0.2);
+        border-left: 4px solid var(--accent);
+        color: var(--accent);
+      }
+
+      .animation-fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      footer {
+        text-align: center;
+        padding: 30px 0;
+        color: #666;
+        font-size: 14px;
+        border-top: 1px solid #eee;
+        margin-top: 50px;
+      }
+
+      .disclaimer {
+        background: #fff8e1;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 30px;
+        border-left: 4px solid var(--warning);
+      }
+
+      .disclaimer h4 {
+        color: var(--warning);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .disclaimer h4 i {
+        margin-right: 10px;
+      }
+
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .auth-buttons {
+          margin-top: 15px;
+        }
+
+        .col {
+          flex: 100%;
+          margin-bottom: 15px;
+        }
+
+        .detail-row {
+          flex-direction: column;
+        }
+
+        .detail-label {
+          width: 100%;
+          margin-bottom: 5px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container header-content">
+        <div class="logo">
+          <img
+            src="https://www.jamb.gov.ng/img/JAMB_logo_transparentBg.png"
+            alt="JAMB Logo"
+          />
+          <div class="logo-text">
+            <h1>JAMB OFFICIAL</h1>
+            <p>Joint Admissions and Matriculation Board</p>
+          </div>
+        </div>
+        <!-- <div class="auth-buttons">
+          <button><i class="fas fa-user"></i> Login</button>
+          <button><i class="fas fa-user-plus"></i> Register</button>
+        </div> -->
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="main-title">
+        <h2>JAMB Score Upgrade Portal</h2>
+        <p>
+          Official portal for upgrading your JAMB examination scores. Fill in
+          your details below to proceed.
+        </p>
+      </div>
+
+      <div class="disclaimer">
+        <h4><i class="fas fa-exclamation-triangle"></i> Important Notice</h4>
+        <p>
+          This is an official JAMB portal for score upgrades. Any fraudulent
+          activity will result in permanent disqualification from all JAMB
+          examinations. Ensure all information provided is accurate.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <i class="fas fa-user-graduate"></i> Candidate Information
+        </div>
+        <form id="upgradeForm">
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="regNumber">JAMB Registration Number</label>
+                <input
+                  type="text"
+                  id="regNumber"
+                  class="form-control"
+                  placeholder="e.g. 12345678HG"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input
+                  type="text"
+                  id="fullName"
+                  class="form-control"
+                  placeholder="As written on JAMB slip"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" class="form-control" required />
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label for="origin">State of Origin</label>
+                <select id="origin" class="form-control" required>
+                  <option value="">Select State</option>
+                  <option value="Abia">Abia</option>
+                  <option value="Adamawa">Adamawa</option>
+                  <option value="Akwa Ibom">Akwa Ibom</option>
+                  <option value="Anambra">Anambra</option>
+                  <option value="Bauchi">Bauchi</option>
+                  <option value="Bayelsa">Bayelsa</option>
+                  <option value="Benue">Benue</option>
+                  <option value="Borno">Borno</option>
+                  <option value="Cross River">Cross River</option>
+                  <option value="Delta">Delta</option>
+                  <option value="Ebonyi">Ebonyi</option>
+                  <option value="Edo">Edo</option>
+                  <option value="Ekiti">Ekiti</option>
+                  <option value="Enugu">Enugu</option>
+                  <option value="FCT">Federal Capital Territory</option>
+                  <option value="Gombe">Gombe</option>
+                  <option value="Imo">Imo</option>
+                  <option value="Jigawa">Jigawa</option>
+                  <option value="Kaduna">Kaduna</option>
+                  <option value="Kano">Kano</option>
+                  <option value="Katsina">Katsina</option>
+                  <option value="Kebbi">Kebbi</option>
+                  <option value="Kogi">Kogi</option>
+                  <option value="Kwara">Kwara</option>
+                  <option value="Lagos">Lagos</option>
+                  <option value="Nasarawa">Nasarawa</option>
+                  <option value="Niger">Niger</option>
+                  <option value="Ogun">Ogun</option>
+                  <option value="Ondo">Ondo</option>
+                  <option value="Osun">Osun</option>
+                  <option value="Oyo">Oyo</option>
+                  <option value="Plateau">Plateau</option>
+                  <option value="Rivers">Rivers</option>
+                  <option value="Sokoto">Sokoto</option>
+                  <option value="Taraba">Taraba</option>
+                  <option value="Yobe">Yobe</option>
+                  <option value="Zamfara">Zamfara</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="examNumber">Examination Number</label>
+                <input
+                  type="text"
+                  id="examNumber"
+                  class="form-control"
+                  placeholder="e.g. 12345678"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label for="examCenter">Examination Center</label>
+                <input
+                  type="text"
+                  id="examCenter"
+                  class="form-control"
+                  placeholder="Center name"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="card-title" style="margin-top: 30px">
+            <i class="fas fa-book-open"></i> Subject Selection & Score Upgrade
+          </div>
+          <p style="margin-bottom: 20px; color: #666">
+            Select your 4 subjects and enter the scores you wish to upgrade to
+            (Maximum total score: 310)
+          </p>
+
+          <div class="subject-selection">
+            <div class="subject-item">
+              <div class="form-group">
+                <label for="subject1">Subject 1</label>
+                <select id="subject1" class="form-control" required>
+                  <option value="">Select Subject</option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="English Language">English Language</option>
+                  <option value="Physics">Physics</option>
+                  <option value="Chemistry">Chemistry</option>
+                  <option value="Biology">Biology</option>
+                  <option value="Economics">Economics</option>
+                  <option value="Literature in English">
+                    Literature in English
+                  </option>
+                  <option value="Government">Government</option>
+                  <option value="Commerce">Commerce</option>
+                  <option value="Accounting">Accounting</option>
+                  <option value="Geography">Geography</option>
+                  <option value="History">History</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="score1">Score (0-100)</label>
+                <input
+                  type="number"
+                  id="score1"
+                  class="form-control"
+                  min="0"
+                  max="100"
+                  placeholder="e.g. 75"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="subject-item">
+              <div class="form-group">
+                <label for="subject2">Subject 2</label>
+                <select id="subject2" class="form-control" required>
+                  <option value="">Select Subject</option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="English Language">English Language</option>
+                  <option value="Physics">Physics</option>
+                  <option value="Chemistry">Chemistry</option>
+                  <option value="Biology">Biology</option>
+                  <option value="Economics">Economics</option>
+                  <option value="Literature in English">
+                    Literature in English
+                  </option>
+                  <option value="Government">Government</option>
+                  <option value="Commerce">Commerce</option>
+                  <option value="Accounting">Accounting</option>
+                  <option value="Geography">Geography</option>
+                  <option value="History">History</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="score2">Score (0-100)</label>
+                <input
+                  type="number"
+                  id="score2"
+                  class="form-control"
+                  min="0"
+                  max="100"
+                  placeholder="e.g. 75"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="subject-item">
+              <div class="form-group">
+                <label for="subject3">Subject 3</label>
+                <select id="subject3" class="form-control" required>
+                  <option value="">Select Subject</option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="English Language">English Language</option>
+                  <option value="Physics">Physics</option>
+                  <option value="Chemistry">Chemistry</option>
+                  <option value="Biology">Biology</option>
+                  <option value="Economics">Economics</option>
+                  <option value="Literature in English">
+                    Literature in English
+                  </option>
+                  <option value="Government">Government</option>
+                  <option value="Commerce">Commerce</option>
+                  <option value="Accounting">Accounting</option>
+                  <option value="Geography">Geography</option>
+                  <option value="History">History</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="score3">Score (0-100)</label>
+                <input
+                  type="number"
+                  id="score3"
+                  class="form-control"
+                  min="0"
+                  max="100"
+                  placeholder="e.g. 75"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="subject-item">
+              <div class="form-group">
+                <label for="subject4">Subject 4</label>
+                <select id="subject4" class="form-control" required>
+                  <option value="">Select Subject</option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="English Language">English Language</option>
+                  <option value="Physics">Physics</option>
+                  <option value="Chemistry">Chemistry</option>
+                  <option value="Biology">Biology</option>
+                  <option value="Economics">Economics</option>
+                  <option value="Literature in English">
+                    Literature in English
+                  </option>
+                  <option value="Government">Government</option>
+                  <option value="Commerce">Commerce</option>
+                  <option value="Accounting">Accounting</option>
+                  <option value="Geography">Geography</option>
+                  <option value="History">History</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="score4">Score (0-100)</label>
+                <input
+                  type="number"
+                  id="score4"
+                  class="form-control"
+                  min="0"
+                  max="100"
+                  placeholder="e.g. 75"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="price-display">
+            <h3>Upgrade Fee</h3>
+            <p>
+              Your estimated upgrade fee will appear here after entering your
+              scores
+            </p>
+            <div class="price-amount" id="priceAmount">NGN 0.00</div>
+          </div>
+
+          <button
+            type="button"
+            id="previewBtn"
+            class="btn btn-block"
+            style="margin-top: 20px"
+          >
+            <i class="fas fa-eye"></i> Preview Upgraded Result
+          </button>
+        </form>
+      </div>
+
+      <div class="result-preview" id="resultPreview">
+        <div class="result-header">
+          <img
+            src="https://www.jamb.gov.ng/img/JAMB_logo_transparentBg.png"
+            alt="JAMB Logo"
+          />
+          <div class="result-title">
+            <h3>UNIFIED TERTIARY MATRICULATION EXAMINATION</h3>
+            <p>2025 EXAMINATION RESULT</p>
+          </div>
+          <!-- <img src="https://via.placeholder.com/60x60?text=PHOTO" alt="Candidate Photo" style="border: 1px solid #ddd;"> -->
+        </div>
+
+        <div class="result-body">
+          <div class="result-details">
+            <div class="detail-row">
+              <div class="detail-label">Registration Number:</div>
+              <div class="detail-value" id="previewRegNumber"></div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Name:</div>
+              <div class="detail-value" id="previewName"></div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Date of Birth:</div>
+              <div class="detail-value" id="previewDob"></div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">State of Origin:</div>
+              <div class="detail-value" id="previewOrigin"></div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Exam Number:</div>
+              <div class="detail-value" id="previewExamNumber"></div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Exam Center:</div>
+              <div class="detail-value" id="previewExamCenter"></div>
+            </div>
+          </div>
+
+          <div class="result-scores">
+            <table class="score-table">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="previewSubject1"></td>
+                  <td id="previewScore1"></td>
+                </tr>
+                <tr>
+                  <td id="previewSubject2"></td>
+                  <td id="previewScore2"></td>
+                </tr>
+                <tr>
+                  <td id="previewSubject3"></td>
+                  <td id="previewScore3"></td>
+                </tr>
+                <tr>
+                  <td id="previewSubject4"></td>
+                  <td id="previewScore4"></td>
+                </tr>
+                <tr>
+                  <td><strong>Total Score</strong></td>
+                  <td class="total-score" id="previewTotalScore"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="result-footer">
+          <div class="barcode">
+            <img
+              src="https://th.bing.com/th/id/OIP.xrj-slTK3X5jPcGMRDNMUwAAAA?w=176&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7"
+              alt="Barcode"
+            />
+            <p>64887633887498</p>
+          </div>
+          <div class="qr-code">
+            <img
+              src="https://tse4.mm.bing.net/th?id=OIP.J1_0nwM8f6LkoFH5b51DIgHaE8&w=600&h=400&rs=1&pid=ImgDetMain"
+              alt="QR Code"
+            />
+            <p></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-section" id="paymentSection">
+        <div class="card">
+          <div class="card-title">
+            <i class="fas fa-credit-card"></i> Payment Information
+          </div>
+
+          <div class="bank-details">
+            <h3><i class="fas fa-university"></i> Bank Transfer Details</h3>
+            <div class="bank-detail">
+              <div class="bank-label">Bank Name:</div>
+              <div class="bank-value">NOMBANK MFB</div>
+            </div>
+            <div class="bank-detail">
+              <div class="bank-label">Account Name:</div>
+              <div class="bank-value">DOT/FAVOUR ADESIYAN</div>
+            </div>
+            <div class="bank-detail">
+              <div class="bank-label">Account Number:</div>
+              <div class="bank-value">2185422839</div>
+            </div>
+            <div class="bank-detail">
+              <div class="bank-label">Amount to Pay:</div>
+              <div class="bank-value" id="paymentAmount">NGN 0.00</div>
+            </div>
+          </div>
+
+          <p style="margin: 20px 0; color: #666">
+            After making the payment, please upload your payment receipt below
+            for verification.
+          </p>
+
+          <div class="upload-area" id="uploadArea">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Click to upload payment receipt</p>
+            <small>Supported formats: JPG, PNG, PDF (Max 2MB)</small>
+            <input
+              type="file"
+              id="receiptUpload"
+              accept="image/*,.pdf"
+              style="display: none"
+            />
+            <img id="receiptPreview" alt="Receipt Preview" />
+          </div>
+
+          <button type="button" id="submitBtn" class="btn btn-accent btn-block">
+            <i class="fas fa-check-circle"></i> Submit for Verification
+          </button>
+
+          <div class="status-message" id="statusMessage"></div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        id="proceedBtn"
+        class="btn btn-block"
+        style="display: none; margin-top: 20px"
+      >
+        <i class="fas fa-arrow-right"></i> Proceed to Payment
+      </button>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>
+          &copy; 2025 Joint Admissions and Matriculation Board (JAMB). All
+          rights reserved.
+        </p>
+        <p>This is an official portal. Unauthorized access is prohibited.</p>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Form elements
+        const upgradeForm = document.getElementById("upgradeForm");
+        const previewBtn = document.getElementById("previewBtn");
+        const proceedBtn = document.getElementById("proceedBtn");
+        const resultPreview = document.getElementById("resultPreview");
+        const paymentSection = document.getElementById("paymentSection");
+        const submitBtn = document.getElementById("submitBtn");
+        const uploadArea = document.getElementById("uploadArea");
+        const receiptUpload = document.getElementById("receiptUpload");
+        const receiptPreview = document.getElementById("receiptPreview");
+        const statusMessage = document.getElementById("statusMessage");
+        const priceAmount = document.getElementById("priceAmount");
+        const paymentAmount = document.getElementById("paymentAmount");
+
+        // Score inputs
+        const scoreInputs = [
+          document.getElementById("score1"),
+          document.getElementById("score2"),
+          document.getElementById("score3"),
+          document.getElementById("score4"),
+        ];
+
+        // Calculate total score and update price
+        function updateTotalScore() {
+          let total = 0;
+          let isValid = true;
+
+          scoreInputs.forEach((input) => {
+            const value = parseInt(input.value) || 0;
+            if (value < 0 || value > 100) {
+              isValid = false;
+            }
+            total += value;
+          });
+
+          if (total > 310) {
+            priceAmount.textContent = "Total exceeds 310";
+            priceAmount.style.color = "red";
+            return false;
+          } else if (!isValid) {
+            priceAmount.textContent = "Invalid scores";
+            priceAmount.style.color = "red";
+            return false;
+          } else {
+            priceAmount.style.color = "var(--accent)";
+
+            // Calculate price based on total score
+            let price = 0;
+            if (total >= 150 && total <= 200) {
+              price = 11000;
+            } else if (total > 200 && total <= 255) {
+              price = 16000;
+            } else if (total > 255 && total <= 300) {
+              price = 24000;
+            } else if (total > 300 && total <= 310) {
+              price = 28000;
+            }
+
+            priceAmount.textContent = `NGN ${price.toLocaleString()}.00`;
+            paymentAmount.textContent = `NGN ${price.toLocaleString()}.00`;
+            return true;
+          }
+        }
+
+        // Add event listeners to score inputs
+        scoreInputs.forEach((input) => {
+          input.addEventListener("input", updateTotalScore);
+        });
+
+        // Preview button click handler
+        previewBtn.addEventListener("click", function () {
+          if (!upgradeForm.checkValidity()) {
+            alert("Please fill in all required fields correctly.");
+            return;
+          }
+
+          if (!updateTotalScore()) {
+            alert(
+              "Please correct your scores. Total must not exceed 310 and each subject score must be between 0-100."
+            );
+            return;
+          }
+
+          // Update preview with form data
+          document.getElementById("previewRegNumber").textContent =
+            document.getElementById("regNumber").value;
+          document.getElementById("previewName").textContent =
+            document.getElementById("fullName").value;
+          document.getElementById("previewDob").textContent = new Date(
+            document.getElementById("dob").value
+          ).toLocaleDateString("en-NG");
+          document.getElementById("previewOrigin").textContent =
+            document.getElementById("origin").value;
+          document.getElementById("previewExamNumber").textContent =
+            document.getElementById("examNumber").value;
+          document.getElementById("previewExamCenter").textContent =
+            document.getElementById("examCenter").value;
+
+          document.getElementById("previewSubject1").textContent =
+            document.getElementById("subject1").value;
+          document.getElementById("previewSubject2").textContent =
+            document.getElementById("subject2").value;
+          document.getElementById("previewSubject3").textContent =
+            document.getElementById("subject3").value;
+          document.getElementById("previewSubject4").textContent =
+            document.getElementById("subject4").value;
+
+          document.getElementById("previewScore1").textContent =
+            document.getElementById("score1").value;
+          document.getElementById("previewScore2").textContent =
+            document.getElementById("score2").value;
+          document.getElementById("previewScore3").textContent =
+            document.getElementById("score3").value;
+          document.getElementById("previewScore4").textContent =
+            document.getElementById("score4").value;
+
+          const totalScore =
+            parseInt(document.getElementById("score1").value || 0) +
+            parseInt(document.getElementById("score2").value || 0) +
+            parseInt(document.getElementById("score3").value || 0) +
+            parseInt(document.getElementById("score4").value || 0);
+          document.getElementById("previewTotalScore").textContent = totalScore;
+
+          // Show result preview and proceed button
+          resultPreview.style.display = "block";
+          proceedBtn.style.display = "block";
+
+          // Scroll to result preview
+          resultPreview.scrollIntoView({ behavior: "smooth" });
+        });
+
+        // Proceed button click handler
+        proceedBtn.addEventListener("click", function () {
+          paymentSection.style.display = "block";
+          proceedBtn.style.display = "none";
+          paymentSection.scrollIntoView({ behavior: "smooth" });
+        });
+
+        // Upload area click handler
+        uploadArea.addEventListener("click", function () {
+          receiptUpload.click();
+        });
+
+        // Receipt upload change handler
+        receiptUpload.addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            if (file.size > 2 * 1024 * 1024) {
+              alert("File size exceeds 2MB limit.");
+              return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+              if (file.type.includes("image")) {
+                receiptPreview.src = event.target.result;
+                receiptPreview.style.display = "block";
+              } else {
+                receiptPreview.style.display = "none";
+              }
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+        // Submit button click handler
+        submitBtn.addEventListener("click", function () {
+          if (!receiptUpload.files[0]) {
+            alert("Please upload your payment receipt.");
+            return;
+          }
+
+          // Show pending verification message
+          statusMessage.textContent =
+            "Your payment receipt has been submitted and is pending verification. You will receive a confirmation email once verified.";
+          statusMessage.className =
+            "status-message status-pending animation-fade-in";
+          statusMessage.style.display = "block";
+
+          // Simulate verification after 3 seconds (demo only)
+          setTimeout(() => {
+            // Randomly decide if verification is successful (70% chance)
+            const isVerified = Math.random() < 0.7;
+
+            if (isVerified) {
+              statusMessage.textContent =
+                "Your payment receipt has been submitted and is pending verification. You will receive a confirmation email once verified.";
+              statusMessage.className =
+                "status-message status-success animation-fade-in";
+            } else {
+              statusMessage.textContent =
+                "Verification failed. Please ensure you made the correct payment and upload a clear receipt. Contact support if you believe this is an error.";
+              statusMessage.className =
+                "status-message status-error animation-fade-in";
+            }
+          }, 3000);
+        });
+
+        // Animation for elements
+        const animateOnScroll = function () {
+          const elements = document.querySelectorAll(
+            ".card, .result-preview, .payment-section"
+          );
+
+          elements.forEach((element) => {
+            const elementPosition = element.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+
+            if (elementPosition < screenPosition) {
+              element.style.opacity = "1";
+              element.style.transform = "translateY(0)";
+            }
+          });
+        };
+
+        // Set initial styles for animation
+        document
+          .querySelectorAll(".card, .result-preview, .payment-section")
+          .forEach((element) => {
+            element.style.opacity = "0";
+            element.style.transform = "translateY(20px)";
+            element.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+          });
+
+        // Add scroll event listener
+        window.addEventListener("scroll", animateOnScroll);
+
+        // Trigger once on load
+        animateOnScroll();
+      });
+    </script>
+  </body>
+</html>
