@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dexmira - Earn Money</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Dexmira - Earn Money Online with Daily Tasks" />
+    <meta
+      name="description"
+      content="Dexmira is a modern earning platform where you can make money by completing simple tasks, daily check-ins, and referrals. Start earning today!"
+    />
+    <meta
+      name="keywords"
+      content="earn money online, make money, tasks, referrals, Nigeria, online income, Dexmira, passive income"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dexmira.com/" />
+    <meta
+      property="og:title"
+      content="Dexmira - Earn Money Online with Daily Tasks"
+    />
+    <meta
+      property="og:description"
+      content="Join Dexmira and start earning money by completing simple tasks and daily check-ins. Get paid instantly!"
+    />
+    <meta
+      property="og:image"
+      content="https://codehubme.wordpress.com/wp-content/uploads/2025/05/file_000000003d5061f899febd0aa29cd5623942267435951570712.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://dexmira.com/" />
+    <meta
+      property="twitter:title"
+      content="Dexmira - Earn Money Online with Daily Tasks"
+    />
+    <meta
+      property="twitter:description"
+      content="Join Dexmira and start earning money by completing simple tasks and daily check-ins. Get paid instantly!"
+    />
+    <meta
+      property="twitter:image"
+      content="https://codehubme.wordpress.com/wp-content/uploads/2025/05/file_000000003d5061f899febd0aa29cd5623942267435951570712.png"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://codehubme.wordpress.com/wp-content/uploads/2025/05/file_000000003d5061f899febd0aa29cd5623942267435951570712.png"
+    />
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://dexmira.com/" />
+
+    <!-- Theme Color for Mobile Browsers -->
+    <meta name="theme-color" content="#6c5ce7" />
+    <style>
+      :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5649c0;
+        --secondary: #00cec9;
+        --accent: #fd79a8;
+        --light: #f8f9fa;
+        --dark: #2d3436;
+        --success: #00b894;
+        --warning: #fdcb6e;
+        --danger: #d63031;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 2rem auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 80vh;
+      }
+
+      .brand-section {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .brand-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0) 70%
+        );
+        animation: pulse 8s infinite alternate;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.8);
+          opacity: 0.5;
+        }
+        100% {
+          transform: scale(1.2);
+          opacity: 0.8;
+        }
+      }
+
+      .logo-container {
+        width: 180px;
+        height: 180px;
+        margin-bottom: 2rem;
+        position: relative;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .logo-text {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .logo-text::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background: var(--accent);
+        border-radius: 3px;
+      }
+
+      .brand-slogan {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        max-width: 350px;
+      }
+
+      .form-section {
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .form-container {
+        max-width: 400px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .form-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: var(--primary);
+      }
+
+      .form-description {
+        margin-bottom: 2rem;
+        color: #666;
+      }
+
+      .tabs {
+        display: flex;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .tab {
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        font-weight: 500;
+        color: #888;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .tab.active {
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .tab.active::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 3px 3px 0 0;
+      }
+
+      .form {
+        display: none;
+      }
+
+      .form.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #555;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #f9f9f9;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        background: white;
+      }
+
+      .form-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 2rem;
+      }
+
+      .btn {
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+      }
+
+      .btn-link {
+        background: none;
+        color: var(--primary);
+        font-weight: 500;
+      }
+
+      .btn-link:hover {
+        text-decoration: underline;
+      }
+
+      .error-message {
+        color: var(--danger);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        display: none;
+      }
+
+      .success-message {
+        color: var(--success);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        display: none;
+      }
+
+      /* Dashboard button for demo */
+      .dashboard-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--primary);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 500;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 992px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+
+        .brand-section {
+          padding: 2rem;
+        }
+
+        .form-section {
+          padding: 2rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .container {
+          width: 95%;
+          margin: 1rem auto;
+        }
+
+        .logo-container {
+          width: 120px;
+          height: 120px;
+        }
+
+        .logo-text {
+          font-size: 2rem;
+        }
+
+        .tabs {
+          justify-content: center;
+        }
+
+        .form-title {
+          font-size: 1.75rem;
+          text-align: center;
+        }
+
+        .form-description {
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="brand-section">
+        <div class="logo-container">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#6c5ce7" />
+                <stop offset="100%" stop-color="#00cec9" />
+              </linearGradient>
+              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow
+                  dx="0"
+                  dy="10"
+                  stdDeviation="10"
+                  flood-color="rgba(0,0,0,0.2)"
+                />
+              </filter>
+            </defs>
+
+            <circle
+              cx="100"
+              cy="100"
+              r="80"
+              fill="url(#gradient)"
+              filter="url(#shadow)"
+            />
+
+            <path
+              d="M70,100 Q100,40 130,100 T170,100"
+              fill="none"
+              stroke="white"
+              stroke-width="8"
+              stroke-linecap="round"
+            >
+              <animate
+                attributeName="d"
+                values="
+                            M70,100 Q100,40 130,100 T170,100;
+                            M70,100 Q100,160 130,100 T170,100;
+                            M70,100 Q100,40 130,100 T170,100"
+                dur="4s"
+                repeatCount="indefinite"
+              />
+            </path>
+
+            <circle cx="70" cy="100" r="8" fill="white">
+              <animate
+                attributeName="cx"
+                values="70;130;70"
+                dur="4s"
+                repeatCount="indefinite"
+              />
+            </circle>
+
+            <path
+              d="M100,120 L100,160 M80,140 L120,140"
+              stroke="white"
+              stroke-width="6"
+              stroke-linecap="round"
+            >
+              <animateTransform
+                attributeName="transform"
+                type="scale"
+                values="1;1.1;1"
+                dur="2s"
+                repeatCount="indefinite"
+                additive="sum"
+              />
+            </path>
+          </svg>
+        </div>
+        <h1 class="logo-text">Dexmira</h1>
+        <p class="brand-slogan">
+          Your modern earning platform for a digital world
+        </p>
+      </div>
+
+      <div class="form-section">
+        <div class="form-container">
+          <h2 class="form-title">Welcome Back!</h2>
+          <p class="form-description">
+            Sign in to access your account or create a new one to get started.
+          </p>
+
+          <div class="tabs">
+            <div class="tab active" data-tab="login">Login</div>
+            <div class="tab" data-tab="signup">Sign Up</div>
+          </div>
+
+          <form id="login-form" class="form active">
+            <div class="form-group">
+              <label for="login-phone" class="form-label">Phone Number</label>
+              <input
+                type="tel"
+                id="login-phone"
+                class="form-input"
+                placeholder="Enter your 11-digit phone number"
+                pattern="[0-9]{11}"
+                required
+              />
+              <div class="error-message" id="login-phone-error">
+                Please enter a valid 11-digit phone number
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="login-password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="login-password"
+                class="form-input"
+                placeholder="Enter your password"
+                required
+              />
+              <div class="error-message" id="login-password-error">
+                Password is required
+              </div>
+            </div>
+
+            <div class="form-footer">
+              <button type="submit" class="btn btn-primary">Login</button>
+              <button type="button" class="btn btn-link" id="forgot-password">
+                Forgot Password?
+              </button>
+            </div>
+
+            <div class="success-message" id="login-success"></div>
+          </form>
+
+          <form id="signup-form" class="form">
+            <div class="form-group">
+              <label for="signup-username" class="form-label">Username</label>
+              <input
+                type="text"
+                id="signup-username"
+                class="form-input"
+                placeholder="Choose a username"
+                required
+              />
+              <div class="error-message" id="signup-username-error">
+                Username is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signup-phone" class="form-label">Phone Number</label>
+              <input
+                type="tel"
+                id="signup-phone"
+                class="form-input"
+                placeholder="Enter your 11-digit phone number"
+                pattern="[0-9]{11}"
+                required
+              />
+              <div class="error-message" id="signup-phone-error">
+                Please enter a valid 11-digit phone number
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signup-password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="signup-password"
+                class="form-input"
+                placeholder="Create a password"
+                required
+              />
+              <div class="error-message" id="signup-password-error">
+                Password is required
+              </div>
+            </div>
+
+            <div class="form-footer">
+              <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+
+            <div class="success-message" id="signup-success"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- For demo purposes only - remove in production -->
+    <a
+      href="dashboard.html"
+      class="dashboard-btn"
+      id="dashboard-link"
+      style="display: none"
+      >Go to Dashboard</a
+    >
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Tab switching
+        const tabs = document.querySelectorAll(".tab");
+        const forms = document.querySelectorAll(".form");
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", function () {
+            // Remove active class from all tabs and forms
+            tabs.forEach((t) => t.classList.remove("active"));
+            forms.forEach((f) => f.classList.remove("active"));
+
+            // Add active class to clicked tab and corresponding form
+            this.classList.add("active");
+            const tabName = this.getAttribute("data-tab");
+            document.getElementById(`${tabName}-form`).classList.add("active");
+          });
+        });
+
+        // Form validation and submission
+        const loginForm = document.getElementById("login-form");
+        const signupForm = document.getElementById("signup-form");
+
+        // Login form handling
+        loginForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Reset error messages
+          document
+            .querySelectorAll("#login-form .error-message")
+            .forEach((el) => {
+              el.style.display = "none";
+            });
+
+          // Get form values
+          const phone = document.getElementById("login-phone").value;
+          const password = document.getElementById("login-password").value;
+
+          // Validate inputs
+          let isValid = true;
+
+          if (!phone.match(/^[0-9]{11}$/)) {
+            document.getElementById("login-phone-error").style.display =
+              "block";
+            isValid = false;
+          }
+
+          if (password.length < 1) {
+            document.getElementById("login-password-error").style.display =
+              "block";
+            isValid = false;
+          }
+
+          if (!isValid) return;
+
+          // Check if user exists in localStorage
+          const users = JSON.parse(localStorage.getItem("dexmira_users")) || [];
+          const user = users.find(
+            (u) => u.phone === phone && u.password === password
+          );
+
+          if (user) {
+            // Save current user to localStorage
+            localStorage.setItem("dexmira_current_user", JSON.stringify(user));
+
+            // Show success message
+            const successMsg = document.getElementById("login-success");
+            successMsg.textContent = "Login successful! Redirecting...";
+            successMsg.style.display = "block";
+
+            // Redirect to dashboard after delay
+            setTimeout(() => {
+              // Chrome-safe redirection
+              const link = document.createElement("a");
+              link.href = "dashboard.html";
+              link.click();
+            }, 1500);
+          } else {
+            document.getElementById("login-password-error").textContent =
+              "Invalid phone number or password";
+            document.getElementById("login-password-error").style.display =
+              "block";
+          }
+        });
+
+        // Signup form handling
+        signupForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Reset error messages
+          document
+            .querySelectorAll("#signup-form .error-message")
+            .forEach((el) => {
+              el.style.display = "none";
+            });
+
+          // Get form values
+          const username = document.getElementById("signup-username").value;
+          const phone = document.getElementById("signup-phone").value;
+          const password = document.getElementById("signup-password").value;
+
+          // Validate inputs
+          let isValid = true;
+
+          if (username.length < 1) {
+            document.getElementById("signup-username-error").style.display =
+              "block";
+            isValid = false;
+          }
+
+          if (!phone.match(/^[0-9]{11}$/)) {
+            document.getElementById("signup-phone-error").style.display =
+              "block";
+            isValid = false;
+          }
+
+          if (password.length < 1) {
+            document.getElementById("signup-password-error").style.display =
+              "block";
+            isValid = false;
+          }
+
+          if (!isValid) return;
+
+          // Clear all existing data as requested
+          localStorage.clear();
+
+          // Create new user object
+          const newUser = {
+            username,
+            phone,
+            password,
+            balance: 2000,
+            createdAt: new Date().toISOString(),
+          };
+
+          // Save user to localStorage
+          localStorage.setItem("dexmira_users", JSON.stringify([newUser]));
+          localStorage.setItem("dexmira_current_user", JSON.stringify(newUser));
+
+          // Chrome-safe storage (duplicate data in different formats)
+          localStorage.setItem(
+            "dexmira_data",
+            btoa(
+              JSON.stringify({
+                users: [newUser],
+                currentUser: newUser,
+              })
+            )
+          );
+
+          // Show success message
+          const successMsg = document.getElementById("signup-success");
+          successMsg.textContent =
+            "Account created successfully! Redirecting...";
+          successMsg.style.display = "block";
+
+          // Reset form
+          signupForm.reset();
+
+          // Redirect to dashboard after delay
+          setTimeout(() => {
+            // Chrome-safe redirection
+            const link = document.createElement("a");
+            link.href = "dashboard.html";
+            link.click();
+          }, 1500);
+        });
+
+        // Forgot password handler
+        document
+          .getElementById("forgot-password")
+          .addEventListener("click", function () {
+            alert("Please contact support to reset your password.");
+          });
+
+        // Check if user is already logged in (for demo purposes)
+        if (localStorage.getItem("dexmira_current_user")) {
+          document.getElementById("dashboard-link").style.display = "block";
+        }
+      });
+
+      // Chrome-safe storage validation
+      function validateStorage() {
+        try {
+          // Check if primary storage exists
+          if (!localStorage.getItem("dexmira_users")) {
+            // Check backup storage
+            const backupData = localStorage.getItem("dexmira_data");
+            if (backupData) {
+              const parsedData = JSON.parse(atob(backupData));
+              localStorage.setItem(
+                "dexmira_users",
+                JSON.stringify(parsedData.users)
+              );
+              localStorage.setItem(
+                "dexmira_current_user",
+                JSON.stringify(parsedData.currentUser)
+              );
+            }
+          }
+        } catch (e) {
+          console.error("Storage validation error:", e);
+        }
+      }
+
+      // Run storage validation on load
+      validateStorage();
+    </script>
+  </body>
+</html>

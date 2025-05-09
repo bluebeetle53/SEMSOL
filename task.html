@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dexmira - Tasks</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5649c0;
+        --secondary: #00cec9;
+        --accent: #fd79a8;
+        --light: #f8f9fa;
+        --dark: #2d3436;
+        --success: #00b894;
+        --warning: #fdcb6e;
+        --danger: #d63031;
+        --gray: #dfe6e9;
+        --dark-gray: #636e72;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        width: 95%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 0;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .back-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: var(--primary);
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .back-btn:hover {
+        transform: translateX(-5px);
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-left: 1rem;
+      }
+
+      .section-title::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 5px;
+        height: 70%;
+        background: var(--primary);
+        border-radius: 5px;
+      }
+
+      .tasks-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+      }
+
+      .task-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(108, 92, 231, 0.1);
+      }
+
+      .task-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(
+          135deg,
+          rgba(108, 92, 231, 0.05) 0%,
+          rgba(0, 206, 201, 0.05) 100%
+        );
+        border-radius: 0 0 0 100%;
+        z-index: 0;
+      }
+
+      .task-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .task-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .task-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .task-badge {
+        padding: 0.25rem 0.75rem;
+        background: var(--primary);
+        color: white;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .task-content {
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .task-description {
+        color: var(--dark-gray);
+        margin-bottom: 1rem;
+      }
+
+      .task-reward {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .reward-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: rgba(0, 184, 148, 0.1);
+        color: var(--success);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .reward-text {
+        font-weight: 500;
+      }
+
+      .reward-amount {
+        font-weight: 700;
+        color: var(--success);
+      }
+
+      .task-button {
+        width: 100%;
+        padding: 0.75rem;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .task-button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+      }
+
+      .task-button i {
+        transition: transform 0.3s ease;
+      }
+
+      .task-button:hover i {
+        transform: translateX(3px);
+      }
+
+      .withdrawals-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-top: 2rem;
+      }
+
+      .withdrawals-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .withdrawals-title i {
+        color: var(--success);
+      }
+
+      .withdrawals-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .withdrawal-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        background: rgba(245, 245, 245, 0.7);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .withdrawal-item:hover {
+        background: rgba(108, 92, 231, 0.1);
+        transform: translateX(5px);
+      }
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin-right: 1rem;
+        flex-shrink: 0;
+      }
+
+      .withdrawal-details {
+        flex: 1;
+      }
+
+      .user-name {
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+      }
+
+      .withdrawal-amount {
+        font-weight: 600;
+        color: var(--success);
+      }
+
+      .withdrawal-time {
+        font-size: 0.75rem;
+        color: var(--dark-gray);
+        margin-left: 1rem;
+        white-space: nowrap;
+      }
+
+      /* Loader styles */
+      .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .loader-container.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .loader-logo {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 2rem;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .loader-text {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--primary);
+        margin-top: 1rem;
+      }
+
+      /* Animation for new withdrawal */
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .new-withdrawal {
+        animation: slideIn 0.5s ease-out;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 1rem;
+          text-align: center;
+        }
+
+        .tasks-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .section-title {
+          font-size: 1.5rem;
+          text-align: center;
+          padding-left: 0;
+        }
+
+        .section-title::before {
+          display: none;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 1rem 0;
+        }
+
+        .task-card {
+          padding: 1.25rem;
+        }
+
+        .withdrawal-item {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .user-avatar {
+          margin-right: 0;
+          margin-bottom: 0.75rem;
+        }
+
+        .withdrawal-time {
+          margin-left: 0;
+          margin-top: 0.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <div class="logo-icon">D</div>
+          <div class="logo-text">Dexmira</div>
+        </div>
+        <a href="dashboard.html" class="back-btn">
+          <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+      </header>
+
+      <h2 class="section-title">Special Deposit Offers</h2>
+
+      <div class="tasks-grid">
+        <div class="task-card">
+          <div class="task-header">
+            <h3 class="task-title">Double Your Money</h3>
+            <span class="task-badge">Limited Offer</span>
+          </div>
+          <div class="task-content">
+            <p class="task-description">
+              Deposit NGN 2,000 and get double your money instantly. This is a
+              limited time offer!
+            </p>
+            <div class="task-reward">
+              <div class="reward-icon">
+                <i class="fas fa-coins"></i>
+              </div>
+              <div class="reward-text">
+                Reward: <span class="reward-amount">NGN 4,000</span>
+              </div>
+            </div>
+          </div>
+          <button class="task-button" id="offer-1">
+            Claim Offer <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <div class="task-card">
+          <div class="task-header">
+            <h3 class="task-title">Triple Bonus</h3>
+            <span class="task-badge">Popular</span>
+          </div>
+          <div class="task-content">
+            <p class="task-description">
+              Deposit NGN 5,000 and receive triple the amount as bonus. Limited
+              slots available!
+            </p>
+            <div class="task-reward">
+              <div class="reward-icon">
+                <i class="fas fa-gem"></i>
+              </div>
+              <div class="reward-text">
+                Reward: <span class="reward-amount">NGN 15,000</span>
+              </div>
+            </div>
+          </div>
+          <button class="task-button" id="offer-2">
+            Claim Offer <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <div class="task-card">
+          <div class="task-header">
+            <h3 class="task-title">Mega Reward</h3>
+            <span class="task-badge">Exclusive</span>
+          </div>
+          <div class="task-content">
+            <p class="task-description">
+              Deposit NGN 10,000 and get NGN 30,000 in return. Our most generous
+              offer yet!
+            </p>
+            <div class="task-reward">
+              <div class="reward-icon">
+                <i class="fas fa-crown"></i>
+              </div>
+              <div class="reward-text">
+                Reward: <span class="reward-amount">NGN 30,000</span>
+              </div>
+            </div>
+          </div>
+          <button class="task-button" id="offer-3">
+            Claim Offer <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="withdrawals-container">
+        <h3 class="withdrawals-title">
+          <i class="fas fa-users"></i> Recent Withdrawals
+        </h3>
+        <div class="withdrawals-list" id="withdrawals-list">
+          <!-- Withdrawal items will be added dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader-container" id="loader">
+      <div class="loader-logo">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#6c5ce7" />
+              <stop offset="100%" stop-color="#00cec9" />
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="80" fill="url(#gradient)" />
+          <path
+            d="M70,100 Q100,40 130,100 T170,100"
+            fill="none"
+            stroke="white"
+            stroke-width="8"
+            stroke-linecap="round"
+          >
+            <animate
+              attributeName="d"
+              values="M70,100 Q100,40 130,100 T170,100;M70,100 Q100,160 130,100 T170,100;M70,100 Q100,40 130,100 T170,100"
+              dur="4s"
+              repeatCount="indefinite"
+            />
+          </path>
+          <circle cx="70" cy="100" r="8" fill="white">
+            <animate
+              attributeName="cx"
+              values="70;130;70"
+              dur="4s"
+              repeatCount="indefinite"
+            />
+          </circle>
+          <path
+            d="M100,120 L100,160 M80,140 L120,140"
+            stroke="white"
+            stroke-width="6"
+            stroke-linecap="round"
+          >
+            <animateTransform
+              attributeName="transform"
+              type="scale"
+              values="1;1.1;1"
+              dur="2s"
+              repeatCount="indefinite"
+              additive="sum"
+            />
+          </path>
+        </svg>
+      </div>
+      <div class="loader-text">Redirecting to deposit page...</div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Sample user data for withdrawals
+        const users = [
+          "Okoro Emmanuel",
+          "Amina Mohammed",
+          "Chinedu Okeke",
+          "Fatima Bello",
+          "James Johnson",
+          "Chioma Nwosu",
+          "Musa Ibrahim",
+          "Grace Williams",
+          "Oluwaseun Adeleke",
+          "Binta Musa",
+          "Daniel Brown",
+          "Aisha Yusuf",
+          "Emeka Okafor",
+          "Jennifer Lopez",
+          "Mohammed Ali",
+          "Sarah Johnson",
+          "David Smith",
+          "Ngozi Eze",
+          "Ahmed Musa",
+          "Blessing Okon",
+          "John Doe",
+          "Maryam Abubakar",
+          "Peter Parker",
+          "Adeola Johnson",
+          "Samuel Jackson",
+          "Joyce Mensah",
+          "Kabiru Yusuf",
+          "Elizabeth Taylor",
+          "Michael Jordan",
+          "Patience Okafor",
+        ];
+
+        // Sample withdrawal amounts
+        const amounts = [
+          14000, 25000, 18000, 32000, 15000, 28000, 20000, 35000, 22000, 19000,
+          27000, 30000, 16000, 24000, 31000, 17000, 29000, 21000, 33000, 23000,
+          26000, 34000, 18000, 25000, 19000, 28000, 22000, 31000, 17000, 29000,
+        ];
+
+        // Function to generate random withdrawal items
+        function generateWithdrawals() {
+          const withdrawalsList = document.getElementById("withdrawals-list");
+
+          // Clear existing items
+          withdrawalsList.innerHTML = "";
+
+          // Generate 10 random withdrawals
+          for (let i = 0; i < 10; i++) {
+            const randomIndex = Math.floor(Math.random() * users.length);
+            const user = users[randomIndex];
+            const amount = amounts[randomIndex];
+
+            // Random time between 5 minutes and 2 hours ago
+            const minutesAgo = Math.floor(Math.random() * 115) + 5;
+            const timeText =
+              minutesAgo < 60
+                ? `${minutesAgo} min ago`
+                : `${Math.floor(minutesAgo / 60)} hour${
+                    Math.floor(minutesAgo / 60) > 1 ? "s" : ""
+                  } ago`;
+
+            const withdrawalItem = document.createElement("div");
+            withdrawalItem.className = "withdrawal-item";
+            withdrawalItem.innerHTML = `
+                        <div class="user-avatar">${user.charAt(0)}</div>
+                        <div class="withdrawal-details">
+                            <div class="user-name">${user}</div>
+                            <div class="withdrawal-info">
+                                <span class="withdrawal-amount">NGN ${amount.toLocaleString()}</span>
+                                <span class="withdrawal-time">${timeText}</span>
+                            </div>
+                        </div>
+                    `;
+
+            withdrawalsList.appendChild(withdrawalItem);
+
+            // Add animation class to new items
+            setTimeout(() => {
+              withdrawalItem.classList.add("new-withdrawal");
+            }, 10);
+          }
+        }
+
+        // Initial generation of withdrawals
+        generateWithdrawals();
+
+        // Update withdrawals every 30 seconds
+        setInterval(generateWithdrawals, 30000);
+
+        // Loader functions
+        function showLoader() {
+          document.getElementById("loader").classList.add("active");
+        }
+
+        function hideLoader() {
+          document.getElementById("loader").classList.remove("active");
+        }
+
+        // Button click handlers
+        document
+          .getElementById("offer-1")
+          .addEventListener("click", function () {
+            showLoader();
+            setTimeout(() => {
+              window.location.href = "deposit.html";
+            }, 1500);
+          });
+
+        document
+          .getElementById("offer-2")
+          .addEventListener("click", function () {
+            showLoader();
+            setTimeout(() => {
+              window.location.href = "deposit.html";
+            }, 1500);
+          });
+
+        document
+          .getElementById("offer-3")
+          .addEventListener("click", function () {
+            showLoader();
+            setTimeout(() => {
+              window.location.href = "deposit.html";
+            }, 1500);
+          });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dexmira - Deposit</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5649c0;
+        --secondary: #00cec9;
+        --accent: #fd79a8;
+        --light: #f8f9fa;
+        --dark: #2d3436;
+        --success: #00b894;
+        --warning: #fdcb6e;
+        --danger: #d63031;
+        --gray: #dfe6e9;
+        --dark-gray: #636e72;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        width: 95%;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 0;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .back-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: var(--primary);
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .back-btn:hover {
+        transform: translateX(-5px);
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 150px;
+        height: 150px;
+        background: linear-gradient(
+          135deg,
+          rgba(108, 92, 231, 0.1) 0%,
+          rgba(0, 206, 201, 0.1) 100%
+        );
+        border-radius: 0 0 0 100%;
+        z-index: 0;
+      }
+
+      .card-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .card-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--accent);
+        border-radius: 3px;
+      }
+
+      .account-options {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .account-option {
+        flex: 1;
+        padding: 1.5rem;
+        border-radius: 12px;
+        background: rgba(245, 245, 245, 0.7);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .account-option:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .account-option.active {
+        border-color: var(--primary);
+        background: rgba(108, 92, 231, 0.05);
+      }
+
+      .account-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+
+      .account-name {
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .bank-logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary);
+        color: white;
+        font-weight: 600;
+      }
+
+      .account-details {
+        margin-bottom: 0.5rem;
+      }
+
+      .account-number {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        color: var(--dark);
+      }
+
+      .account-label {
+        font-size: 0.875rem;
+        color: var(--dark-gray);
+      }
+
+      .warning-box {
+        background: rgba(253, 203, 110, 0.2);
+        border-left: 4px solid var(--warning);
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1.5rem 0;
+        position: relative;
+        z-index: 1;
+      }
+
+      .warning-title {
+        font-weight: 600;
+        color: var(--dark);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .warning-icon {
+        color: var(--warning);
+      }
+
+      .warning-text {
+        font-size: 0.95rem;
+        color: var(--dark-gray);
+      }
+
+      .highlight {
+        background: var(--warning);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .narration-info {
+        margin: 1.5rem 0;
+        position: relative;
+        z-index: 1;
+      }
+
+      .narration-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .narration-icon {
+        color: var(--primary);
+      }
+
+      .narration-box {
+        background: rgba(108, 92, 231, 0.1);
+        padding: 1rem;
+        border-radius: 8px;
+        font-weight: 500;
+        color: var(--primary);
+        text-align: center;
+        border: 1px dashed var(--primary);
+      }
+
+      .btn {
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+      }
+
+      .btn-block {
+        display: block;
+        width: 100%;
+      }
+
+      /* Bottom sheet styles */
+      .bottom-sheet {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        border-radius: 20px 20px 0 0;
+        padding: 2rem;
+        box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .bottom-sheet.active {
+        transform: translateY(0);
+      }
+
+      .sheet-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .sheet-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .close-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(108, 92, 231, 0.1);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+      }
+
+      .close-btn:hover {
+        background: var(--primary);
+        color: white;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--dark);
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #f9f9f9;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        background: white;
+      }
+
+      .file-input-container {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        border: 2px dashed var(--primary);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(108, 92, 231, 0.05);
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .file-input-container:hover {
+        background: rgba(108, 92, 231, 0.1);
+      }
+
+      .file-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .file-icon {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+
+      .file-text {
+        font-weight: 500;
+        color: var(--dark);
+        text-align: center;
+      }
+
+      .file-subtext {
+        font-size: 0.875rem;
+        color: var(--dark-gray);
+        margin-top: 0.5rem;
+      }
+
+      .preview-container {
+        width: 100%;
+        height: 200px;
+        border-radius: 12px;
+        overflow: hidden;
+        display: none;
+        position: relative;
+      }
+
+      .preview-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .remove-preview {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+      }
+
+      .remove-preview:hover {
+        background: var(--danger);
+      }
+
+      /* Overlay */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      /* Notification dialog */
+      .notification {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.9);
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        z-index: 101;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        max-width: 90%;
+        width: 400px;
+        text-align: center;
+      }
+
+      .notification.active {
+        opacity: 1;
+        pointer-events: all;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      .notification-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        margin: 0 auto 1.5rem;
+      }
+
+      .notification-icon.success {
+        background: rgba(0, 184, 148, 0.1);
+        color: var(--success);
+      }
+
+      .notification-icon.error {
+        background: rgba(214, 48, 49, 0.1);
+        color: var(--danger);
+      }
+
+      .notification-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .notification-text {
+        color: var(--dark-gray);
+        margin-bottom: 1.5rem;
+      }
+
+      .notification-btn {
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .notification-btn.success {
+        background: var(--success);
+        color: white;
+      }
+
+      .notification-btn.error {
+        background: var(--danger);
+        color: white;
+      }
+
+      .notification-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Loader styles */
+      .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .loader-container.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .loader {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 1.5rem;
+      }
+
+      .loader-circle {
+        fill: none;
+        stroke: var(--primary);
+        stroke-width: 6;
+        stroke-linecap: round;
+        stroke-dasharray: 200;
+        stroke-dashoffset: 0;
+        animation: dash 1.5s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      @keyframes dash {
+        0% {
+          stroke-dashoffset: 200;
+          transform: rotate(0deg);
+        }
+        50% {
+          stroke-dashoffset: 50;
+          transform: rotate(180deg);
+        }
+        100% {
+          stroke-dashoffset: 200;
+          transform: rotate(360deg);
+        }
+      }
+
+      .loader-text {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--primary);
+        margin-top: 1rem;
+      }
+
+      /* Animation */
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .pulse {
+        animation: pulse 2s infinite;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .container {
+          width: 100%;
+          padding: 1rem;
+        }
+
+        .card {
+          padding: 1.5rem;
+        }
+
+        .account-options {
+          flex-direction: column;
+        }
+
+        .account-option {
+          padding: 1.25rem;
+        }
+
+        .bottom-sheet {
+          padding: 1.5rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .card-title {
+          font-size: 1.5rem;
+        }
+
+        .account-number {
+          font-size: 1.1rem;
+        }
+
+        .sheet-title {
+          font-size: 1.25rem;
+        }
+
+        .notification {
+          width: 90%;
+        }
+
+        .notification-icon {
+          width: 60px;
+          height: 60px;
+          font-size: 2rem;
+        }
+
+        .notification-title {
+          font-size: 1.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <div class="logo-icon">D</div>
+          <div class="logo-text">Dexmira</div>
+        </div>
+        <a href="dashboard.html" class="back-btn">
+          <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+      </header>
+
+      <div class="card">
+        <h2 class="card-title">Deposit Funds</h2>
+        <div class="account-options">
+          <div class="account-option active" data-account="1">
+            <div class="account-header">
+              <div class="account-name">Moniebase LTD</div>
+              <div class="bank-logo">N</div>
+            </div>
+            <div class="account-details">
+              <div class="account-number">2389902652</div>
+              <div class="account-label">Account Number</div>
+            </div>
+            <div class="account-details">
+              <div class="account-number">Nombank MFB</div>
+              <div class="account-label">Bank Name</div>
+            </div>
+          </div>
+          <div class="account-option" data-account="2">
+            <div class="account-header">
+              <div class="account-name">CHIDI NWOSU(KUMAIL)</div>
+              <div class="bank-logo">P</div>
+            </div>
+            <div class="account-details">
+              <div class="account-number">6634433435</div>
+              <div class="account-label">Account Number</div>
+            </div>
+            <div class="account-details">
+              <div class="account-number">Palmpay</div>
+              <div class="account-label">Bank Name</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="warning-box pulse">
+          <div class="warning-title">
+            <i class="fas fa-exclamation-triangle warning-icon"></i> Important
+            Notice
+          </div>
+          <div class="warning-text">
+            <span class="highlight"
+              >Minimum deposit to each account is NGN 2,000</span
+            >. Deposits below this amount won't reflect in your account.
+          </div>
+        </div>
+
+        <div class="narration-info">
+          <div class="narration-title">
+            <i class="fas fa-info-circle narration-icon"></i> Transaction
+            Narration
+          </div>
+          <div class="narration-text">
+            Please use your username or phone number as narration/remark when
+            making the transfer:
+          </div>
+          <div class="narration-box" id="narration-text">Loading...</div>
+        </div>
+
+        <button class="btn btn-primary btn-block" id="deposit-btn">
+          <i class="fas fa-check-circle"></i> I Have Made The Deposit
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom Sheet for Upload -->
+    <div class="bottom-sheet" id="upload-sheet">
+      <div class="sheet-header">
+        <h3 class="sheet-title">Upload Payment Proof</h3>
+        <button class="close-btn" id="close-sheet">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <form id="proof-form">
+        <div class="form-group">
+          <label for="amount" class="form-label">Amount Deposited (NGN)</label>
+          <input
+            type="number"
+            id="amount"
+            class="form-input"
+            placeholder="Enter amount"
+            min="2000"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Payment Receipt/Screenshot</label>
+          <div class="file-input-container" id="file-input-container">
+            <input
+              type="file"
+              id="receipt"
+              class="file-input"
+              accept="image/*"
+              required
+            />
+            <i class="fas fa-cloud-upload-alt file-icon"></i>
+            <div class="file-text">Click or drag to upload image</div>
+            <div class="file-subtext">
+              Supported formats: JPG, PNG, JPEG, HEIC
+            </div>
+          </div>
+          <div class="preview-container" id="preview-container">
+            <img
+              src="#"
+              alt="Preview"
+              class="preview-image"
+              id="preview-image"
+            />
+            <button type="button" class="remove-preview" id="remove-preview">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">
+          Submit Payment Proof
+        </button>
+      </form>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Success Notification -->
+    <div class="notification" id="success-notification">
+      <div class="notification-icon success">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h3 class="notification-title">Deposit Successful!</h3>
+      <p class="notification-text">
+        Your deposit has been verified and credited to your account balance.
+      </p>
+      <button class="notification-btn success" id="success-btn">
+        Continue
+      </button>
+    </div>
+
+    <!-- Error Notification -->
+    <div class="notification" id="error-notification">
+      <div class="notification-icon error">
+        <i class="fas fa-times-circle"></i>
+      </div>
+      <h3 class="notification-title">Verification Failed</h3>
+      <p class="notification-text">
+        We couldn't verify your payment. Please ensure you've uploaded the
+        correct receipt with all required details.
+      </p>
+      <button class="notification-btn error" id="error-btn">Try Again</button>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader-container" id="loader">
+      <svg class="loader" viewBox="0 0 100 100">
+        <circle class="loader-circle" cx="50" cy="50" r="40" />
+      </svg>
+      <div class="loader-text" id="loader-text">Processing...</div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get current user from localStorage
+        const currentUser = JSON.parse(
+          localStorage.getItem("dexmira_current_user")
+        ) || {
+          username: "User",
+          phone: "00000000000",
+          balance: 0,
+        };
+
+        // Set narration text
+        const narrationText = currentUser.username || currentUser.phone;
+        document.getElementById("narration-text").textContent = narrationText;
+
+        // Account selection
+        const accountOptions = document.querySelectorAll(".account-option");
+        let selectedAccount = 1;
+
+        accountOptions.forEach((option) => {
+          option.addEventListener("click", function () {
+            accountOptions.forEach((opt) => opt.classList.remove("active"));
+            this.classList.add("active");
+            selectedAccount = parseInt(this.getAttribute("data-account"));
+          });
+        });
+
+        // Bottom sheet handling
+        const depositBtn = document.getElementById("deposit-btn");
+        const uploadSheet = document.getElementById("upload-sheet");
+        const closeSheet = document.getElementById("close-sheet");
+        const overlay = document.getElementById("overlay");
+
+        depositBtn.addEventListener("click", function () {
+          uploadSheet.classList.add("active");
+          overlay.classList.add("active");
+        });
+
+        closeSheet.addEventListener("click", function () {
+          uploadSheet.classList.remove("active");
+          overlay.classList.remove("active");
+        });
+
+        overlay.addEventListener("click", function () {
+          uploadSheet.classList.remove("active");
+          overlay.classList.remove("active");
+          document
+            .getElementById("success-notification")
+            .classList.remove("active");
+          document
+            .getElementById("error-notification")
+            .classList.remove("active");
+        });
+
+        // File upload preview
+        const fileInput = document.getElementById("receipt");
+        const fileContainer = document.getElementById("file-input-container");
+        const previewContainer = document.getElementById("preview-container");
+        const previewImage = document.getElementById("preview-image");
+        const removePreview = document.getElementById("remove-preview");
+
+        fileInput.addEventListener("change", function (e) {
+          if (e.target.files.length > 0) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+              previewImage.src = e.target.result;
+              fileContainer.style.display = "none";
+              previewContainer.style.display = "block";
+            };
+
+            reader.readAsDataURL(file);
+          }
+        });
+
+        removePreview.addEventListener("click", function () {
+          fileInput.value = "";
+          previewContainer.style.display = "none";
+          fileContainer.style.display = "flex";
+        });
+
+        // Form submission
+        const proofForm = document.getElementById("proof-form");
+        const loader = document.getElementById("loader");
+        const loaderText = document.getElementById("loader-text");
+        const successNotification = document.getElementById(
+          "success-notification"
+        );
+        const errorNotification = document.getElementById("error-notification");
+        const successBtn = document.getElementById("success-btn");
+        const errorBtn = document.getElementById("error-btn");
+
+        proofForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Get form values
+          const amount = parseFloat(document.getElementById("amount").value);
+          const receiptFile = document.getElementById("receipt").files[0];
+
+          if (!receiptFile || amount < 2000) {
+            alert(
+              "Please upload a receipt and enter an amount of at least NGN 2,000"
+            );
+            return;
+          }
+
+          // Show loader
+          loader.classList.add("active");
+          loaderText.textContent = "Verifying payment...";
+
+          // Read the receipt image for verification
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            // Simulate receipt verification (in a real app, this would be server-side)
+            setTimeout(() => {
+              verifyReceipt(e.target.result, amount, selectedAccount);
+            }, 2000);
+          };
+
+          reader.readAsDataURL(receiptFile);
+        });
+
+        // Receipt verification function
+        function verifyReceipt(imageData, amount, accountId) {
+          // In a real application, this would be done on the server
+          // Here we'll simulate the verification process
+
+          // Create a canvas to analyze the image (simulated)
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+
+          img.onload = function () {
+            // Simulate OCR and verification
+            // In a real app, you would use proper OCR or send to server
+
+            // Get account details based on selection
+            const accountDetails = {
+              1: {
+                number: "2389902652",
+                name: "Moniebase LTD",
+                bank: "Nombank MFB",
+              },
+              2: {
+                number: "6634433435",
+                name: "CHIDI NWOSU",
+                bank: "Palmpay",
+              },
+            }[accountId];
+
+            // Get current date for transaction verification
+            const today = new Date();
+            const dateStr = today.toISOString().split("T")[0]; // YYYY-MM-DD
+
+            // Simulate verification (random success with higher probability)
+            // In a real app, this would be actual verification logic
+            const containsAccountNumber = Math.random() > 0.8; // 80% chance
+            const containsAccountName = Math.random() > 0.7; // 70% chance
+            const containsDate = Math.random() > 0.9; // 80% chance
+            const containsAmount = Math.random() > 0.9; // 80% chance
+
+            // Update loader text to show progress
+            loaderText.textContent = "Analyzing receipt...";
+
+            setTimeout(() => {
+              // Final verification decision
+              const isVerified =
+                containsAccountNumber &&
+                containsAccountName &&
+                containsDate &&
+                containsAmount;
+
+              // Hide loader
+              loader.classList.remove("active");
+
+              if (isVerified) {
+                // Success! Update user balance
+                currentUser.balance += amount;
+
+                // Save to localStorage
+                localStorage.setItem(
+                  "dexmira_current_user",
+                  JSON.stringify(currentUser)
+                );
+
+                // Save deposit history
+                saveDepositHistory(amount, accountId, true);
+
+                // Show success notification
+                successNotification.classList.add("active");
+              } else {
+                // Verification failed
+                saveDepositHistory(amount, accountId, false);
+
+                // Show error notification
+                errorNotification.classList.add("active");
+              }
+            }, 1500);
+          };
+
+          img.src = imageData;
+        }
+
+        // Save deposit history to localStorage
+        function saveDepositHistory(amount, accountId, success) {
+          const depositHistory =
+            JSON.parse(localStorage.getItem("dexmira_deposit_history")) || [];
+
+          const deposit = {
+            amount: amount,
+            accountId: accountId,
+            timestamp: new Date().toISOString(),
+            status: success ? "approved" : "rejected",
+            userId: currentUser.phone || currentUser.username,
+          };
+
+          depositHistory.push(deposit);
+          localStorage.setItem(
+            "dexmira_deposit_history",
+            JSON.stringify(depositHistory)
+          );
+        }
+
+        // Notification button handlers
+        successBtn.addEventListener("click", function () {
+          successNotification.classList.remove("active");
+          overlay.classList.remove("active");
+          uploadSheet.classList.remove("active");
+
+          // Reset form
+          proofForm.reset();
+          previewContainer.style.display = "none";
+          fileContainer.style.display = "flex";
+
+          // Redirect to dashboard
+          window.location.href = "dashboard.html";
+        });
+
+        errorBtn.addEventListener("click", function () {
+          errorNotification.classList.remove("active");
+          overlay.classList.remove("active");
+
+          // Don't close the upload sheet, let them try again
+        });
+      });
+    </script>
+  </body>
+</html>

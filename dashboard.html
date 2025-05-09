@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dexmira - Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5649c0;
+        --secondary: #00cec9;
+        --accent: #fd79a8;
+        --light: #f8f9fa;
+        --dark: #2d3436;
+        --success: #00b894;
+        --warning: #fdcb6e;
+        --danger: #d63031;
+        --gray: #dfe6e9;
+        --dark-gray: #636e72;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        width: 95%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 0;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .user-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+      }
+
+      .user-balance {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 0.5rem 1rem;
+        border-radius: 30px;
+        font-weight: 600;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .balance-amount {
+        color: var(--success);
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+      }
+
+      .action-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .action-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem 1rem;
+        border-radius: 12px;
+        background: rgba(245, 245, 245, 0.7);
+        text-decoration: none;
+        color: var(--dark);
+        transition: all 0.3s ease;
+      }
+
+      .action-btn:hover {
+        background: var(--primary);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+      }
+
+      .action-icon {
+        font-size: 1.75rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .action-text {
+        font-weight: 500;
+        text-align: center;
+      }
+
+      .task-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        background: rgba(245, 245, 245, 0.7);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .task-item:hover {
+        background: var(--primary);
+        color: white;
+      }
+
+      .task-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .task-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .task-btn {
+        padding: 0.5rem 1.25rem;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .task-item:hover .task-btn {
+        background: white;
+        color: var(--primary);
+      }
+
+      .checkin-card {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .checkin-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0) 70%
+        );
+        animation: pulse 8s infinite alternate;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.8);
+          opacity: 0.5;
+        }
+        100% {
+          transform: scale(1.2);
+          opacity: 0.8;
+        }
+      }
+
+      .checkin-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .checkin-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .checkin-amount {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: var(--warning);
+      }
+
+      .checkin-btn {
+        padding: 0.75rem 2rem;
+        background: white;
+        color: var(--primary);
+        border: none;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .checkin-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .checkin-btn:disabled {
+        background: var(--gray);
+        color: var(--dark-gray);
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .referral-card {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .referral-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .referral-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+
+      .referral-text {
+        margin-bottom: 1.5rem;
+        color: #666;
+      }
+
+      .referral-link-container {
+        display: flex;
+        background: rgba(245, 245, 245, 0.7);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+      }
+
+      .referral-link {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: none;
+        background: transparent;
+        font-family: inherit;
+        color: var(--dark);
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .copy-btn {
+        padding: 0 1rem;
+        background: var(--primary);
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .copy-btn:hover {
+        background: var(--primary-dark);
+      }
+
+      .social-share {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .share-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.25rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .share-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .facebook {
+        background: #3b5998;
+      }
+
+      .twitter {
+        background: #1da1f2;
+      }
+
+      .whatsapp {
+        background: #25d366;
+      }
+
+      .telegram {
+        background: #0088cc;
+      }
+
+      /* Loader styles */
+      .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .loader-container.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .loader {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 1.5rem;
+      }
+
+      .loader-circle {
+        fill: none;
+        stroke: var(--primary);
+        stroke-width: 6;
+        stroke-linecap: round;
+        stroke-dasharray: 200;
+        stroke-dashoffset: 0;
+        animation: dash 1.5s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      @keyframes dash {
+        0% {
+          stroke-dashoffset: 200;
+          transform: rotate(0deg);
+        }
+        50% {
+          stroke-dashoffset: 50;
+          transform: rotate(180deg);
+        }
+        100% {
+          stroke-dashoffset: 200;
+          transform: rotate(360deg);
+        }
+      }
+
+      .loader-text {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--primary);
+        margin-top: 1rem;
+      }
+
+      /* Toast notification */
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--success);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 30px;
+        font-weight: 500;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+
+      .toast.show {
+        opacity: 1;
+        bottom: 30px;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 1rem;
+          text-align: center;
+        }
+
+        .user-info {
+          flex-direction: column;
+        }
+
+        .action-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 1rem 0;
+        }
+
+        .card {
+          padding: 1rem;
+        }
+
+        .card-title {
+          font-size: 1.1rem;
+        }
+
+        .action-btn {
+          padding: 1rem 0.5rem;
+        }
+
+        .action-icon {
+          font-size: 1.5rem;
+        }
+
+        .action-text {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <div class="logo-icon">D</div>
+          <div class="logo-text">Dexmira</div>
+        </div>
+        <div class="user-info">
+          <div class="user-avatar" id="user-avatar">U</div>
+          <div class="user-balance">
+            Balance:
+            <span class="balance-amount" id="user-balance">NGN 0.00</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Quick Actions</h3>
+            <div class="card-icon" style="background: var(--primary)">
+              <i class="fas fa-bolt"></i>
+            </div>
+          </div>
+          <div class="action-grid">
+            <a href="withdraw.html" class="action-btn" id="withdraw-btn">
+              <i class="fas fa-money-bill-wave action-icon"></i>
+              <span class="action-text">Withdraw</span>
+            </a>
+            <a href="deposit.html" class="action-btn" id="deposit-btn">
+              <i class="fas fa-wallet action-icon"></i>
+              <span class="action-text">Deposit</span>
+            </a>
+            <a href="task.html" class="action-btn" id="tasks-btn">
+              <i class="fas fa-tasks action-icon"></i>
+              <span class="action-text">Tasks</span>
+            </a>
+
+            <a href="history.html" class="action-btn" id="history-btn">
+              <i class="fas fa-history action-icon"></i>
+              <span class="action-text">History</span>
+            </a>
+
+            <a
+              href="https://t.me/memorymat"
+              target="_blank"
+              class="action-btn"
+              id="group-btn"
+            >
+              <i class="fab fa-telegram action-icon"></i>
+              <span class="action-text">Join Group</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="card checkin-card">
+          <div class="checkin-content">
+            <h3 class="checkin-title">Daily Check-In</h3>
+            <div class="checkin-amount">+ NGN 230</div>
+            <button class="checkin-btn" id="checkin-btn">Check In Now</button>
+            <p
+              style="margin-top: 1rem; font-size: 0.9rem"
+              id="checkin-message"
+            ></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Earn More</h3>
+            <div class="card-icon" style="background: var(--success)">
+              <i class="fas fa-coins"></i>
+            </div>
+          </div>
+          <div class="task-item">
+            <div class="task-info">
+              <div class="task-icon">
+                <i class="fas fa-ad"></i>
+              </div>
+              <div>
+                <h4>Watch Ads</h4>
+                <p>Earn NGN 50 per ad</p>
+              </div>
+            </div>
+            <button class="task-btn">Start</button>
+          </div>
+          <!-- <div class="task-item">
+            <div class="task-info">
+              <div class="task-icon">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <div>
+                <h4>App Testing</h4>
+                <p>Earn NGN 200 per app</p>
+              </div>
+            </div>
+            <button class="task-btn">Start</button>
+          </div> -->
+          <!-- <div class="task-item">
+            <div class="task-info">
+              <div class="task-icon">
+                <i class="fas fa-poll"></i>
+              </div>
+              <div>
+                <h4>Surveys</h4>
+                <p>Earn NGN 150 per survey</p>
+              </div>
+            </div>
+            <button class="task-btn">Start</button>
+          </div> -->
+        </div>
+
+        <div class="card referral-card">
+          <div class="referral-content">
+            <h3 class="referral-title">Invite Friends & Earn</h3>
+            <p class="referral-text">
+              Share your referral link and earn 10% of whatever your friends
+              earn on Dexmira!
+            </p>
+            <div class="referral-link-container">
+              <input
+                type="text"
+                class="referral-link"
+                id="referral-link"
+                value="Loading..."
+                readonly
+              />
+              <button class="copy-btn" id="copy-btn">
+                <i class="fas fa-copy"></i>
+              </button>
+            </div>
+            <div class="social-share">
+              <a href="#" class="share-btn facebook" id="facebook-share">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="share-btn twitter" id="twitter-share">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="share-btn whatsapp" id="whatsapp-share">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+              <a href="#" class="share-btn telegram" id="telegram-share">
+                <i class="fab fa-telegram-plane"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader-container" id="loader">
+      <svg class="loader" viewBox="0 0 100 100">
+        <circle class="loader-circle" cx="50" cy="50" r="40" />
+      </svg>
+      <div class="loader-text">Processing...</div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get current user from localStorage
+        const currentUser = JSON.parse(
+          localStorage.getItem("dexmira_current_user")
+        ) || {
+          username: "User",
+          phone: "",
+          balance: 0,
+          lastCheckin: null,
+        };
+
+        // Update user info in the UI
+        document.getElementById("user-avatar").textContent =
+          currentUser.username.charAt(0).toUpperCase();
+        document.getElementById(
+          "user-balance"
+        ).textContent = `NGN ${currentUser.balance.toLocaleString()}`;
+
+        // Set referral link
+        const referralLink = `https://tinyurl.com/dexmira44/join?ref=${
+          currentUser.phone || "demo"
+        }`;
+        document.getElementById("referral-link").value = referralLink;
+
+        // Set social share links
+        const shareText = `Join Dexmira and start earning money online! Use my referral link: ${referralLink}`;
+        document.getElementById(
+          "facebook-share"
+        ).href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+          referralLink
+        )}`;
+        document.getElementById(
+          "twitter-share"
+        ).href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+          shareText
+        )}`;
+        document.getElementById(
+          "whatsapp-share"
+        ).href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+        document.getElementById(
+          "telegram-share"
+        ).href = `https://t.me/share/url?url=${encodeURIComponent(
+          referralLink
+        )}&text=${encodeURIComponent("Join Dexmira and start earning!")}`;
+
+        // Check if user can check in today
+        const checkinBtn = document.getElementById("checkin-btn");
+        const checkinMessage = document.getElementById("checkin-message");
+
+        if (currentUser.lastCheckin) {
+          const lastCheckin = new Date(currentUser.lastCheckin);
+          const now = new Date();
+          const hoursSinceCheckin = (now - lastCheckin) / (1000 * 60 * 60);
+
+          if (hoursSinceCheckin < 24) {
+            const nextCheckin = new Date(
+              lastCheckin.getTime() + 24 * 60 * 60 * 1000
+            );
+            checkinBtn.disabled = true;
+            checkinMessage.textContent = `Next check-in available at ${nextCheckin.toLocaleTimeString()}, ${nextCheckin.toLocaleDateString()}`;
+          }
+        }
+
+        // Daily check-in handler
+        checkinBtn.addEventListener("click", function () {
+          showLoader();
+
+          // Simulate processing delay
+          setTimeout(() => {
+            // Update balance
+            currentUser.balance += 230;
+            currentUser.lastCheckin = new Date().toISOString();
+
+            // Update localStorage
+            localStorage.setItem(
+              "dexmira_current_user",
+              JSON.stringify(currentUser)
+            );
+
+            // Update UI
+            document.getElementById(
+              "user-balance"
+            ).textContent = `NGN ${currentUser.balance.toLocaleString()}`;
+            checkinBtn.disabled = true;
+
+            const now = new Date();
+            const nextCheckin = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+            checkinMessage.textContent = `Next check-in available at ${nextCheckin.toLocaleTimeString()}, ${nextCheckin.toLocaleDateString()}`;
+
+            hideLoader();
+            showToast("+ NGN 230 added to your balance!");
+          }, 1500);
+        });
+
+        // Copy referral link handler
+        document
+          .getElementById("copy-btn")
+          .addEventListener("click", function () {
+            const referralInput = document.getElementById("referral-link");
+            referralInput.select();
+            document.execCommand("copy");
+
+            showToast("Referral link copied to clipboard!");
+          });
+
+        // Action buttons handlers (simulated)
+        document
+          .getElementById("withdraw-btn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            showLoader();
+
+            setTimeout(() => {
+              hideLoader();
+              showToast("Withdrawal iniatiated");
+
+              // Redirect after a short delay to allow toast to show briefly
+              setTimeout(() => {
+                window.location.href = "withdraw.html";
+              }, 1000); // Adjust delay as needed
+            }, 1500);
+          });
+
+        document
+          .getElementById("deposit-btn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            showLoader();
+
+            setTimeout(() => {
+              hideLoader();
+              showToast("Deposit initiated!");
+
+              // Redirect after a short delay to allow toast to show briefly
+              setTimeout(() => {
+                window.location.href = "deposit.html";
+              }, 1000); // Adjust delay as needed
+            }, 1500);
+          });
+
+        document
+          .getElementById("tasks-btn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            showLoader();
+
+            setTimeout(() => {
+              hideLoader();
+              showToast("Youre been redirected to the task page");
+
+              // Redirect after a short delay to allow toast to show briefly
+              setTimeout(() => {
+                window.location.href = "task.html";
+              }, 1000); // Adjust delay as needed
+            }, 1500);
+          });
+
+        // Task buttons handlers
+        document.querySelectorAll(".task-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            showLoader();
+
+            setTimeout(() => {
+              // Random earnings between 50 and 200
+              const earnings = Math.floor(Math.random() * 151) + 50;
+              currentUser.balance += earnings;
+
+              // Update localStorage
+              localStorage.setItem(
+                "dexmira_current_user",
+                JSON.stringify(currentUser)
+              );
+
+              // Update UI
+              document.getElementById(
+                "user-balance"
+              ).textContent = `NGN ${currentUser.balance.toLocaleString()}`;
+
+              hideLoader();
+              showToast(`+ NGN ${earnings} added to your balance!`);
+            }, 2000);
+          });
+        });
+
+        // Loader functions
+        function showLoader() {
+          document.getElementById("loader").classList.add("active");
+        }
+
+        function hideLoader() {
+          document.getElementById("loader").classList.remove("active");
+        }
+
+        // Toast notification function
+        function showToast(message) {
+          const toast = document.getElementById("toast");
+          toast.textContent = message;
+          toast.classList.add("show");
+
+          setTimeout(() => {
+            toast.classList.remove("show");
+          }, 3000);
+        }
+
+        // Chrome-safe storage validation
+        function validateStorage() {
+          try {
+            // Check if primary storage exists
+            if (!localStorage.getItem("dexmira_current_user")) {
+              // Check backup storage
+              const backupData = localStorage.getItem("dexmira_data");
+              if (backupData) {
+                const parsedData = JSON.parse(atob(backupData));
+                localStorage.setItem(
+                  "dexmira_current_user",
+                  JSON.stringify(parsedData.currentUser)
+                );
+              }
+            }
+          } catch (e) {
+            console.error("Storage validation error:", e);
+          }
+        }
+
+        // Run storage validation on load
+        validateStorage();
+      });
+    </script>
+  </body>
+</html>

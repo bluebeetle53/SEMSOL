@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dexmira - Transaction History</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5649c0;
+        --secondary: #00cec9;
+        --accent: #fd79a8;
+        --light: #f8f9fa;
+        --dark: #2d3436;
+        --success: #00b894;
+        --warning: #fdcb6e;
+        --danger: #d63031;
+        --gray: #dfe6e9;
+        --dark-gray: #636e72;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        width: 95%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 0;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .back-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: var(--primary);
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .back-btn:hover {
+        transform: translateX(-5px);
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-left: 1rem;
+      }
+
+      .section-title::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 5px;
+        height: 70%;
+        background: var(--primary);
+        border-radius: 5px;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 0.5rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .tab {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        text-align: center;
+        font-weight: 500;
+        color: var(--dark-gray);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .tab.active {
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+      }
+
+      .tab-content {
+        display: none;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .history-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .history-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: var(--primary);
+        transition: all 0.3s ease;
+      }
+
+      .history-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .history-card.deposit::before {
+        background: var(--success);
+      }
+
+      .history-card.withdrawal::before {
+        background: var(--primary);
+      }
+
+      .history-card.task::before {
+        background: var(--secondary);
+      }
+
+      .history-card.checkin::before {
+        background: var(--accent);
+      }
+
+      .history-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .history-type {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .history-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.1rem;
+      }
+
+      .history-icon.deposit {
+        background: var(--success);
+        box-shadow: 0 4px 10px rgba(0, 184, 148, 0.3);
+      }
+
+      .history-icon.withdrawal {
+        background: var(--primary);
+        box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+      }
+
+      .history-icon.task {
+        background: var(--secondary);
+        box-shadow: 0 4px 10px rgba(0, 206, 201, 0.3);
+      }
+
+      .history-icon.checkin {
+        background: var(--accent);
+        box-shadow: 0 4px 10px rgba(253, 121, 168, 0.3);
+      }
+
+      .history-title {
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .history-amount {
+        font-weight: 700;
+        font-size: 1.25rem;
+      }
+
+      .history-amount.positive {
+        color: var(--success);
+      }
+
+      .history-amount.negative {
+        color: var(--primary);
+      }
+
+      .history-details {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+        position: relative;
+      }
+
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .detail-label {
+        font-size: 0.85rem;
+        color: var(--dark-gray);
+        margin-bottom: 0.25rem;
+      }
+
+      .detail-value {
+        font-weight: 500;
+      }
+
+      .history-time {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-size: 0.8rem;
+        color: var(--dark-gray);
+      }
+
+      .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: capitalize;
+      }
+
+      .status-pending {
+        background: rgba(253, 203, 110, 0.2);
+        color: var(--dark);
+      }
+
+      .status-completed {
+        background: rgba(0, 184, 148, 0.2);
+        color: var(--success);
+      }
+
+      .status-failed {
+        background: rgba(214, 48, 49, 0.2);
+        color: var(--danger);
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .empty-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        background: rgba(108, 92, 231, 0.1);
+        color: var(--primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+      }
+
+      .empty-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--dark);
+      }
+
+      .empty-text {
+        color: var(--dark-gray);
+        margin-bottom: 1.5rem;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .btn {
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+      }
+
+      /* Floating action button */
+      .fab {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        box-shadow: 0 5px 20px rgba(108, 92, 231, 0.4);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10;
+      }
+
+      .fab:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 8px 25px rgba(108, 92, 231, 0.5);
+      }
+
+      /* Filter panel */
+      .filter-panel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        border-radius: 20px 20px 0 0;
+        padding: 2rem;
+        box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .filter-panel.active {
+        transform: translateY(0);
+      }
+
+      .filter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .filter-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .close-filter {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(108, 92, 231, 0.1);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+      }
+
+      .close-filter:hover {
+        background: var(--primary);
+        color: white;
+      }
+
+      .filter-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .filter-label {
+        display: block;
+        margin-bottom: 0.75rem;
+        font-weight: 500;
+        color: var(--dark);
+      }
+
+      .filter-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .filter-option {
+        padding: 0.5rem 1rem;
+        background: rgba(245, 245, 245, 0.7);
+        border-radius: 20px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+      }
+
+      .filter-option.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .filter-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .filter-btn {
+        flex: 1;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .filter-btn.apply {
+        background: var(--primary);
+        color: white;
+        border: none;
+      }
+
+      .filter-btn.apply:hover {
+        background: var(--primary-dark);
+      }
+
+      .filter-btn.reset {
+        background: transparent;
+        color: var(--primary);
+        border: 1px solid var(--primary);
+      }
+
+      .filter-btn.reset:hover {
+        background: rgba(108, 92, 231, 0.1);
+      }
+
+      /* Overlay */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      /* Loader styles */
+      .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .loader-container.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .loader {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 1.5rem;
+      }
+
+      .loader-circle {
+        fill: none;
+        stroke: var(--primary);
+        stroke-width: 6;
+        stroke-linecap: round;
+        stroke-dasharray: 200;
+        stroke-dashoffset: 0;
+        animation: dash 1.5s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      @keyframes dash {
+        0% {
+          stroke-dashoffset: 200;
+          transform: rotate(0deg);
+        }
+        50% {
+          stroke-dashoffset: 50;
+          transform: rotate(180deg);
+        }
+        100% {
+          stroke-dashoffset: 200;
+          transform: rotate(360deg);
+        }
+      }
+
+      .loader-text {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--primary);
+        margin-top: 1rem;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .container {
+          width: 100%;
+          padding: 1rem;
+        }
+
+        header {
+          flex-direction: column;
+          gap: 1rem;
+          text-align: center;
+        }
+
+        .section-title {
+          font-size: 1.5rem;
+          text-align: center;
+          padding-left: 0;
+        }
+
+        .section-title::before {
+          display: none;
+        }
+
+        .history-details {
+          grid-template-columns: 1fr;
+        }
+
+        .history-time {
+          position: relative;
+          margin-top: 1rem;
+          text-align: right;
+        }
+
+        .fab {
+          bottom: 1.5rem;
+          right: 1.5rem;
+          width: 50px;
+          height: 50px;
+          font-size: 1.25rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .tabs {
+          flex-direction: column;
+        }
+
+        .history-card {
+          padding: 1.25rem;
+        }
+
+        .filter-panel {
+          padding: 1.5rem;
+        }
+
+        .filter-title {
+          font-size: 1.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <div class="logo-icon">D</div>
+          <div class="logo-text">Dexmira</div>
+        </div>
+        <a href="dashboard.html" class="back-btn">
+          <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+      </header>
+
+      <h2 class="section-title">Transaction History</h2>
+
+      <div class="tabs">
+        <div class="tab active" data-tab="all">All</div>
+        <div class="tab" data-tab="deposits">Deposits</div>
+        <div class="tab" data-tab="withdrawals">Withdrawals</div>
+        <div class="tab" data-tab="earnings">Earnings</div>
+      </div>
+
+      <div class="tab-content active" id="all-tab">
+        <!-- All transactions will be inserted here -->
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-exchange-alt"></i>
+          </div>
+          <h3 class="empty-title">No Transactions Yet</h3>
+          <p class="empty-text">
+            Your transaction history will appear here once you start making
+            deposits, withdrawals, or earning rewards.
+          </p>
+          <button class="btn btn-primary">
+            <i class="fas fa-plus"></i> Make Your First Deposit
+          </button>
+        </div>
+      </div>
+
+      <div class="tab-content" id="deposits-tab">
+        <!-- Deposit transactions will be inserted here -->
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <h3 class="empty-title">No Deposit History</h3>
+          <p class="empty-text">
+            You haven't made any deposits yet. Make your first deposit to start
+            earning with Dexmira.
+          </p>
+          <a href="deposit.html">
+            <button class="btn btn-primary">
+              <i class="fas fa-arrow-right"></i> Go to Deposit Page
+            </button>
+          </a>
+        </div>
+      </div>
+
+      <div class="tab-content" id="withdrawals-tab">
+        <!-- Withdrawal transactions will be inserted here -->
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-money-bill-wave"></i>
+          </div>
+          <h3 class="empty-title">No Withdrawals Yet</h3>
+          <p class="empty-text">
+            Your withdrawal history will appear here once you make your first
+            withdrawal request.
+          </p>
+          <a href="withdraw.html">
+            <button class="btn btn-primary">
+              <i class="fas fa-arrow-right"></i> Request Withdrawal
+            </button>
+          </a>
+        </div>
+      </div>
+
+      <div class="tab-content" id="earnings-tab">
+        <!-- Earnings transactions will be inserted here -->
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <h3 class="empty-title">No Earnings Yet</h3>
+          <p class="empty-text">
+            Complete tasks, check in daily, and invite friends to start earning
+            rewards.
+          </p>
+          <a href="task.html">
+            <button class="btn btn-primary">
+              <i class="fas fa-arrow-right"></i> Start Earning
+            </button>
+          </a>
+        </div>
+      </div>
+
+      <!-- Floating action button for filters -->
+      <div class="fab" id="filter-btn">
+        <i class="fas fa-sliders-h"></i>
+      </div>
+
+      <!-- Filter panel -->
+      <div class="filter-panel" id="filter-panel">
+        <div class="filter-header">
+          <h3 class="filter-title">Filter Transactions</h3>
+          <button class="close-filter" id="close-filter">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Transaction Type</label>
+          <div class="filter-options">
+            <div class="filter-option active" data-type="all">All</div>
+            <div class="filter-option" data-type="deposit">Deposit</div>
+            <div class="filter-option" data-type="withdrawal">Withdrawal</div>
+            <div class="filter-option" data-type="task">Task</div>
+            <div class="filter-option" data-type="checkin">Check-in</div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Status</label>
+          <div class="filter-options">
+            <div class="filter-option active" data-status="all">All</div>
+            <div class="filter-option" data-status="completed">Completed</div>
+            <div class="filter-option" data-status="pending">Pending</div>
+            <div class="filter-option" data-status="failed">Failed</div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Time Period</label>
+          <div class="filter-options">
+            <div class="filter-option active" data-period="all">All Time</div>
+            <div class="filter-option" data-period="today">Today</div>
+            <div class="filter-option" data-period="week">This Week</div>
+            <div class="filter-option" data-period="month">This Month</div>
+          </div>
+        </div>
+
+        <div class="filter-actions">
+          <button class="filter-btn reset" id="reset-filters">
+            Reset Filters
+          </button>
+          <button class="filter-btn apply" id="apply-filters">
+            Apply Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Overlay -->
+      <div class="overlay" id="overlay"></div>
+
+      <!-- Loader -->
+      <div class="loader-container" id="loader">
+        <svg class="loader" viewBox="0 0 100 100">
+          <circle class="loader-circle" cx="50" cy="50" r="40" />
+        </svg>
+        <div class="loader-text">Loading transactions...</div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get current user from localStorage
+        const currentUser = JSON.parse(
+          localStorage.getItem("dexmira_current_user")
+        ) || {
+          username: "User",
+          phone: "00000000000",
+          balance: 0,
+        };
+
+        // Tab switching functionality
+        const tabs = document.querySelectorAll(".tab");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", function () {
+            // Remove active class from all tabs and contents
+            tabs.forEach((t) => t.classList.remove("active"));
+            tabContents.forEach((c) => c.classList.remove("active"));
+
+            // Add active class to clicked tab
+            this.classList.add("active");
+
+            // Show corresponding content
+            const tabId = this.getAttribute("data-tab");
+            document.getElementById(`${tabId}-tab`).classList.add("active");
+          });
+        });
+
+        // Filter panel functionality
+        const filterBtn = document.getElementById("filter-btn");
+        const filterPanel = document.getElementById("filter-panel");
+        const closeFilter = document.getElementById("close-filter");
+        const overlay = document.getElementById("overlay");
+        const applyFiltersBtn = document.getElementById("apply-filters");
+        const resetFiltersBtn = document.getElementById("reset-filters");
+        const filterOptions = document.querySelectorAll(".filter-option");
+
+        // Open filter panel
+        filterBtn.addEventListener("click", function () {
+          filterPanel.classList.add("active");
+          overlay.classList.add("active");
+        });
+
+        // Close filter panel
+        closeFilter.addEventListener("click", function () {
+          filterPanel.classList.remove("active");
+          overlay.classList.remove("active");
+        });
+
+        overlay.addEventListener("click", function () {
+          filterPanel.classList.remove("active");
+          overlay.classList.remove("active");
+        });
+
+        // Filter option selection
+        filterOptions.forEach((option) => {
+          option.addEventListener("click", function () {
+            // Get the parent group
+            const group = this.parentElement;
+
+            // Remove active class from all options in this group
+            group.querySelectorAll(".filter-option").forEach((opt) => {
+              opt.classList.remove("active");
+            });
+
+            // Add active class to clicked option
+            this.classList.add("active");
+          });
+        });
+
+        // Reset filters
+        resetFiltersBtn.addEventListener("click", function () {
+          document.querySelectorAll(".filter-options").forEach((group) => {
+            group.querySelector(".filter-option").classList.add("active");
+            group
+              .querySelectorAll(".filter-option:not(:first-child)")
+              .forEach((opt) => {
+                opt.classList.remove("active");
+              });
+          });
+        });
+
+        // Apply filters
+        applyFiltersBtn.addEventListener("click", function () {
+          // Show loader
+          document.getElementById("loader").classList.add("active");
+
+          // Simulate filter processing
+          setTimeout(() => {
+            // Hide loader
+            document.getElementById("loader").classList.remove("active");
+
+            // Close filter panel
+            filterPanel.classList.remove("active");
+            overlay.classList.remove("active");
+
+            // Show toast notification
+            showToast("Filters applied successfully");
+          }, 1500);
+        });
+
+        // Load transaction history from localStorage
+        function loadTransactionHistory() {
+          const depositHistory =
+            JSON.parse(localStorage.getItem("dexmira_deposit_history")) || [];
+          const withdrawalHistory =
+            JSON.parse(localStorage.getItem("dexmira_withdrawal_history")) ||
+            [];
+          const taskHistory =
+            JSON.parse(localStorage.getItem("dexmira_task_history")) || [];
+          const checkinHistory =
+            JSON.parse(localStorage.getItem("dexmira_checkin_history")) || [];
+
+          // Combine all transactions
+          const allTransactions = [
+            ...depositHistory.map((t) => ({
+              ...t,
+              type: "deposit",
+              icon: "fa-wallet",
+              title: "Deposit",
+              status: t.status || "completed",
+            })),
+            ...withdrawalHistory.map((t) => ({
+              ...t,
+              type: "withdrawal",
+              icon: "fa-money-bill-wave",
+              title: "Withdrawal",
+              status: t.status || "pending",
+            })),
+            ...taskHistory.map((t) => ({
+              ...t,
+              type: "task",
+              icon: "fa-tasks",
+              title: t.taskName || "Task Completed",
+              status: "completed",
+            })),
+            ...checkinHistory.map((t) => ({
+              ...t,
+              type: "checkin",
+              icon: "fa-calendar-check",
+              title: "Daily Check-in",
+              status: "completed",
+            })),
+          ];
+
+          // Sort by timestamp (newest first)
+          allTransactions.sort(
+            (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+          );
+
+          // Display transactions if they exist
+          if (allTransactions.length > 0) {
+            displayTransactions(allTransactions);
+          }
+        }
+
+        // Display transactions in the UI
+        function displayTransactions(transactions) {
+          const allTab = document.getElementById("all-tab");
+          const depositsTab = document.getElementById("deposits-tab");
+          const withdrawalsTab = document.getElementById("withdrawals-tab");
+          const earningsTab = document.getElementById("earnings-tab");
+
+          // Clear existing content
+          allTab.innerHTML = "";
+          depositsTab.innerHTML = "";
+          withdrawalsTab.innerHTML = "";
+          earningsTab.innerHTML = "";
+
+          // Process each transaction
+          transactions.forEach((transaction) => {
+            const transactionElement = createTransactionElement(transaction);
+
+            // Add to "All" tab
+            allTab.appendChild(transactionElement.cloneNode(true));
+
+            // Add to specific tab based on type
+            if (transaction.type === "deposit") {
+              depositsTab.appendChild(transactionElement.cloneNode(true));
+            } else if (transaction.type === "withdrawal") {
+              withdrawalsTab.appendChild(transactionElement.cloneNode(true));
+            } else if (["task", "checkin"].includes(transaction.type)) {
+              earningsTab.appendChild(transactionElement.cloneNode(true));
+            }
+          });
+
+          // If any tab is empty, show empty state
+          checkEmptyState(depositsTab, "deposit");
+          checkEmptyState(withdrawalsTab, "withdrawal");
+          checkEmptyState(earningsTab, "earning");
+        }
+
+        // Create transaction card element
+        function createTransactionElement(transaction) {
+          const card = document.createElement("div");
+          card.className = `history-card ${transaction.type}`;
+
+          // Format amount with + or - sign
+          let amountDisplay = "";
+          let amountClass = "";
+          if (transaction.type === "withdrawal") {
+            amountDisplay = `- NGN ${transaction.amount.toLocaleString()}`;
+            amountClass = "negative";
+          } else {
+            amountDisplay = `+ NGN ${transaction.amount.toLocaleString()}`;
+            amountClass = "positive";
+          }
+
+          // Format timestamp
+          const transactionDate = new Date(transaction.timestamp);
+          const timeString = transactionDate.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          const dateString = transactionDate.toLocaleDateString();
+
+          // Status badge
+          let statusBadge = "";
+          if (transaction.status) {
+            let statusClass = "";
+            if (transaction.status === "pending") {
+              statusClass = "status-pending";
+            } else if (transaction.status === "completed") {
+              statusClass = "status-completed";
+            } else if (transaction.status === "failed") {
+              statusClass = "status-failed";
+            }
+
+            statusBadge = `<span class="status-badge ${statusClass}">${transaction.status}</span>`;
+          }
+
+          // Additional details based on transaction type
+          let detailsHtml = "";
+          if (transaction.type === "deposit") {
+            detailsHtml = `
+              <div class="detail-item">
+                <span class="detail-label">Account Number</span>
+                <span class="detail-value">${
+                  transaction.accountId === 1 ? "2389902652" : "6634433435"
+                }</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Bank Name</span>
+                <span class="detail-value">${
+                  transaction.accountId === 1 ? "Nombank MFB" : "Palmpay"
+                }</span>
+              </div>
+            `;
+          } else if (transaction.type === "withdrawal") {
+            detailsHtml = `
+              <div class="detail-item">
+                <span class="detail-label">Account Number</span>
+                <span class="detail-value">${transaction.accountNumber}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Bank Name</span>
+                <span class="detail-value">${transaction.bankName}</span>
+              </div>
+            `;
+          } else if (transaction.type === "task") {
+            detailsHtml = `
+              <div class="detail-item">
+                <span class="detail-label">Task Type</span>
+                <span class="detail-value">${
+                  transaction.taskType || "Ad Watch"
+                }</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Duration</span>
+                <span class="detail-value">${
+                  transaction.duration || "2 mins"
+                }</span>
+              </div>
+            `;
+          } else if (transaction.type === "checkin") {
+            detailsHtml = `
+              <div class="detail-item">
+                <span class="detail-label">Bonus</span>
+                <span class="detail-value">Daily Reward</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Streak</span>
+                <span class="detail-value">Day ${transaction.streak || 1}</span>
+              </div>
+            `;
+          }
+
+          card.innerHTML = `
+            <div class="history-header">
+              <div class="history-type">
+                <div class="history-icon ${transaction.type}">
+                  <i class="fas ${transaction.icon}"></i>
+                </div>
+                <h3 class="history-title">${transaction.title}</h3>
+              </div>
+              <div class="history-amount ${amountClass}">${amountDisplay}</div>
+              ${statusBadge}
+            </div>
+            <div class="history-details">
+              ${detailsHtml}
+              <span class="history-time">${timeString}, ${dateString}</span>
+            </div>
+          `;
+
+          return card;
+        }
+
+        // Check if a tab is empty and show empty state if needed
+        function checkEmptyState(tabElement, type) {
+          if (tabElement.children.length === 0) {
+            let icon, title, text, buttonText;
+
+            if (type === "deposit") {
+              icon = "fa-wallet";
+              title = "No Deposit History";
+              text =
+                "You haven't made any deposits yet. Make your first deposit to start earning with Dexmira.";
+              buttonText = "Go to Deposit Page";
+            } else if (type === "withdrawal") {
+              icon = "fa-money-bill-wave";
+              title = "No Withdrawals Yet";
+              text =
+                "Your withdrawal history will appear here once you make your first withdrawal request.";
+              buttonText = "Request Withdrawal";
+            } else if (type === "earning") {
+              icon = "fa-coins";
+              title = "No Earnings Yet";
+              text =
+                "Complete tasks, check in daily, and invite friends to start earning rewards.";
+              buttonText = "Start Earning";
+            }
+
+            const emptyState = document.createElement("div");
+            emptyState.className = "empty-state";
+            emptyState.innerHTML = `
+              <div class="empty-icon">
+                <i class="fas ${icon}"></i>
+              </div>
+              <h3 class="empty-title">${title}</h3>
+              <p class="empty-text">${text}</p>
+              <a href="task.html">
+              <button class="btn btn-primary">
+                <i class="fas fa-arrow-right"></i> ${buttonText}
+              </button>
+              </a>
+            `;
+
+            tabElement.appendChild(emptyState);
+          }
+        }
+
+        // Show toast notification
+        function showToast(message) {
+          const toast = document.createElement("div");
+          toast.className = "toast show";
+          toast.textContent = message;
+          document.body.appendChild(toast);
+
+          setTimeout(() => {
+            toast.classList.remove("show");
+            setTimeout(() => {
+              toast.remove();
+            }, 300);
+          }, 3000);
+        }
+
+        // Load transaction history on page load
+        loadTransactionHistory();
+
+        // Sample data generation for demo purposes
+        function generateSampleData() {
+          // Check if sample data already exists
+          if (
+            !localStorage.getItem("dexmira_deposit_history") &&
+            !localStorage.getItem("dexmira_withdrawal_history") &&
+            !localStorage.getItem("dexmira_task_history") &&
+            !localStorage.getItem("dexmira_checkin_history")
+          ) {
+            // Generate sample deposits
+            const sampleDeposits = [
+              {
+                amount: 2000,
+                accountId: 1,
+                timestamp: new Date(Date.now() - 86400000).toISOString(),
+                status: "completed",
+                userId: currentUser.phone || currentUser.username,
+              },
+              {
+                amount: 5000,
+                accountId: 2,
+                timestamp: new Date(Date.now() - 172800000).toISOString(),
+                status: "completed",
+                userId: currentUser.phone || currentUser.username,
+              },
+            ];
+
+            // Generate sample withdrawals
+            const sampleWithdrawals = [
+              {
+                accountName: currentUser.username,
+                accountNumber: "0123456789",
+                bankName: "GTBank",
+                amount: 15000,
+                timestamp: new Date(Date.now() - 259200000).toISOString(),
+                status: "pending",
+                userId: currentUser.phone || currentUser.username,
+              },
+            ];
+
+            // Generate sample tasks
+            const sampleTasks = [
+              {
+                taskName: "Watch Ads",
+                taskType: "Ad Watch",
+                amount: 50,
+                duration: "2 mins",
+                timestamp: new Date(Date.now() - 3600000).toISOString(),
+                userId: currentUser.phone || currentUser.username,
+              },
+              {
+                taskName: "App Testing",
+                taskType: "Testing",
+                amount: 200,
+                duration: "10 mins",
+                timestamp: new Date(Date.now() - 86400000 * 2).toISOString(),
+                userId: currentUser.phone || currentUser.username,
+              },
+            ];
+
+            // Generate sample check-ins
+            const sampleCheckins = [
+              {
+                amount: 230,
+                streak: 1,
+                timestamp: new Date(Date.now() - 86400000 * 3).toISOString(),
+                userId: currentUser.phone || currentUser.username,
+              },
+            ];
+
+            // Save to localStorage
+            localStorage.setItem(
+              "dexmira_deposit_history",
+              JSON.stringify(sampleDeposits)
+            );
+            localStorage.setItem(
+              "dexmira_withdrawal_history",
+              JSON.stringify(sampleWithdrawals)
+            );
+            localStorage.setItem(
+              "dexmira_task_history",
+              JSON.stringify(sampleTasks)
+            );
+            localStorage.setItem(
+              "dexmira_checkin_history",
+              JSON.stringify(sampleCheckins)
+            );
+
+            // Reload transaction history
+            loadTransactionHistory();
+          }
+        }
+
+        // Uncomment to generate sample data for demo purposes
+        // generateSampleData();
+      });
+    </script>
+  </body>
+</html>
