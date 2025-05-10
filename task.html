@@ -531,6 +531,30 @@
             Claim Offer <i class="fas fa-arrow-right"></i>
           </button>
         </div>
+
+        <div class="task-card">
+          <div class="task-header">
+            <h3 class="task-title">Exclusive Premium</h3>
+            <span class="task-badge">Premium</span>
+          </div>
+          <div class="task-content">
+            <p class="task-description">
+              Deposit NGN 20,000 and get NGN 60,000 in return. Our top most
+              generous offer yet!
+            </p>
+            <div class="task-reward">
+              <div class="reward-icon">
+                <i class="fas fa-crown"></i>
+              </div>
+              <div class="reward-text">
+                Reward: <span class="reward-amount">NGN 60,000</span>
+              </div>
+            </div>
+          </div>
+          <button class="task-button" id="offer-4">
+            Claim Offer <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
       </div>
 
       <div class="withdrawals-container">
@@ -719,6 +743,15 @@
 
         document
           .getElementById("offer-3")
+          .addEventListener("click", function () {
+            showLoader();
+            setTimeout(() => {
+              window.location.href = "deposit.html";
+            }, 1500);
+          });
+
+        document
+          .getElementById("offer-4")
           .addEventListener("click", function () {
             showLoader();
             setTimeout(() => {
