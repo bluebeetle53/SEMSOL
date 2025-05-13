@@ -798,7 +798,7 @@
             id="amount"
             class="form-input"
             placeholder="Enter amount"
-            min="2000"
+            min="5000"
             required
           />
         </div>
@@ -816,6 +816,10 @@
             <div class="file-text">Click or drag to upload image</div>
             <div class="file-subtext">
               Supported formats: JPG, PNG, JPEG, HEIC
+              <br />
+              <small style="color: var(--primary)"
+                >Using OCR.space API for verification</small
+              >
             </div>
           </div>
           <div class="preview-container" id="preview-container">
@@ -846,7 +850,8 @@
       </div>
       <h3 class="notification-title">Deposit Successful!</h3>
       <p class="notification-text">
-        Your deposit has been verified and credited to your account balance.
+        Your deposit has been verified and credited to your account balance. Our
+        OCR system has successfully verified your payment receipt.
       </p>
       <button class="notification-btn success" id="success-btn">
         Continue
@@ -860,8 +865,9 @@
       </div>
       <h3 class="notification-title">Verification Failed</h3>
       <p class="notification-text">
-        We couldn't verify your payment. Please ensure you've uploaded the
-        correct receipt with all required details.
+        We couldn't verify your payment through our OCR system. Please ensure
+        your receipt clearly shows the account number, account name, and
+        transaction amount.
       </p>
       <button class="notification-btn error" id="error-btn">Try Again</button>
     </div>
@@ -974,9 +980,9 @@
           const amount = parseFloat(document.getElementById("amount").value);
           const receiptFile = document.getElementById("receipt").files[0];
 
-          if (!receiptFile || amount < 2000) {
+          if (!receiptFile || amount < 5000) {
             alert(
-              "Please upload a receipt and enter an amount of at least NGN 2,000"
+              "Please upload a receipt and enter an amount of at least NGN 5,000"
             );
             return;
           }
@@ -999,54 +1005,131 @@
 
         // Receipt verification function
         function verifyReceipt(imageData, amount, accountId) {
-          // In a real application, this would be done on the server
-          // Here we'll simulate the verification process
+          // Update loader text
+          loaderText.textContent = "Analyzing receipt...";
 
-          // Create a canvas to analyze the image (simulated)
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
-          const img = new Image();
-          img.crossOrigin = "anonymous";
+          // Get account details based on selection
+          const accountDetails = {
+            1: {
+              number: "2389902652",
+              name: "Moniebase LTD",
+              bank: "Nombank MFB",
+            },
+            2: {
+              number: "6634433435",
+              name: "CHIDI NWOSU",
+              bank: "Palmpay",
+            },
+          }[accountId];
 
-          img.onload = function () {
-            // Simulate OCR and verification
-            // In a real app, you would use proper OCR or send to server
+          // Convert base64 image to blob for API upload
+          const byteString = atob(imageData.split(",")[1]);
+          const mimeString = imageData
+            .split(",")[0]
+            .split(":")[1]
+            .split(";")[0];
+          const ab = new ArrayBuffer(byteString.length);
+          const ia = new Uint8Array(ab);
 
-            // Get account details based on selection
-            const accountDetails = {
-              1: {
-                number: "2389902652",
-                name: "Moniebase LTD",
-                bank: "Nombank MFB",
-              },
-              2: {
-                number: "6634433435",
-                name: "CHIDI NWOSU",
-                bank: "Palmpay",
-              },
-            }[accountId];
+          for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+          }
 
-            // Get current date for transaction verification
-            const today = new Date();
-            const dateStr = today.toISOString().split("T")[0]; // YYYY-MM-DD
+          const blob = new Blob([ab], { type: mimeString });
 
-            // Simulate verification (random success with higher probability)
-            // In a real app, this would be actual verification logic
-            const containsAccountNumber = Math.random() > 0.8; // 80% chance
-            const containsAccountName = Math.random() > 0.7; // 70% chance
-            const containsDate = Math.random() > 0.9; // 80% chance
-            const containsAmount = Math.random() > 0.9; // 80% chance
+          // Create form data for API request
+          const formData = new FormData();
+          formData.append("file", blob, "receipt.jpg");
+          formData.append("language", "eng");
+          formData.append("apikey", "K84957373788957");
+          formData.append("isOverlayRequired", "false");
 
-            // Update loader text to show progress
-            loaderText.textContent = "Analyzing receipt...";
+          // Call OCR.space API
+          fetch("https://api.ocr.space/parse/image", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (
+                data.IsErroredOnProcessing ||
+                !data.ParsedResults ||
+                data.ParsedResults.length === 0
+              ) {
+                // OCR processing failed
+                console.error("OCR processing failed:", data);
+                handleVerificationFailure();
+                return;
+              }
 
-            setTimeout(() => {
-              // Final verification decision
+              // Get the extracted text
+              const extractedText =
+                data.ParsedResults[0].ParsedText.toLowerCase();
+              console.log("Extracted text:", extractedText);
+
+              // Verify the receipt contains required information
+              const accountNumber = accountDetails.number;
+              const accountName = accountDetails.name.toLowerCase();
+              const bankName = accountDetails.bank.toLowerCase();
+
+              // Check if the extracted text contains the account details
+              const containsAccountNumber =
+                extractedText.includes(accountNumber);
+              const containsAccountName =
+                extractedText.includes(accountName) ||
+                (accountName === "chidi nwosu" &&
+                  (extractedText.includes("chidi") ||
+                    extractedText.includes("nwosu")));
+              const containsBankName = extractedText.includes(
+                bankName.toLowerCase()
+              );
+
+              // Check for amount
+              const amountStr = amount.toString();
+              const containsAmount =
+                extractedText.includes(amountStr) ||
+                extractedText.includes(
+                  amountStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                );
+
+              // Check for date (today's date in various formats)
+              const today = new Date();
+              const dateFormats = [
+                today.toLocaleDateString("en-US"), // MM/DD/YYYY
+                today.toLocaleDateString("en-GB"), // DD/MM/YYYY
+                today.toISOString().split("T")[0], // YYYY-MM-DD
+                `${today.getDate()}/${
+                  today.getMonth() + 1
+                }/${today.getFullYear()}`, // D/M/YYYY
+                `${String(today.getDate()).padStart(2, "0")}/${String(
+                  today.getMonth() + 1
+                ).padStart(2, "0")}/${today.getFullYear()}`, // DD/MM/YYYY
+              ];
+
+              let containsDate = false;
+              for (const dateFormat of dateFormats) {
+                if (extractedText.includes(dateFormat)) {
+                  containsDate = true;
+                  break;
+                }
+              }
+
+              // Log verification results for debugging
+              console.log("Verification results:", {
+                containsAccountNumber,
+                containsAccountName,
+                containsBankName,
+                containsAmount,
+                containsDate,
+              });
+
+              // Final verification decision - we'll be a bit lenient
+              // At least account number or name must be present, plus either amount or date
               const isVerified =
-                containsAccountNumber &&
-                containsAccountName &&
-                containsDate &&
-                containsAmount;
+                (containsAccountNumber ||
+                  containsAccountName ||
+                  containsBankName) &&
+                (containsAmount || containsDate);
 
               // Hide loader
               loader.classList.remove("active");
@@ -1062,25 +1145,33 @@
                 );
 
                 // Save deposit history
-                saveDepositHistory(amount, accountId, true);
+                saveDepositHistory(amount, accountId, true, extractedText);
 
                 // Show success notification
                 successNotification.classList.add("active");
               } else {
                 // Verification failed
-                saveDepositHistory(amount, accountId, false);
+                saveDepositHistory(amount, accountId, false, extractedText);
 
                 // Show error notification
                 errorNotification.classList.add("active");
               }
-            }, 1500);
-          };
-
-          img.src = imageData;
+            })
+            .catch((error) => {
+              console.error("Error calling OCR API:", error);
+              handleVerificationFailure();
+            });
         }
 
-        // Save deposit history to localStorage
-        function saveDepositHistory(amount, accountId, success) {
+        // Handle verification failure
+        function handleVerificationFailure() {
+          loader.classList.remove("active");
+          errorNotification.classList.add("active");
+          saveDepositHistory(amount, accountId, false, "OCR processing failed");
+        }
+
+        // Update saveDepositHistory function to include OCR text
+        function saveDepositHistory(amount, accountId, success, ocrText = "") {
           const depositHistory =
             JSON.parse(localStorage.getItem("dexmira_deposit_history")) || [];
 
@@ -1090,6 +1181,7 @@
             timestamp: new Date().toISOString(),
             status: success ? "approved" : "rejected",
             userId: currentUser.phone || currentUser.username,
+            ocrText: ocrText.substring(0, 500), // Store first 500 chars of OCR text for reference
           };
 
           depositHistory.push(deposit);
