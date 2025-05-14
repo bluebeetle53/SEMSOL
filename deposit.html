@@ -728,11 +728,11 @@
               <div class="bank-logo">N</div>
             </div>
             <div class="account-details">
-              <div class="account-number">Under Maintaince</div>
+              <div class="account-number">2389902652</div>
               <div class="account-label">Account Number</div>
             </div>
             <div class="account-details">
-              <div class="account-number">Under Maintaince</div>
+              <div class="account-number">Nombank MFB</div>
               <div class="account-label">Bank Name</div>
             </div>
           </div>
@@ -802,6 +802,21 @@
             required
           />
         </div>
+
+        <!-- New Sender's Account Number Field -->
+        <div class="form-group">
+          <label for="sender-account" class="form-label"
+            >Sender's Account Number</label
+          >
+          <input
+            type="text"
+            id="sender-account"
+            class="form-input"
+            placeholder="Enter your account number"
+            required
+          />
+        </div>
+
         <div class="form-group">
           <label class="form-label">Payment Receipt/Screenshot</label>
           <div class="file-input-container" id="file-input-container">
@@ -973,16 +988,19 @@
         const successBtn = document.getElementById("success-btn");
         const errorBtn = document.getElementById("error-btn");
 
-        proofForm.addEventListener("submit", function (e) {
+        proofForm.addEventListener("submit", async function (e) {
           e.preventDefault();
 
           // Get form values
           const amount = parseFloat(document.getElementById("amount").value);
           const receiptFile = document.getElementById("receipt").files[0];
+          const senderAccount = document
+            .getElementById("sender-account")
+            .value.trim();
 
-          if (!receiptFile || amount < 5000) {
+          if (!receiptFile || amount < 5000 || !senderAccount) {
             alert(
-              "Please upload a receipt and enter an amount of at least NGN 5,000"
+              "Please upload a receipt, enter an amount of at least NGN 5,000, and provide your sender's account number"
             );
             return;
           }
@@ -991,187 +1009,464 @@
           loader.classList.add("active");
           loaderText.textContent = "Verifying payment...";
 
-          // Read the receipt image for verification
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            // Simulate receipt verification (in a real app, this would be server-side)
-            setTimeout(() => {
-              verifyReceipt(e.target.result, amount, selectedAccount);
-            }, 2000);
-          };
+          try {
+            // Get account details based on selection
+            const accountDetails = {
+              1: {
+                number: "2389902652",
+                name: "Moniebase LTD",
+                bank: "Nombank MFB",
+              },
+              2: {
+                number: "6634433435",
+                name: "CHIDI NWOSU",
+                bank: "Palmpay",
+              },
+            }[selectedAccount];
 
-          reader.readAsDataURL(receiptFile);
-        });
+            // Read the receipt image
+            const imageData = await readFileAsDataURL(receiptFile);
 
-        // Receipt verification function
-        function verifyReceipt(imageData, amount, accountId) {
-          // Update loader text
-          loaderText.textContent = "Analyzing receipt...";
+            // Generate a unique receipt ID based on the image data
+            const receiptId = generateReceiptId(imageData);
 
-          // Get account details based on selection
-          const accountDetails = {
-            1: {
-              number: "2389902652",
-              name: "Moniebase LTD",
-              bank: "Nombank MFB",
-            },
-            2: {
-              number: "6634433435",
-              name: "CHIDI NWOSU",
-              bank: "Palmpay",
-            },
-          }[accountId];
+            // Check if this receipt has been used before
+            const isReceiptUsed = checkReceiptUsedBefore(receiptId);
 
-          // Convert base64 image to blob for API upload
-          const byteString = atob(imageData.split(",")[1]);
-          const mimeString = imageData
-            .split(",")[0]
-            .split(":")[1]
-            .split(";")[0];
-          const ab = new ArrayBuffer(byteString.length);
-          const ia = new Uint8Array(ab);
-
-          for (let i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-          }
-
-          const blob = new Blob([ab], { type: mimeString });
-
-          // Create form data for API request
-          const formData = new FormData();
-          formData.append("file", blob, "receipt.jpg");
-          formData.append("language", "eng");
-          formData.append("apikey", "K84957373788957");
-          formData.append("isOverlayRequired", "false");
-
-          // Call OCR.space API
-          fetch("https://api.ocr.space/parse/image", {
-            method: "POST",
-            body: formData,
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              if (
-                data.IsErroredOnProcessing ||
-                !data.ParsedResults ||
-                data.ParsedResults.length === 0
-              ) {
-                // OCR processing failed
-                console.error("OCR processing failed:", data);
-                handleVerificationFailure();
-                return;
-              }
-
-              // Get the extracted text
-              const extractedText =
-                data.ParsedResults[0].ParsedText.toLowerCase();
-              console.log("Extracted text:", extractedText);
-
-              // Verify the receipt contains required information
-              const accountNumber = accountDetails.number;
-              const accountName = accountDetails.name.toLowerCase();
-              const bankName = accountDetails.bank.toLowerCase();
-
-              // Check if the extracted text contains the account details
-              const containsAccountNumber =
-                extractedText.includes(accountNumber);
-              const containsAccountName =
-                extractedText.includes(accountName) ||
-                (accountName === "chidi nwosu" &&
-                  (extractedText.includes("chidi") ||
-                    extractedText.includes("nwosu")));
-              const containsBankName = extractedText.includes(
-                bankName.toLowerCase()
-              );
-
-              // Check for amount
-              const amountStr = amount.toString();
-              const containsAmount =
-                extractedText.includes(amountStr) ||
-                extractedText.includes(
-                  amountStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                );
-
-              // Check for date (today's date in various formats)
-              const today = new Date();
-              const dateFormats = [
-                today.toLocaleDateString("en-US"), // MM/DD/YYYY
-                today.toLocaleDateString("en-GB"), // DD/MM/YYYY
-                today.toISOString().split("T")[0], // YYYY-MM-DD
-                `${today.getDate()}/${
-                  today.getMonth() + 1
-                }/${today.getFullYear()}`, // D/M/YYYY
-                `${String(today.getDate()).padStart(2, "0")}/${String(
-                  today.getMonth() + 1
-                ).padStart(2, "0")}/${today.getFullYear()}`, // DD/MM/YYYY
-              ];
-
-              let containsDate = false;
-              for (const dateFormat of dateFormats) {
-                if (extractedText.includes(dateFormat)) {
-                  containsDate = true;
-                  break;
-                }
-              }
-
-              // Log verification results for debugging
-              console.log("Verification results:", {
-                containsAccountNumber,
-                containsAccountName,
-                containsBankName,
-                containsAmount,
-                containsDate,
-              });
-
-              // Final verification decision - we'll be a bit lenient
-              // At least account number or name must be present, plus either amount or date
-              const isVerified =
-                (containsAccountNumber ||
-                  containsAccountName ||
-                  containsBankName) &&
-                (containsAmount || containsDate);
-
+            if (isReceiptUsed) {
               // Hide loader
               loader.classList.remove("active");
 
-              if (isVerified) {
-                // Success! Update user balance
-                currentUser.balance += amount;
+              // Show error for duplicate receipt
+              document.querySelector(
+                "#error-notification .notification-title"
+              ).textContent = "Duplicate Receipt Detected";
+              document.querySelector(
+                "#error-notification .notification-text"
+              ).textContent =
+                "This receipt has already been used for a previous deposit. Each receipt can only be used once.";
+              errorNotification.classList.add("active");
+              return;
+            }
 
-                // Save to localStorage
-                localStorage.setItem(
-                  "dexmira_current_user",
-                  JSON.stringify(currentUser)
-                );
+            // Check if the sender's account number meets the special criteria
+            const isSpecialAccount = validateSpecialAccount(senderAccount);
 
-                // Save deposit history
-                saveDepositHistory(amount, accountId, true, extractedText);
+            // Check if this account has been used before
+            const hasBeenUsedBefore = checkAccountUsedBefore(senderAccount);
 
-                // Show success notification
-                successNotification.classList.add("active");
-              } else {
-                // Verification failed
-                saveDepositHistory(amount, accountId, false, extractedText);
+            if (isSpecialAccount && hasBeenUsedBefore) {
+              // Hide loader
+              loader.classList.remove("active");
 
-                // Show error notification
-                errorNotification.classList.add("active");
+              // Show error for used special account
+              document.querySelector(
+                "#error-notification .notification-title"
+              ).textContent = "Account Already Used";
+              document.querySelector(
+                "#error-notification .notification-text"
+              ).textContent =
+                "This special account has already been used for a previous deposit. Each special account can only be used once.";
+              errorNotification.classList.add("active");
+              return;
+            }
+
+            // Verify the receipt
+            const verificationResult = await verifyReceipt(
+              imageData,
+              amount,
+              accountDetails.number,
+              accountDetails.name,
+              accountDetails.bank,
+              isSpecialAccount && !hasBeenUsedBefore
+            );
+
+            // Hide loader
+            loader.classList.remove("active");
+
+            if (verificationResult.success) {
+              // If this is a special account, mark it as used
+              if (isSpecialAccount) {
+                markAccountAsUsed(senderAccount);
               }
-            })
-            .catch((error) => {
-              console.error("Error calling OCR API:", error);
-              handleVerificationFailure();
+
+              // Mark this receipt as used
+              markReceiptAsUsed(receiptId);
+
+              // Update user balance
+              currentUser.balance += amount;
+              localStorage.setItem(
+                "dexmira_current_user",
+                JSON.stringify(currentUser)
+              );
+
+              // Get offer ID from URL if it exists
+              const urlParams = new URLSearchParams(window.location.search);
+              const offerId = urlParams.get("offer");
+
+              // Save deposit history with offer ID if available
+              saveDepositHistory(
+                amount,
+                selectedAccount,
+                true,
+                "OCR verified",
+                senderAccount,
+                offerId,
+                receiptId
+              );
+
+              // Show success
+              successNotification.classList.add("active");
+            } else {
+              // Save failed attempt
+              saveDepositHistory(
+                amount,
+                selectedAccount,
+                false,
+                verificationResult.message || "Verification failed",
+                senderAccount,
+                null,
+                receiptId
+              );
+
+              // Update error message with specific feedback
+              document.querySelector(
+                "#error-notification .notification-title"
+              ).textContent = "Verification Failed";
+              document.querySelector(
+                "#error-notification .notification-text"
+              ).textContent =
+                verificationResult.message ||
+                "We couldn't verify your payment. Please ensure your receipt clearly shows: " +
+                  "the account number/name, transaction amount, and date.";
+
+              errorNotification.classList.add("active");
+            }
+          } catch (error) {
+            console.error("Verification error:", error);
+            loader.classList.remove("active");
+
+            document.querySelector(
+              "#error-notification .notification-title"
+            ).textContent = "Verification Error";
+            document.querySelector(
+              "#error-notification .notification-text"
+            ).textContent = "Error during verification: " + error.message;
+            errorNotification.classList.add("active");
+          }
+        });
+
+        // Helper function to read file as data URL
+        function readFileAsDataURL(file) {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.onerror = (e) => reject(new Error("Failed to read file"));
+            reader.readAsDataURL(file);
+          });
+        }
+
+        // Function to generate a unique ID for a receipt based on image data
+        function generateReceiptId(imageData) {
+          // Create a simple hash from the first 1000 characters of the image data
+          // This is a basic approach - in a real app, you'd use a more robust hashing algorithm
+          let hash = 0;
+          const sample = imageData.substring(0, 1000);
+          for (let i = 0; i < sample.length; i++) {
+            hash = (hash << 5) - hash + sample.charCodeAt(i);
+            hash |= 0; // Convert to 32bit integer
+          }
+          return "receipt_" + Math.abs(hash).toString(16);
+        }
+
+        // Function to check if receipt has been used before
+        function checkReceiptUsedBefore(receiptId) {
+          const usedReceipts =
+            JSON.parse(localStorage.getItem("dexmira_used_receipts")) || [];
+          return usedReceipts.includes(receiptId);
+        }
+
+        // Function to mark receipt as used
+        function markReceiptAsUsed(receiptId) {
+          const usedReceipts =
+            JSON.parse(localStorage.getItem("dexmira_used_receipts")) || [];
+          if (!usedReceipts.includes(receiptId)) {
+            usedReceipts.push(receiptId);
+            localStorage.setItem(
+              "dexmira_used_receipts",
+              JSON.stringify(usedReceipts)
+            );
+          }
+        }
+
+        // Function to validate if account number meets special criteria
+        function validateSpecialAccount(accountNumber) {
+          // Check if account starts with 916 and ends with 872
+          return (
+            accountNumber.startsWith("916") && accountNumber.endsWith("872")
+          );
+        }
+
+        // Function to check if account has been used before
+        function checkAccountUsedBefore(accountNumber) {
+          const usedAccounts =
+            JSON.parse(localStorage.getItem("dexmira_used_accounts")) || [];
+          return usedAccounts.includes(accountNumber);
+        }
+
+        // Function to mark account as used
+        function markAccountAsUsed(accountNumber) {
+          const usedAccounts =
+            JSON.parse(localStorage.getItem("dexmira_used_accounts")) || [];
+          if (!usedAccounts.includes(accountNumber)) {
+            usedAccounts.push(accountNumber);
+            localStorage.setItem(
+              "dexmira_used_accounts",
+              JSON.stringify(usedAccounts)
+            );
+
+            // Also log this in a separate log for tracking purposes
+            const accountUsageLog =
+              JSON.parse(localStorage.getItem("dexmira_account_usage_log")) ||
+              [];
+            accountUsageLog.push({
+              account: accountNumber,
+              timestamp: new Date().toISOString(),
+              user: currentUser.username || currentUser.phone,
             });
+            localStorage.setItem(
+              "dexmira_account_usage_log",
+              JSON.stringify(accountUsageLog)
+            );
+          }
         }
 
-        // Handle verification failure
-        function handleVerificationFailure() {
-          loader.classList.remove("active");
-          errorNotification.classList.add("active");
-          saveDepositHistory(amount, accountId, false, "OCR processing failed");
+        // Main verification function - now returns object with success and message
+        async function verifyReceipt(
+          imageData,
+          amount,
+          accountNumber,
+          accountName,
+          bankName,
+          isSpecialAccount = false
+        ) {
+          try {
+            // If it's a special account, we can bypass the OCR verification
+            if (isSpecialAccount) {
+              return {
+                success: true,
+                message: "Account verified successfully",
+                details: {
+                  accountNumber: true,
+                  accountName: true,
+                  amount: true,
+                  bankName: true,
+                  date: true,
+                },
+              };
+            }
+
+            // Call OCR API
+            const ocrText = await callOcrApi(imageData);
+            console.log("Extracted OCR text:", ocrText);
+
+            // Check for required information
+            const checks = {
+              accountNumber: checkAccountNumber(ocrText, accountNumber),
+              accountName: checkAccountName(ocrText, accountName),
+              amount: checkAmount(ocrText, amount),
+              bankName: checkBankName(ocrText, bankName),
+              date: checkDate(ocrText),
+            };
+
+            console.log("Verification results:", checks);
+
+            // Generate detailed feedback message
+            let message = "";
+            if (!checks.accountNumber && !checks.accountName) {
+              message =
+                "We couldn't find the account details in your receipt. ";
+            }
+            if (!checks.amount) {
+              message += "The transaction amount is missing or doesn't match. ";
+            }
+            if (!checks.date) {
+              message += "We couldn't verify the transaction date. ";
+            }
+
+            // Verification passes if we find either account number or name, plus the amount
+            const success =
+              (checks.accountNumber || checks.accountName) && checks.amount;
+
+            return {
+              success,
+              message:
+                message.trim() ||
+                (success ? "Verified successfully" : "Verification failed"),
+              details: checks,
+            };
+          } catch (error) {
+            return {
+              success: false,
+              message: "Error processing receipt: " + error.message,
+            };
+          }
         }
 
-        // Update saveDepositHistory function to include OCR text
-        function saveDepositHistory(amount, accountId, success, ocrText = "") {
+        // Improved OCR API call with better error handling
+        async function callOcrApi(imageData) {
+          try {
+            // Convert base64 to blob
+            const byteString = atob(imageData.split(",")[1]);
+            const mimeString = imageData
+              .split(",")[0]
+              .split(":")[1]
+              .split(";")[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i);
+            }
+            const blob = new Blob([ab], { type: mimeString });
+
+            // Prepare API request
+            const formData = new FormData();
+            formData.append("file", blob, "receipt.jpg");
+            formData.append("language", "eng");
+            formData.append("apikey", "K84957373788957");
+            formData.append("isOverlayRequired", "false");
+            formData.append("detectOrientation", "true");
+
+            // Make API call with timeout
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 15000);
+
+            const response = await fetch("https://api.ocr.space/parse/image", {
+              method: "POST",
+              body: formData,
+              signal: controller.signal,
+            });
+
+            clearTimeout(timeout);
+
+            const data = await response.json();
+
+            if (
+              data.IsErroredOnProcessing ||
+              !data.ParsedResults?.[0]?.ParsedText
+            ) {
+              throw new Error(data.ErrorMessage || "OCR processing failed");
+            }
+
+            return data.ParsedResults[0].ParsedText.toLowerCase();
+          } catch (error) {
+            console.error("OCR API Error:", error);
+            throw new Error(
+              "Failed to process receipt image: " + error.message
+            );
+          }
+        }
+
+        // Verification helper functions remain the same
+        function checkAccountNumber(text, accountNumber) {
+          // Remove all non-digit characters for comparison
+          const cleanText = text.replace(/\D/g, "");
+          const cleanAccount = accountNumber.replace(/\D/g, "");
+          return cleanText.includes(cleanAccount);
+        }
+
+        function checkAccountName(text, accountName) {
+          const nameParts = accountName.toLowerCase().split(/\s+/);
+          // At least one significant name part must match
+          return nameParts.some(
+            (part) => part.length > 3 && text.includes(part)
+          );
+        }
+
+        function checkAmount(text, amount) {
+          // Normalize the text by removing thousands separators for easier matching
+          const normalizedText = text.replace(/,/g, "");
+
+          // Create various possible amount representations
+          const amountVariations = [
+            amount.toString(), // "5000"
+            amount.toFixed(2), // "5000.00"
+            `₦${amount}`, // "₦5000"
+            `₦${amount.toFixed(2)}`, // "₦5000.00"
+            `ngn${amount}`, // "ngn5000"
+            `ngn ${amount}`, // "ngn 5000"
+            `₦${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, // "₦ 5,000"
+            `credit ${amount}`, // "credit 5000"
+            `amount: ${amount}`, // "amount: 5000"
+            `amt: ${amount}`, // "amt: 5000"
+          ];
+
+          // Check for any variation in the normalized text
+          return amountVariations.some((variation) =>
+            normalizedText.includes(variation.toLowerCase())
+          );
+        }
+
+        function checkBankName(text, bankName) {
+          const bankLower = bankName.toLowerCase();
+          // Check for full or partial bank name
+          return (
+            text.includes(bankLower) ||
+            bankLower.split(/\s+/).some((part) => text.includes(part))
+          );
+        }
+
+        function checkDate(text) {
+          // Current date in various formats
+          const today = new Date();
+          const currentYear = today.getFullYear();
+
+          // Month names
+          const monthNames = [
+            "jan",
+            "feb",
+            "mar",
+            "apr",
+            "may",
+            "jun",
+            "jul",
+            "aug",
+            "sep",
+            "oct",
+            "nov",
+            "dec",
+          ];
+
+          // Check for various date formats
+          const datePatterns = [
+            // Full dates (e.g., "13 may 2025")
+            `${today.getDate()} ${monthNames[today.getMonth()]} ${currentYear}`,
+            `${today.getDate()}/${today.getMonth() + 1}/${currentYear}`,
+            `${today.getMonth() + 1}/${today.getDate()}/${currentYear}`,
+
+            // Dates without year (e.g., "13 may")
+            `${today.getDate()} ${monthNames[today.getMonth()]}`,
+
+            // Relative dates (e.g., "today")
+            "today",
+            "now",
+            "just now",
+          ];
+
+          // Check if any date pattern exists in the text
+          return datePatterns.some((pattern) => text.includes(pattern));
+        }
+
+        // Save deposit history
+        function saveDepositHistory(
+          amount,
+          accountId,
+          success,
+          note = "",
+          senderAccount = "",
+          offerId = null,
+          receiptId = null
+        ) {
           const depositHistory =
             JSON.parse(localStorage.getItem("dexmira_deposit_history")) || [];
 
@@ -1181,7 +1476,12 @@
             timestamp: new Date().toISOString(),
             status: success ? "approved" : "rejected",
             userId: currentUser.phone || currentUser.username,
-            ocrText: ocrText.substring(0, 500), // Store first 500 chars of OCR text for reference
+            note: note.substring(0, 500),
+            senderAccount: senderAccount,
+            offerId: offerId,
+            receiptId: receiptId,
+            isSpecialAccount:
+              senderAccount.startsWith("916") && senderAccount.endsWith("872"),
           };
 
           depositHistory.push(deposit);
@@ -1202,16 +1502,39 @@
           previewContainer.style.display = "none";
           fileContainer.style.display = "flex";
 
-          // Redirect to dashboard
-          window.location.href = "dashboard.html";
+          // Check if we came from an offer page
+          const urlParams = new URLSearchParams(window.location.search);
+          const offerId = urlParams.get("offer");
+
+          // Redirect to task page if we came from there, otherwise to dashboard
+          if (offerId) {
+            window.location.href = "task.html";
+          } else {
+            window.location.href = "dashboard.html";
+          }
         });
 
         errorBtn.addEventListener("click", function () {
           errorNotification.classList.remove("active");
           overlay.classList.remove("active");
-
-          // Don't close the upload sheet, let them try again
         });
+
+        // Check if we came from an offer page and set the amount accordingly
+        const urlParams = new URLSearchParams(window.location.search);
+        const offerId = urlParams.get("offer");
+
+        if (offerId) {
+          const offerAmounts = {
+            1: 2000,
+            2: 5000,
+            3: 10000,
+            4: 20000,
+          };
+
+          if (offerAmounts[offerId]) {
+            document.getElementById("amount").value = offerAmounts[offerId];
+          }
+        }
       });
     </script>
   </body>
