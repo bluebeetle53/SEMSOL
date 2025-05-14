@@ -256,6 +256,16 @@
         transform: translateX(3px);
       }
 
+      .task-button.claimed {
+        background: var(--success);
+        cursor: default;
+      }
+
+      .task-button.claimed:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
       .withdrawals-container {
         background: rgba(255, 255, 255, 0.95);
         border-radius: 15px;
@@ -396,6 +406,53 @@
         animation: slideIn 0.5s ease-out;
       }
 
+      /* Notification styles */
+      .notification-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        max-width: 350px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        z-index: 1000;
+        transform: translateX(120%);
+        transition: transform 0.3s ease;
+      }
+
+      .notification-container.active {
+        transform: translateX(0);
+      }
+
+      .notification-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .notification-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--danger);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.75rem;
+      }
+
+      .notification-title {
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .notification-message {
+        color: var(--dark-gray);
+        font-size: 0.9rem;
+      }
+
       /* Responsive styles */
       @media (max-width: 768px) {
         header {
@@ -467,24 +524,26 @@
           </div>
           <div class="task-content">
             <p class="task-description">
-              Deposit NGN 2,000 and get double your money instantly. This is a
+              Deposit NGN 4,000 and get double your money instantly. This is a
               limited time offer!
-            </p>
-             <p class="task-description">
-              All spots for this offer are taken
             </p>
             <div class="task-reward">
               <div class="reward-icon">
                 <i class="fas fa-coins"></i>
               </div>
               <div class="reward-text">
-                Reward: <span class="reward-amount">NGN 4,000</span>
+                Reward: <span class="reward-amount">NGN 8,000</span>
               </div>
             </div>
           </div>
-<!--           <button class="task-button" id="offer-1">
-            Claim offer <i class="fas fa-arrow-right"></i>
-          </button> -->
+          <button
+            class="task-button"
+            id="offer-1"
+            data-offer="1"
+            data-amount="8000"
+          >
+            Claim Offer <i class="fas fa-arrow-right"></i>
+          </button>
         </div>
 
         <div class="task-card">
@@ -506,7 +565,12 @@
               </div>
             </div>
           </div>
-          <button class="task-button" id="offer-2">
+          <button
+            class="task-button"
+            id="offer-2"
+            data-offer="2"
+            data-amount="5000"
+          >
             Claim Offer <i class="fas fa-arrow-right"></i>
           </button>
         </div>
@@ -530,7 +594,12 @@
               </div>
             </div>
           </div>
-          <button class="task-button" id="offer-3">
+          <button
+            class="task-button"
+            id="offer-3"
+            data-offer="3"
+            data-amount="10000"
+          >
             Claim Offer <i class="fas fa-arrow-right"></i>
           </button>
         </div>
@@ -554,7 +623,12 @@
               </div>
             </div>
           </div>
-          <button class="task-button" id="offer-4">
+          <button
+            class="task-button"
+            id="offer-4"
+            data-offer="4"
+            data-amount="20000"
+          >
             Claim Offer <i class="fas fa-arrow-right"></i>
           </button>
         </div>
@@ -623,8 +697,30 @@
       <div class="loader-text">Redirecting to deposit page...</div>
     </div>
 
+    <!-- Notification -->
+    <div class="notification-container" id="notification">
+      <div class="notification-header">
+        <div class="notification-icon">
+          <i class="fas fa-exclamation"></i>
+        </div>
+        <div class="notification-title">Deposit Required</div>
+      </div>
+      <div class="notification-message">
+        You need to make a deposit first to claim this offer.
+      </div>
+    </div>
+
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // Get current user from localStorage
+        const currentUser = JSON.parse(
+          localStorage.getItem("dexmira_current_user")
+        ) || {
+          username: "User",
+          phone: "00000000000",
+          balance: 0,
+        };
+
         // Sample user data for withdrawals
         const users = [
           "Okoro Emmanuel",
@@ -657,7 +753,6 @@
           "Elizabeth Taylor",
           "Michael Jordan",
           "Patience Okafor",
-          "Ashait Melody",
         ];
 
         // Sample withdrawal amounts
@@ -726,42 +821,90 @@
           document.getElementById("loader").classList.remove("active");
         }
 
+        // Notification functions
+        function showNotification(message) {
+          const notification = document.getElementById("notification");
+          const notificationMessage = notification.querySelector(
+            ".notification-message"
+          );
+
+          notificationMessage.textContent = message;
+          notification.classList.add("active");
+
+          setTimeout(() => {
+            notification.classList.remove("active");
+          }, 3000);
+        }
+
+        // Check if user has approved deposits for each offer
+        function checkApprovedDeposit(offerId, amount) {
+          const depositHistory =
+            JSON.parse(localStorage.getItem("dexmira_deposit_history")) || [];
+
+          // Check for approved deposits with matching offer ID or amount
+          return depositHistory.some(
+            (deposit) =>
+              deposit.status === "approved" &&
+              ((deposit.offerId && deposit.offerId === offerId) ||
+                deposit.amount === amount)
+          );
+        }
+
+        // Update button states based on approved deposits
+        function updateOfferButtons() {
+          const offerButtons = document.querySelectorAll(".task-button");
+
+          offerButtons.forEach((button) => {
+            const offerId = button.getAttribute("data-offer");
+            const amount = parseInt(button.getAttribute("data-amount"));
+
+            if (checkApprovedDeposit(offerId, amount)) {
+              button.classList.add("claimed");
+              button.innerHTML = "Offer Claimed <i class='fas fa-check'></i>";
+              button.disabled = true;
+            }
+          });
+        }
+
+        // Initial update of button states
+        updateOfferButtons();
+
         // Button click handlers
-        document
-          .getElementById("offer-1")
-          .addEventListener("click", function () {
-            showLoader();
-            setTimeout(() => {
-              window.location.href = "deposit.html";
-            }, 1500);
-          });
+        document.querySelectorAll(".task-button").forEach((button) => {
+          button.addEventListener("click", function () {
+            const offerId = this.getAttribute("data-offer");
 
-        document
-          .getElementById("offer-2")
-          .addEventListener("click", function () {
-            showLoader();
-            setTimeout(() => {
-              window.location.href = "deposit.html";
-            }, 1500);
-          });
+            // If button is already claimed, do nothing
+            if (this.classList.contains("claimed")) {
+              return;
+            }
 
-        document
-          .getElementById("offer-3")
-          .addEventListener("click", function () {
-            showLoader();
-            setTimeout(() => {
-              window.location.href = "deposit.html";
-            }, 1500);
-          });
+            // Check if user has an approved deposit for this offer
+            if (
+              checkApprovedDeposit(
+                offerId,
+                parseInt(this.getAttribute("data-amount"))
+              )
+            ) {
+              // Update button to show claimed
+              this.classList.add("claimed");
+              this.innerHTML = "Offer Claimed <i class='fas fa-check'></i>";
+              this.disabled = true;
+            } else {
+              // Show notification and redirect to deposit page
+              showNotification(
+                "You need to make a deposit first to claim this offer."
+              );
 
-        document
-          .getElementById("offer-4")
-          .addEventListener("click", function () {
-            showLoader();
-            setTimeout(() => {
-              window.location.href = "deposit.html";
-            }, 1500);
+              setTimeout(() => {
+                showLoader();
+                setTimeout(() => {
+                  window.location.href = `deposit.html?offer=${offerId}`;
+                }, 1500);
+              }, 1000);
+            }
           });
+        });
       });
     </script>
   </body>
