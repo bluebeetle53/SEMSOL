@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dexmira - Dashboard</title>
+    <title>Dexmira - Earn & Grow</title>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
     />
     <link
       rel="stylesheet"
@@ -14,26 +14,34 @@
     />
     <style>
       :root {
-        --primary: #6c5ce7;
-        --primary-dark: #5649c0;
-        --primary-light: #8a7eef;
-        --primary-lighter: #f0eeff;
-        --secondary: #00cec9;
-        --accent: #fd79a8;
-        --light: #f8f9fa;
-        --dark: #2d3436;
-        --success: #00b894;
-        --warning: #fdcb6e;
-        --danger: #d63031;
-        --gray: #dfe6e9;
-        --dark-gray: #636e72;
-        --border-radius-sm: 8px;
-        --border-radius-md: 12px;
-        --border-radius-lg: 16px;
-        --border-radius-xl: 24px;
-        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.08);
-        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
+        /* New color palette - Vibrant blue-purple theme */
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --primary-light: #818cf8;
+        --primary-bg: #eef2ff;
+        --secondary: #10b981;
+        --tertiary: #f43f5e;
+        --dark: #1e293b;
+        --dark-light: #334155;
+        --light: #f8fafc;
+        --light-accent: #f1f5f9;
+        --gray: #94a3b8;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --info: #3b82f6;
+        --border-radius-sm: 0.5rem;
+        --border-radius-md: 0.75rem;
+        --border-radius-lg: 1rem;
+        --border-radius-xl: 1.5rem;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
         --transition: all 0.3s ease;
       }
 
@@ -44,39 +52,43 @@
       }
 
       body {
-        font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        min-height: 100vh;
+        font-family: "Outfit", sans-serif;
+        background-color: var(--light);
         color: var(--dark);
         line-height: 1.6;
-        padding-bottom: 2rem;
-      }
-
-      .container {
-        width: 95%;
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 1.5rem 0;
-      }
-
-      /* Header Styles */
-      header {
+        min-height: 100vh;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.5rem;
-        padding: 1.25rem;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: var(--border-radius-lg);
-        box-shadow: var(--shadow-md);
-        position: sticky;
-        top: 10px;
-        z-index: 10;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        overflow-x: hidden;
       }
 
-      .logo {
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        background: var(--dark);
+        width: 280px;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        transition: var(--transition);
+        z-index: 50;
+      }
+
+      .sidebar-header {
+        padding: 2rem 1.5rem;
         display: flex;
         align-items: center;
         gap: 0.75rem;
@@ -90,22 +102,76 @@
           var(--primary) 0%,
           var(--secondary) 100%
         );
-        border-radius: 50%;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
         font-weight: bold;
-        box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+        font-size: 1.25rem;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
       }
 
       .logo-text {
         font-size: 1.5rem;
         font-weight: 700;
-        color: var(--primary);
+        color: white;
+        letter-spacing: 0.5px;
       }
 
-      .user-info {
+      .nav-menu {
+        padding: 1rem;
+        flex: 1;
+      }
+
+      .nav-section {
+        margin-bottom: 2rem;
+      }
+
+      .nav-section-title {
+        color: var(--gray);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+        padding-left: 1rem;
+      }
+
+      .nav-item {
+        margin-bottom: 0.5rem;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.875rem 1rem;
+        color: var(--light);
+        text-decoration: none;
+        border-radius: var(--border-radius-md);
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .nav-link.active {
+        background-color: var(--primary);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      }
+
+      .nav-icon {
+        margin-right: 1rem;
+        width: 1.5rem;
+        text-align: center;
+        font-size: 1.25rem;
+      }
+
+      .user-panel {
+        padding: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
         display: flex;
         align-items: center;
         gap: 1rem;
@@ -115,49 +181,130 @@
         width: 45px;
         height: 45px;
         border-radius: 50%;
-        background: var(--primary);
+        background: linear-gradient(
+          135deg,
+          var(--primary) 30%,
+          var(--primary-light) 100%
+        );
         color: white;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 600;
-        box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+        font-size: 1.25rem;
       }
 
-      .user-balance {
-        background: rgba(255, 255, 255, 0.9);
-        padding: 0.5rem 1rem;
-        border-radius: 30px;
+      .user-info {
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .user-name {
+        color: white;
         font-weight: 600;
-        box-shadow: var(--shadow-sm);
+        font-size: 1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .user-role {
+        color: var(--gray);
+        font-size: 0.875rem;
+      }
+
+      .sidebar-toggle {
+        display: none;
+        position: fixed;
+        right: 20px;
+        top: 20px;
+        background: var(--dark);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 100;
+        box-shadow: var(--shadow-md);
+      }
+
+      /* Main Content */
+      .main-content {
+        flex: 1;
+        margin-left: 280px;
+        padding: 2rem;
+        transition: var(--transition);
+      }
+
+      .header {
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .page-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--dark);
+      }
+
+      .balance-display {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        border: 1px solid var(--primary-lighter);
+        background: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        box-shadow: var(--shadow-md);
+        gap: 0.75rem;
+      }
+
+      .balance-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--primary-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+        font-size: 1.25rem;
+      }
+
+      .balance-details {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .balance-label {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--gray);
       }
 
       .balance-amount {
-        color: var(--success);
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--dark);
       }
 
-      /* Dashboard Grid Layout */
-      .dashboard-grid {
+      /* Cards Grid */
+      .cards-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 1.5rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
       }
 
-      /* Card Styles */
       .card {
-        background: rgba(255, 255, 255, 0.95);
+        background: white;
         border-radius: var(--border-radius-lg);
-        padding: 1.5rem;
+        overflow: hidden;
         box-shadow: var(--shadow-md);
         transition: var(--transition);
         height: 100%;
-        display: flex;
-        flex-direction: column;
       }
 
       .card:hover {
@@ -166,35 +313,27 @@
       }
 
       .card-header {
+        padding: 1.5rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 1.5rem;
       }
 
       .card-title {
         font-size: 1.25rem;
-        font-weight: 600;
-        color: var(--primary);
+        font-weight: 700;
+        color: var(--dark);
       }
 
-      .card-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: var(--border-radius-md);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        color: white;
+      .card-content {
+        padding: 0 1.5rem 1.5rem;
       }
 
-      /* Quick Actions Grid */
-      .action-grid {
+      /* Quick Actions */
+      .actions-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
         gap: 1rem;
-        flex: 1;
       }
 
       .action-btn {
@@ -202,9 +341,10 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        text-align: center;
         padding: 1.25rem 0.75rem;
+        background: var(--primary-bg);
         border-radius: var(--border-radius-md);
-        background: var(--primary-lighter);
         text-decoration: none;
         color: var(--dark);
         transition: var(--transition);
@@ -215,35 +355,151 @@
         background: var(--primary);
         color: white;
         transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
       }
 
       .action-icon {
-        font-size: 1.75rem;
+        font-size: 2rem;
         margin-bottom: 0.75rem;
       }
 
       .action-text {
         font-weight: 500;
-        text-align: center;
+        font-size: 0.875rem;
       }
 
-      /* Task Items */
+      /* Check-in Card */
+      .checkin-card {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+      }
+
+      .checkin-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          var(--primary-dark),
+          var(--primary),
+          var(--secondary)
+        );
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+        z-index: 0;
+      }
+
+      .checkin-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(
+            circle at 10% 20%,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0) 20%
+          ),
+          radial-gradient(
+            circle at 80% 30%,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0) 20%
+          ),
+          radial-gradient(
+            circle at 40% 70%,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0) 20%
+          );
+        z-index: 0;
+      }
+
+      .checkin-content {
+        position: relative;
+        z-index: 2;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .checkin-title {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .checkin-amount {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 800;
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .checkin-btn {
+        background: white;
+        color: var(--primary-dark);
+        border: none;
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      .checkin-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .checkin-btn:disabled {
+        background: var(--gray);
+        color: white;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+        opacity: 0.7;
+      }
+
+      .checkin-message {
+        color: rgba(255, 255, 255, 0.9);
+        margin-top: 1rem;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      /* Task Card */
       .task-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1rem;
+        padding: 1.25rem;
         margin-bottom: 1rem;
-        background: var(--primary-lighter);
+        background: var(--light-accent);
         border-radius: var(--border-radius-md);
         transition: var(--transition);
       }
 
+      .task-item:last-child {
+        margin-bottom: 0;
+      }
+
       .task-item:hover {
-        background: var(--primary);
-        color: white;
+        background: var(--primary-bg);
         transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
       }
 
       .task-info {
@@ -253,170 +509,106 @@
       }
 
       .task-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: var(--border-radius-sm);
-        background: var(--primary);
-        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: var(--border-radius-md);
         display: flex;
         align-items: center;
         justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        background: var(--primary);
+      }
+
+      .task-content h4 {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .task-content p {
+        color: var(--gray);
+        font-size: 0.875rem;
       }
 
       .task-btn {
-        padding: 0.5rem 1.25rem;
         background: var(--primary);
         color: white;
         border: none;
-        border-radius: var(--border-radius-sm);
-        font-weight: 500;
-        cursor: pointer;
-        transition: var(--transition);
-      }
-
-      .task-item:hover .task-btn {
-        background: white;
-        color: var(--primary);
-      }
-
-      /* Check-in Card */
-      .checkin-card {
-        background: linear-gradient(
-          135deg,
-          var(--primary) 0%,
-          var(--secondary) 100%
-        );
-        color: white;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .checkin-card::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(
-          circle,
-          rgba(255, 255, 255, 0.1) 0%,
-          rgba(255, 255, 255, 0) 70%
-        );
-        animation: pulse 8s infinite alternate;
-      }
-
-      @keyframes pulse {
-        0% {
-          transform: scale(0.8);
-          opacity: 0.5;
-        }
-        100% {
-          transform: scale(1.2);
-          opacity: 0.8;
-        }
-      }
-
-      .checkin-content {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        height: 100%;
-        justify-content: center;
-      }
-
-      .checkin-title {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .checkin-amount {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-        color: var(--warning);
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .checkin-btn {
-        padding: 0.75rem 2rem;
-        background: white;
-        color: var(--primary);
-        border: none;
-        border-radius: 30px;
-        font-size: 1rem;
+        padding: 0.625rem 1.5rem;
+        border-radius: 50px;
         font-weight: 600;
         cursor: pointer;
         transition: var(--transition);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       }
 
-      .checkin-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .checkin-btn:disabled {
-        background: var(--gray);
-        color: var(--dark-gray);
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
+      .task-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
       }
 
       /* Referral Card */
       .referral-card {
+        overflow: visible;
+      }
+
+      .referral-header {
+        background: linear-gradient(
+          45deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        padding: 2rem 1.5rem;
+        color: white;
         position: relative;
-        overflow: hidden;
+        z-index: 1;
+      }
+
+      .referral-header h3 {
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .referral-header p {
+        font-size: 0.9rem;
+        opacity: 0.9;
       }
 
       .referral-content {
+        padding: 2rem 1.5rem 1.5rem;
+        margin-top: -1rem;
+        background: white;
+        border-radius: var(--border-radius-lg);
         position: relative;
-        z-index: 1;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .referral-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-        color: var(--primary);
-      }
-
-      .referral-text {
-        margin-bottom: 1.5rem;
-        color: #666;
+        z-index: 2;
       }
 
       .referral-link-container {
         display: flex;
-        background: var(--primary-lighter);
-        border-radius: var(--border-radius-sm);
         overflow: hidden;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
         margin-bottom: 1.5rem;
+        border: 1px solid var(--primary-bg);
       }
 
       .referral-link {
         flex: 1;
-        padding: 0.75rem 1rem;
+        padding: 1rem;
         border: none;
-        background: transparent;
+        background: var(--light-accent);
         font-family: inherit;
         color: var(--dark);
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 0.9rem;
       }
 
       .copy-btn {
-        padding: 0 1rem;
+        padding: 0 1.5rem;
         background: var(--primary);
         color: white;
         border: none;
+        font-weight: 600;
         cursor: pointer;
         transition: var(--transition);
       }
@@ -427,47 +619,163 @@
 
       .social-share {
         display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-top: auto;
-        padding-top: 1rem;
+        justify-content: space-between;
+        margin-top: 1rem;
       }
 
       .share-btn {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
+        background: var(--light-accent);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        font-size: 1.25rem;
         text-decoration: none;
+        font-size: 1.25rem;
         transition: var(--transition);
       }
 
       .share-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
       }
 
       .facebook {
-        background: #3b5998;
+        color: #3b5998;
       }
 
       .twitter {
-        background: #1da1f2;
+        color: #1da1f2;
       }
 
       .whatsapp {
-        background: #25d366;
+        color: #25d366;
       }
 
       .telegram {
-        background: #0088cc;
+        color: #0088cc;
       }
 
-      /* Loader styles */
+      .share-btn:hover.facebook {
+        background: #3b5998;
+        color: white;
+      }
+
+      .share-btn:hover.twitter {
+        background: #1da1f2;
+        color: white;
+      }
+
+      .share-btn:hover.whatsapp {
+        background: #25d366;
+        color: white;
+      }
+
+      .share-btn:hover.telegram {
+        background: #0088cc;
+        color: white;
+      }
+
+      /* Stats Section */
+      .stats-section {
+        margin-bottom: 2rem;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: var(--border-radius-lg);
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: var(--shadow-md);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .stat-icon {
+        position: relative;
+        z-index: 2;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--primary-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 1.75rem;
+      }
+
+      .stat-value {
+        position: relative;
+        z-index: 2;
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(45deg, var(--primary-dark), var(--primary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .stat-label {
+        position: relative;
+        z-index: 2;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--gray);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .stat-bg {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        opacity: 0.1;
+        transform: translate(30%, 30%);
+      }
+
+      /* Badges and Status */
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-left: 0.5rem;
+      }
+
+      .badge-success {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+      }
+
+      .badge-warning {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+      }
+
+      .badge-info {
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--info);
+      }
+
+      /* Loader */
       .loader-container {
         position: fixed;
         top: 0;
@@ -483,8 +791,8 @@
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.3s ease;
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
       }
 
       .loader-container.active {
@@ -495,131 +803,193 @@
       .loader {
         width: 80px;
         height: 80px;
-        margin-bottom: 1.5rem;
+        position: relative;
+        margin-bottom: 2rem;
       }
 
       .loader-circle {
-        fill: none;
-        stroke: var(--primary);
-        stroke-width: 6;
-        stroke-linecap: round;
-        stroke-dasharray: 200;
-        stroke-dashoffset: 0;
-        animation: dash 1.5s ease-in-out infinite;
-        transform-origin: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 4px solid transparent;
+        border-top-color: var(--primary);
+        animation: spin 1s linear infinite;
       }
 
-      @keyframes dash {
+      .loader-circle:nth-child(2) {
+        width: 70%;
+        height: 70%;
+        top: 15%;
+        left: 15%;
+        border-top-color: var(--secondary);
+        animation-duration: 0.8s;
+        animation-direction: reverse;
+      }
+
+      .loader-circle:nth-child(3) {
+        width: 40%;
+        height: 40%;
+        top: 30%;
+        left: 30%;
+        border-top-color: var(--tertiary);
+        animation-duration: 0.6s;
+      }
+
+      @keyframes spin {
         0% {
-          stroke-dashoffset: 200;
           transform: rotate(0deg);
         }
-        50% {
-          stroke-dashoffset: 50;
-          transform: rotate(180deg);
-        }
         100% {
-          stroke-dashoffset: 200;
           transform: rotate(360deg);
         }
       }
 
       .loader-text {
         font-size: 1.25rem;
-        font-weight: 500;
+        font-weight: 600;
         color: var(--primary);
-        margin-top: 1rem;
       }
 
       /* Toast notification */
       .toast {
         position: fixed;
-        bottom: 20px;
+        bottom: 30px;
         left: 50%;
-        transform: translateX(-50%);
-        background: var(--success);
+        transform: translateX(-50%) translateY(30px);
+        background: var(--dark);
         color: white;
-        padding: 0.75rem 1.5rem;
-        border-radius: 30px;
+        padding: 1rem 2rem;
+        border-radius: 50px;
         font-weight: 500;
-        box-shadow: var(--shadow-md);
+        box-shadow: var(--shadow-lg);
         z-index: 100;
         opacity: 0;
-        transition: var(--transition);
+        transition: opacity 0.3s ease, transform 0.3s ease;
       }
 
       .toast.show {
         opacity: 1;
-        bottom: 30px;
-      }
-
-      /* Stats Card */
-      .stats-card {
-        margin-bottom: 1.5rem;
-      }
-
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 1rem;
-      }
-
-      .stat-item {
-        background: white;
-        border-radius: var(--border-radius-md);
-        padding: 1.25rem;
-        text-align: center;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-      }
-
-      .stat-item:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-md);
-      }
-
-      .stat-icon {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-        color: var(--primary);
-      }
-
-      .stat-value {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 0.25rem;
-        color: var(--dark);
-      }
-
-      .stat-label {
-        font-size: 0.875rem;
-        color: var(--dark-gray);
+        transform: translateX(-50%) translateY(0);
       }
 
       /* Responsive styles */
       @media (max-width: 992px) {
-        .dashboard-grid {
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        .sidebar {
+          width: 80px;
+          padding-top: 1rem;
+        }
+
+        .sidebar-header {
+          padding: 1rem 0;
+          justify-content: center;
+        }
+
+        .logo-text {
+          display: none;
+        }
+
+        .nav-section-title {
+          display: none;
+        }
+
+        .nav-link {
+          justify-content: center;
+          padding: 1rem;
+        }
+
+        .nav-icon {
+          margin-right: 0;
+        }
+
+        .nav-text {
+          display: none;
+        }
+
+        .user-panel {
+          justify-content: center;
+          padding: 1rem 0;
+        }
+
+        .user-info {
+          display: none;
+        }
+
+        .main-content {
+          margin-left: 80px;
         }
       }
 
       @media (max-width: 768px) {
-        header {
-          flex-direction: column;
-          gap: 1rem;
-          text-align: center;
-          padding: 1rem;
+        .sidebar {
+          left: -280px;
+          width: 280px;
+        }
+
+        .sidebar.active {
+          left: 0;
+        }
+
+        .sidebar-header {
+          padding: 1.5rem;
+          justify-content: flex-start;
+        }
+
+        .logo-text {
+          display: block;
+        }
+
+        .nav-section-title {
+          display: block;
+        }
+
+        .nav-link {
+          justify-content: flex-start;
+          padding: 0.875rem 1rem;
+        }
+
+        .nav-icon {
+          margin-right: 1rem;
+        }
+
+        .nav-text {
+          display: block;
+        }
+
+        .user-panel {
+          justify-content: flex-start;
+          padding: 1.5rem;
         }
 
         .user-info {
-          flex-direction: column;
+          display: block;
         }
 
-        .dashboard-grid {
+        .main-content {
+          margin-left: 0;
+          padding: 1.5rem;
+        }
+
+        .sidebar-toggle {
+          display: flex;
+        }
+
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+
+        .balance-display {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .cards-grid {
           grid-template-columns: 1fr;
         }
 
-        .action-grid {
+        .actions-grid {
           grid-template-columns: repeat(3, 1fr);
         }
 
@@ -629,205 +999,317 @@
       }
 
       @media (max-width: 576px) {
-        .container {
-          width: 92%;
-          padding: 1rem 0;
-        }
-
-        .card {
-          padding: 1.25rem;
-        }
-
-        .card-title {
-          font-size: 1.1rem;
-        }
-
-        .action-grid {
+        .actions-grid {
           grid-template-columns: repeat(2, 1fr);
-          gap: 0.75rem;
-        }
-
-        .action-btn {
-          padding: 1rem 0.5rem;
-        }
-
-        .action-icon {
-          font-size: 1.5rem;
-        }
-
-        .action-text {
-          font-size: 0.9rem;
         }
 
         .stats-grid {
           grid-template-columns: 1fr;
         }
 
-        .checkin-amount {
-          font-size: 2rem;
+        .task-item {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: flex-start;
         }
 
-        .social-share {
-          flex-wrap: wrap;
-          justify-content: space-around;
+        .task-info {
+          width: 100%;
+        }
+
+        .toast {
+          width: 90%;
+          text-align: center;
+          padding: 0.75rem 1rem;
+        }
+
+        .checkin-amount {
+          font-size: 2rem;
+          padding: 0.5rem 1.5rem;
+        }
+
+        .checkin-btn {
+          padding: 0.75rem 1.5rem;
         }
       }
 
       @media (max-width: 360px) {
-        .action-grid {
+        .actions-grid {
           grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <header>
-        <div class="logo">
-          <div class="logo-icon">D</div>
-          <div class="logo-text">Dexmira</div>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-icon">D</div>
+        <div class="logo-text">Dexmira</div>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-section">
+          <h4 class="nav-section-title">Main</h4>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="#" class="nav-link active">
+                <i class="fas fa-home nav-icon"></i>
+                <span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="task.html" class="nav-link">
+                <i class="fas fa-tasks nav-icon"></i>
+                <span class="nav-text">Tasks</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="history.html" class="nav-link">
+                <i class="fas fa-history nav-icon"></i>
+                <span class="nav-text">History</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fas fa-user-friends nav-icon"></i>
+                <span class="nav-text">Referrals</span>
+              </a>
+            </li>
+          </ul>
         </div>
+
+        <div class="nav-section">
+          <h4 class="nav-section-title">Finance</h4>
+          <ul class="nav-list">
+            <li class="nav
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fas fa-wallet nav-icon"></i>
+                <span class="nav-text">Withdraw</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fas fa-money-bill-wave nav-icon"></i>
+                <span class="nav-text">Deposit</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <h4 class="nav-section-title">Account</h4>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fas fa-cog nav-icon"></i>
+                <span class="nav-text">Settings</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fas fa-question-circle nav-icon"></i>
+                <span class="nav-text">Help</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fas fa-sign-out-alt nav-icon"></i>
+                <span class="nav-text">Logout</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="user-panel">
+        <div class="user-avatar" id="user-avatar">U</div>
         <div class="user-info">
-          <div class="user-avatar" id="user-avatar">U</div>
-          <div class="user-balance">
+          <div class="user-name" id="user-name">User</div>
+          <div class="user-role">Member</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Sidebar Toggle Button -->
+    <div class="sidebar-toggle" id="sidebar-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+      <div class="header">
+        <h1 class="page-title">Dashboard</h1>
+        <div class="balance-display">
+          <div class="balance-icon">
             <i class="fas fa-wallet"></i>
-            Balance:
-            <span class="balance-amount" id="user-balance">NGN 0.00</span>
           </div>
-        </div>
-      </header>
-
-      <!-- Stats Section -->
-      <!-- <div class="card stats-card">
-        <div class="card-header">
-          <h3 class="card-title">Your Stats</h3>
-          <div class="card-icon" style="background: var(--secondary)">
-            <i class="fas fa-chart-line"></i>
-          </div>
-        </div>
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-tasks"></i>
-            </div>
-            <div class="stat-value">0</div>
-            <div class="stat-label">Tasks Completed</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-users"></i>
-            </div>
-            <div class="stat-value">0</div>
-            <div class="stat-label">Referrals</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-calendar-check"></i>
-            </div>
-            <div class="stat-value">0</div>
-            <div class="stat-label">Check-ins</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-money-bill-wave"></i>
-            </div>
-            <div class="stat-value">NGN 0</div>
-            <div class="stat-label">Total Earned</div>
-          </div>
-        </div>
-      </div> -->
-
-      <div class="dashboard-grid">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Quick Actions</h3>
-            <div class="card-icon" style="background: var(--primary)">
-              <i class="fas fa-bolt"></i>
-            </div>
-          </div>
-          <div class="action-grid">
-            <a href="withdraw.html" class="action-btn" id="withdraw-btn">
-              <i class="fas fa-money-bill-wave action-icon"></i>
-              <span class="action-text">Withdraw</span>
-            </a>
-            <a href="deposit.html" class="action-btn" id="deposit-btn">
-              <i class="fas fa-wallet action-icon"></i>
-              <span class="action-text">Deposit</span>
-            </a>
-            <a href="task.html" class="action-btn" id="tasks-btn">
-              <i class="fas fa-tasks action-icon"></i>
-              <span class="action-text">Tasks</span>
-            </a>
-            <a href="history.html" class="action-btn" id="history-btn">
-              <i class="fas fa-history action-icon"></i>
-              <span class="action-text">History</span>
-            </a>
-            <a
-              href="https://t.me/memorymat"
-              target="_blank"
-              class="action-btn"
-              id="group-btn"
-            >
-              <i class="fab fa-telegram action-icon"></i>
-              <span class="action-text">Join Group</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="card checkin-card">
-          <div class="checkin-content">
-            <h3 class="checkin-title">Daily Check-In</h3>
-            <div class="checkin-amount">+ NGN 230</div>
-            <button class="checkin-btn" id="checkin-btn">Check In Now</button>
-            <p
-              style="margin-top: 1rem; font-size: 0.9rem"
-              id="checkin-message"
-            ></p>
+          <div class="balance-details">
+            <div class="balance-label">Available Balance</div>
+            <div class="balance-amount" id="user-balance">NGN 0.00</div>
           </div>
         </div>
       </div>
 
-      <div class="dashboard-grid">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Earn More</h3>
-            <div class="card-icon" style="background: var(--success)">
+      <!-- Stats Section -->
+      <div class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-coins"></i>
+            </div>
+            <div class="stat-value" id="total-earned">0</div>
+            <div class="stat-label">Total Earned</div>
+            <div class="stat-bg">
               <i class="fas fa-coins"></i>
             </div>
           </div>
-          <div class="task-item">
-            <div class="task-info">
-              <div class="task-icon">
-                <i class="fas fa-ad"></i>
-              </div>
-              <div>
-                <h4>Watch Ads</h4>
-                <p>Earn NGN 50 per ad</p>
-              </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-tasks"></i>
             </div>
-            <button class="task-btn">Start</button>
+            <div class="stat-value" id="tasks-completed">0</div>
+            <div class="stat-label">Tasks Completed</div>
+            <div class="stat-bg">
+              <i class="fas fa-tasks"></i>
+            </div>
           </div>
-          <div class="task-item">
-            <div class="task-info">
-              <div class="task-icon">
-                <i class="fas fa-poll"></i>
-              </div>
-              <div>
-                <h4>Complete Surveys</h4>
-                <p>Earn NGN 100-500 per survey</p>
-              </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-user-friends"></i>
             </div>
-            <button class="task-btn">Start</button>
+            <div class="stat-value" id="referrals">0</div>
+            <div class="stat-label">Referrals</div>
+            <div class="stat-bg">
+              <i class="fas fa-user-friends"></i>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="stat-value" id="checkin-streak">0</div>
+            <div class="stat-label">Check-in Streak</div>
+            <div class="stat-bg">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="cards-grid">
+        <!-- Quick Actions Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Quick Actions</h3>
+            <i
+              class="fas fa-bolt"
+              style="color: var(--primary); font-size: 1.5rem"
+            ></i>
+          </div>
+          <div class="card-content">
+            <div class="actions-grid">
+              <a href="withdraw.html" class="action-btn">
+                <i class="fas fa-money-bill-wave action-icon"></i>
+                <span class="action-text">Withdraw</span>
+              </a>
+              <a href="deposit.html" class="action-btn">
+                <i class="fas fa-wallet action-icon"></i>
+                <span class="action-text">Deposit</span>
+              </a>
+              <a href="task.html" class="action-btn">
+                <i class="fas fa-tasks action-icon"></i>
+                <span class="action-text">Tasks</span>
+              </a>
+              <a href="history.html" class="action-btn">
+                <i class="fas fa-history action-icon"></i>
+                <span class="action-text">History</span>
+              </a>
+              <a href="#" class="action-btn">
+                <i class="fas fa-user-friends action-icon"></i>
+                <span class="action-text">Referrals</span>
+              </a>
+              <a href="#" class="action-btn">
+                <i class="fab fa-telegram action-icon"></i>
+                <span class="action-text">Group</span>
+              </a>
+            </div>
           </div>
         </div>
 
+        <!-- Daily Check-in Card -->
+        <div class="card checkin-card">
+          <div class="checkin-bg"></div>
+          <div class="checkin-pattern"></div>
+          <div class="checkin-content">
+            <h3 class="checkin-title">Daily Check-In</h3>
+            <div class="checkin-amount">+ NGN 230</div>
+            <button class="checkin-btn" id="checkin-btn">Check In Now</button>
+            <p class="checkin-message" id="checkin-message"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second Cards Grid -->
+      <div class="cards-grid">
+        <!-- Tasks Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Available Tasks</h3>
+            <i
+              class="fas fa-tasks"
+              style="color: var(--primary); font-size: 1.5rem"
+            ></i>
+          </div>
+          <div class="card-content">
+            <div class="task-item">
+              <div class="task-info">
+                <div class="task-icon">
+                  <i class="fas fa-ad"></i>
+                </div>
+                <div class="task-content">
+                  <h4>Watch Ads</h4>
+                  <p>Earn NGN 50 per ad</p>
+                </div>
+              </div>
+              <button class="task-btn">Start</button>
+            </div>
+            <div class="task-item">
+              <div class="task-info">
+                <div class="task-icon">
+                  <i class="fas fa-poll"></i>
+                </div>
+                <div class="task-content">
+                  <h4>Complete Surveys</h4>
+                  <p>Earn NGN 100-500 per survey</p>
+                </div>
+              </div>
+              <button class="task-btn">Start</button>
+            </div>
+            <div class="task-item">
+              <div class="task-info">
+                <div class="task-icon">
+                  <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="task-content">
+                  <h4>Play Games</h4>
+                  <p>Earn NGN 20-100 per game</p>
+                </div>
+              </div>
+              <button class="task-btn">Start</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Referral Card -->
         <div class="card referral-card">
+          <div class="referral-header">
+            <h3>Invite Friends & Earn</h3>
+            <p>Get 10% of whatever your friends earn on Dexmira!</p>
+          </div>
           <div class="referral-content">
-            <h3 class="referral-title">Invite Friends & Earn</h3>
-            <p class="referral-text">
-              Share your referral link and earn 10% of whatever your friends
-              earn on Dexmira!
-            </p>
             <div class="referral-link-container">
               <input
                 type="text"
@@ -836,9 +1318,7 @@
                 value="Loading..."
                 readonly
               />
-              <button class="copy-btn" id="copy-btn">
-                <i class="fas fa-copy"></i>
-              </button>
+              <button class="copy-btn" id="copy-btn">Copy</button>
             </div>
             <div class="social-share">
               <a href="#" class="share-btn facebook" id="facebook-share">
@@ -857,17 +1337,19 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
 
     <!-- Loader -->
     <div class="loader-container" id="loader">
-      <svg class="loader" viewBox="0 0 100 100">
-        <circle class="loader-circle" cx="50" cy="50" r="40" />
-      </svg>
+      <div class="loader">
+        <div class="loader-circle"></div>
+        <div class="loader-circle"></div>
+        <div class="loader-circle"></div>
+      </div>
       <div class="loader-text">Processing...</div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- Toast notification -->
     <div class="toast" id="toast"></div>
 
     <script>
@@ -880,14 +1362,29 @@
           phone: "",
           balance: 0,
           lastCheckin: null,
+          totalEarned: 0,
+          tasksCompleted: 0,
+          referrals: 0,
+          checkinStreak: 0,
         };
 
         // Update user info in the UI
         document.getElementById("user-avatar").textContent =
           currentUser.username.charAt(0).toUpperCase();
+        document.getElementById("user-name").textContent = currentUser.username;
         document.getElementById(
           "user-balance"
         ).textContent = `NGN ${currentUser.balance.toLocaleString()}`;
+
+        // Update stats
+        document.getElementById("total-earned").textContent =
+          currentUser.totalEarned;
+        document.getElementById("tasks-completed").textContent =
+          currentUser.tasksCompleted;
+        document.getElementById("referrals").textContent =
+          currentUser.referrals;
+        document.getElementById("checkin-streak").textContent =
+          currentUser.checkinStreak;
 
         // Set referral link
         const referralLink = `https://tinyurl.com/dexmira44/join?ref=${
@@ -940,8 +1437,10 @@
 
           // Simulate processing delay
           setTimeout(() => {
-            // Update balance
+            // Update balance and stats
             currentUser.balance += 230;
+            currentUser.totalEarned += 230;
+            currentUser.checkinStreak += 1;
             currentUser.lastCheckin = new Date().toISOString();
 
             // Update localStorage
@@ -954,6 +1453,10 @@
             document.getElementById(
               "user-balance"
             ).textContent = `NGN ${currentUser.balance.toLocaleString()}`;
+            document.getElementById("total-earned").textContent =
+              currentUser.totalEarned;
+            document.getElementById("checkin-streak").textContent =
+              currentUser.checkinStreak;
             checkinBtn.disabled = true;
 
             const now = new Date();
@@ -976,58 +1479,6 @@
             showToast("Referral link copied to clipboard!");
           });
 
-        // Action buttons handlers (simulated)
-        document
-          .getElementById("withdraw-btn")
-          .addEventListener("click", function (e) {
-            e.preventDefault();
-            showLoader();
-
-            setTimeout(() => {
-              hideLoader();
-              showToast("Withdrawal iniatiated");
-
-              // Redirect after a short delay to allow toast to show briefly
-              setTimeout(() => {
-                window.location.href = "withdraw.html";
-              }, 1000); // Adjust delay as needed
-            }, 1500);
-          });
-
-        document
-          .getElementById("deposit-btn")
-          .addEventListener("click", function (e) {
-            e.preventDefault();
-            showLoader();
-
-            setTimeout(() => {
-              hideLoader();
-              showToast("Deposit initiated!");
-
-              // Redirect after a short delay to allow toast to show briefly
-              setTimeout(() => {
-                window.location.href = "deposit.html";
-              }, 1000); // Adjust delay as needed
-            }, 1500);
-          });
-
-        document
-          .getElementById("tasks-btn")
-          .addEventListener("click", function (e) {
-            e.preventDefault();
-            showLoader();
-
-            setTimeout(() => {
-              hideLoader();
-              showToast("Youre been redirected to the task page");
-
-              // Redirect after a short delay to allow toast to show briefly
-              setTimeout(() => {
-                window.location.href = "task.html";
-              }, 1000); // Adjust delay as needed
-            }, 1500);
-          });
-
         // Task buttons handlers
         document.querySelectorAll(".task-btn").forEach((btn) => {
           btn.addEventListener("click", function () {
@@ -1037,6 +1488,8 @@
               // Random earnings between 50 and 200
               const earnings = Math.floor(Math.random() * 151) + 50;
               currentUser.balance += earnings;
+              currentUser.totalEarned += earnings;
+              currentUser.tasksCompleted += 1;
 
               // Update localStorage
               localStorage.setItem(
@@ -1048,12 +1501,23 @@
               document.getElementById(
                 "user-balance"
               ).textContent = `NGN ${currentUser.balance.toLocaleString()}`;
+              document.getElementById("total-earned").textContent =
+                currentUser.totalEarned;
+              document.getElementById("tasks-completed").textContent =
+                currentUser.tasksCompleted;
 
               hideLoader();
               showToast(`+ NGN ${earnings} added to your balance!`);
             }, 2000);
           });
         });
+
+        // Sidebar toggle functionality
+        document
+          .getElementById("sidebar-toggle")
+          .addEventListener("click", function () {
+            document.getElementById("sidebar").classList.toggle("active");
+          });
 
         // Loader functions
         function showLoader() {
@@ -1074,29 +1538,6 @@
             toast.classList.remove("show");
           }, 3000);
         }
-
-        // Chrome-safe storage validation
-        function validateStorage() {
-          try {
-            // Check if primary storage exists
-            if (!localStorage.getItem("dexmira_current_user")) {
-              // Check backup storage
-              const backupData = localStorage.getItem("dexmira_data");
-              if (backupData) {
-                const parsedData = JSON.parse(atob(backupData));
-                localStorage.setItem(
-                  "dexmira_current_user",
-                  JSON.stringify(parsedData.currentUser)
-                );
-              }
-            }
-          } catch (e) {
-            console.error("Storage validation error:", e);
-          }
-        }
-
-        // Run storage validation on load
-        validateStorage();
       });
     </script>
   </body>
