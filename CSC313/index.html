@@ -1,0 +1,2204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CSC 313 Quiz for Thursday Test - Test your knowledge of Formal Methods and Software Development"
+    />
+    <meta
+      name="keywords"
+      content="CSC313, Quiz, Formal Methods, Software Development, Test, Education"
+    />
+    <meta name="author" content="Ahuekwe Precious" />
+    <meta name="theme-color" content="#4a148c" />
+    <title>
+      CSC 313 QUIZ FOR THURSDAY TEST | BABA's COURSE BY AHUEKWE PRECIOUS
+    </title>
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/svgs/solid/book-open.svg"
+      type="image/svg+xml"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <style>
+      :root {
+        --primary-color: #4a148c;
+        --secondary-color: #7b1fa2;
+        --accent-color: #e91e63;
+        --light-color: #f3e5f5;
+        --dark-color: #12005e;
+        --success-color: #4caf50;
+        --error-color: #f44336;
+        --warning-color: #ff9800;
+        --text-color: #333;
+        --text-light: #f5f5f5;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f5f5f5;
+        color: var(--text-color);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 100%;
+        padding: 0 15px;
+        margin: 0 auto;
+      }
+
+      header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: var(--text-light);
+        padding: 1.5rem 0;
+        text-align: center;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0) 70%
+        );
+        animation: pulse 8s infinite linear;
+        z-index: 0;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .header-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        animation: fadeInDown 0.8s ease;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
+        animation: fadeInUp 0.8s ease 0.2s both;
+      }
+
+      .icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--light-color);
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .quiz-container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 2rem;
+        margin: 2rem auto;
+        max-width: 800px;
+        animation: fadeIn 0.8s ease;
+        transition: var(--transition);
+      }
+
+      .quiz-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .progress-container {
+        width: 100%;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        margin-bottom: 1.5rem;
+        height: 10px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        width: 0%;
+        transition: width 0.5s ease;
+        border-radius: 5px;
+      }
+
+      .question-count {
+        font-size: 0.9rem;
+        color: var(--secondary-color);
+        font-weight: 500;
+      }
+
+      .question-text {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+        color: var(--dark-color);
+        line-height: 1.4;
+      }
+
+      .options-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .option {
+        background-color: var(--light-color);
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        padding: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .option::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: var(--transition);
+      }
+
+      .option:hover::before {
+        left: 100%;
+      }
+
+      .option:hover {
+        border-color: var(--secondary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .option.selected {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+
+      .option.correct {
+        background-color: var(--success-color);
+        color: white;
+        border-color: var(--success-color);
+      }
+
+      .option.incorrect {
+        background-color: var(--error-color);
+        color: white;
+        border-color: var(--error-color);
+      }
+
+      .option.disabled {
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
+      .navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+      }
+
+      .btn {
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-secondary {
+        background-color: var(--light-color);
+        color: var(--text-color);
+      }
+
+      .btn-secondary:hover:not(:disabled) {
+        background-color: #e1bee7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-accent {
+        background-color: var(--accent-color);
+        color: white;
+      }
+
+      .btn-accent:hover:not(:disabled) {
+        background-color: #f50057;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .result-container {
+        text-align: center;
+        padding: 2rem;
+        animation: fadeIn 0.8s ease;
+      }
+
+      .result-icon {
+        font-size: 5rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        animation: tada 1s ease;
+      }
+
+      .result-score {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      .result-message {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .tab-btn {
+        padding: 0.8rem 1.5rem;
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        color: var(--text-color);
+      }
+
+      .tab-btn.active {
+        border-bottom-color: var(--primary-color);
+        color: var(--primary-color);
+      }
+
+      .tab-content {
+        display: none;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .leaderboard {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+
+      .leaderboard th,
+      .leaderboard td {
+        padding: 0.8rem;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
+
+      .leaderboard th {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .leaderboard tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      .leaderboard tr:hover {
+        background-color: #f0e5ff;
+      }
+
+      .review-item {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--shadow);
+      }
+
+      .review-question {
+        font-weight: 500;
+        margin-bottom: 1rem;
+        color: var(--dark-color);
+      }
+
+      .review-answer {
+        padding: 0.8rem;
+        border-radius: 5px;
+        margin-bottom: 0.5rem;
+      }
+
+      .review-answer.correct {
+        background-color: #e8f5e9;
+        border-left: 4px solid var(--success-color);
+      }
+
+      .review-answer.incorrect {
+        background-color: #ffebee;
+        border-left: 4px solid var(--error-color);
+      }
+
+      .review-answer.user-selected {
+        font-weight: 500;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal {
+        background-color: white;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 500px;
+        padding: 2rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        transform: translateY(-20px);
+        transition: var(--transition);
+      }
+
+      .modal-overlay.active .modal {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .modal-title {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #999;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: var(--transition);
+      }
+
+      .form-input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(74, 20, 140, 0.2);
+      }
+
+      .footer {
+        text-align: center;
+        padding: 2rem 0;
+        background-color: var(--dark-color);
+        color: var(--text-light);
+        margin-top: 2rem;
+      }
+
+      .footer p {
+        margin-bottom: 0.5rem;
+      }
+
+      .footer a {
+        color: var(--light-color);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer a:hover {
+        color: var(--accent-color);
+      }
+
+      .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(74, 20, 140, 0.2);
+        border-radius: 50%;
+        border-top-color: var(--primary-color);
+        animation: spin 1s ease-in-out infinite;
+        margin-bottom: 1rem;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes tada {
+        0% {
+          transform: scale(1);
+        }
+        10%,
+        20% {
+          transform: scale(0.9) rotate(-3deg);
+        }
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: scale(1.1) rotate(3deg);
+        }
+        40%,
+        60%,
+        80% {
+          transform: scale(1.1) rotate(-3deg);
+        }
+        100% {
+          transform: scale(1) rotate(0);
+        }
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        .subtitle {
+          font-size: 0.9rem;
+        }
+
+        .quiz-container {
+          padding: 1.5rem;
+          margin: 1rem auto;
+        }
+
+        .question-text {
+          font-size: 1.1rem;
+        }
+
+        .btn {
+          padding: 0.7rem 1.2rem;
+          font-size: 0.9rem;
+        }
+
+        .result-icon {
+          font-size: 4rem;
+        }
+
+        .result-score {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.3rem;
+        }
+
+        .quiz-container {
+          padding: 1rem;
+        }
+
+        .question-text {
+          font-size: 1rem;
+        }
+
+        .option {
+          padding: 0.8rem;
+        }
+
+        .tabs {
+          flex-wrap: wrap;
+        }
+
+        .tab-btn {
+          padding: 0.6rem 1rem;
+          font-size: 0.9rem;
+        }
+
+        .leaderboard th,
+        .leaderboard td {
+          padding: 0.6rem;
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Loading Quiz...</p>
+      </div>
+
+      <div id="quiz-content" style="display: none">
+        <header>
+          <div class="header-content">
+            <i class="fas fa-graduation-cap icon"></i>
+            <h1>CSC 313 QUIZ FOR THURSDAY TEST</h1>
+            <p class="subtitle">BABA's COURSE</p>
+          </div>
+        </header>
+
+        <div class="container">
+          <div class="quiz-container" id="quiz">
+            <div class="quiz-header">
+              <div class="question-count" id="question-count">
+                Question 1 of 50
+              </div>
+            </div>
+
+            <div class="progress-container">
+              <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="question-text" id="question-text"></div>
+
+            <div class="options-container" id="options-container"></div>
+
+            <div class="navigation">
+              <button class="btn btn-secondary" id="prev-btn" disabled>
+                <i class="fas fa-arrow-left"></i> Previous
+              </button>
+              <button class="btn btn-primary" id="next-btn">
+                Next <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="result-container"
+            id="result-container"
+            style="display: none"
+          >
+            <i class="fas fa-trophy result-icon"></i>
+            <div class="result-score" id="result-score">0%</div>
+            <div class="result-message" id="result-message"></div>
+
+            <div class="tabs">
+              <button class="tab-btn active" data-tab="leaderboard">
+                Leaderboard
+              </button>
+              <button class="tab-btn" data-tab="review">Review Answers</button>
+            </div>
+
+            <div class="tab-content active" id="leaderboard-tab">
+              <table class="leaderboard" id="leaderboard">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                  <!-- Leaderboard data will be inserted here -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="tab-content" id="review-tab">
+              <div id="review-container">
+                <!-- Review content will be inserted here -->
+              </div>
+            </div>
+
+            <button
+              class="btn btn-accent"
+              id="restart-btn"
+              style="margin-top: 2rem"
+            >
+              <i class="fas fa-redo"></i> Take Quiz Again
+            </button>
+          </div>
+        </div>
+
+        <div class="footer">
+          <p>
+            <!-- <i class="fas fa-book-open"></i> Don't forget to learn and master
+            the theory questions at your leisure
+          </p> -->
+          </p>
+
+          <p>© 2025 CSC 313 Quiz | Designed by ____</p>
+        </div>
+      </div>
+
+      <div class="modal-overlay" id="name-modal">
+        <div class="modal">
+          <div class="modal-header">
+            <h3 class="modal-title">Quiz Completed!</h3>
+            <button class="close-btn" id="close-modal">&times;</button>
+          </div>
+          <p style="margin-bottom: 1.5rem">
+            Please enter your full name to save your score to the leaderboard.
+          </p>
+          <div class="form-group">
+            <label for="user-name" class="form-label">Full Name</label>
+            <input
+              type="text"
+              id="user-name"
+              class="form-input"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+          <button
+            class="btn btn-primary"
+            id="save-score-btn"
+            style="width: 100%"
+          >
+            <i class="fas fa-save"></i> Save Score
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCgOvIkDCcS3DFrt5f6Y7pYmjCoHIfDF9U",
+        authDomain: "moniebase-b4b4d.firebaseapp.com",
+        projectId: "moniebase-b4b4d",
+        storageBucket: "moniebase-b4b4d.appspot.com",
+        messagingSenderId: "1009678808253",
+        appId: "1:1009678808253:android:ff94e94c52bad2db7973d4",
+        databaseURL: "https://moniebase-b4b4d-default-rtdb.firebaseio.com/",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+
+      // Quiz data
+      const quizData = [
+        {
+          question:
+            "What are formal methods primarily used for in system design?",
+          options: [
+            "To create user interfaces",
+            "To build rigorously specified mathematical models",
+            "To perform manual testing",
+            "To manage project timelines",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "How do formal methods differ from traditional system design approaches?",
+          options: [
+            "They rely solely on extensive testing",
+            "They use mathematical proof to complement testing",
+            "They avoid mathematical models",
+            "They focus on hardware optimization",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is a key limitation of traditional testing methods according to the document?",
+          options: [
+            "They are too expensive",
+            "They can only test finite conditions",
+            "They are mathematically rigorous",
+            "They guarantee defect-free software",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "Who proposed Hoare logic for reasoning about program correctness?",
+          options: [
+            "Robert W. Floyd",
+            "Tony Hoare",
+            "Edsger Dijkstra",
+            "Bertrand Meyer",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What does Hoare logic aim to provide?",
+          options: [
+            "A framework for user interface design",
+            "A formal system for reasoning about program correctness",
+            "A method for hardware optimization",
+            "A tool for database management",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "In the 1990 AT&T network breakdown, what caused the failure?",
+          options: [
+            "Hardware malfunction",
+            "A one-line bug in a C program",
+            "Network overload",
+            "User error",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What was the specific issue in the 1991 Patriot Missile failure?",
+          options: [
+            "Network connectivity loss",
+            "Inaccurate time calculation due to a 24-bit fixed-point register",
+            "Incorrect user input",
+            "Hardware overheating",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "According to Dijkstra, what can testing prove about software?",
+          options: [
+            "Absence of defects",
+            "Presence of bugs",
+            "Complete correctness",
+            "Optimal performance",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the purpose of statement coverage in software testing?",
+          options: [
+            "To execute all possible paths",
+            "To ensure each statement is executed at least once",
+            "To verify branch conditions",
+            "To check loop invariants",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is a limitation of path coverage testing for a loop with N=20?",
+          options: [
+            "It is too costly",
+            "It results in over 1 million possible paths",
+            "It cannot detect logical errors",
+            "It requires hardware upgrades",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What does partial correctness in Hoare logic imply?",
+          options: [
+            "The program always terminates",
+            "If the precondition is true and the program terminates, the postcondition is true",
+            "The program is defect-free",
+            "The program handles all errors",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is total correctness in Hoare logic?",
+          options: [
+            "Partial correctness plus termination",
+            "Absence of all bugs",
+            "Execution of all paths",
+            "Optimization of performance",
+          ],
+          answer: 0,
+        },
+        {
+          question: "In a Hoare triple {P} S {Q}, what does P represent?",
+          options: [
+            "Postcondition",
+            "Precondition",
+            "Program statement",
+            "Loop invariant",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the weakest precondition for the statement x := 5 with postcondition x ≥ 5?",
+          options: ["x ≥ 10", "x ≤ 5", "x ≥ 5", "true"],
+          answer: 3,
+        },
+        {
+          question:
+            "What is the strongest postcondition for the Hoare triple {x = 5} x := x + 2 {Q}?",
+          options: ["x > 0", "x = 10", "x ≥ 5", "x = 7"],
+          answer: 3,
+        },
+        {
+          question:
+            "What is the weakest precondition for x := y with postcondition x = 5?",
+          options: ["y = 5", "x = 5", "x = y", "true"],
+          answer: 0,
+        },
+        {
+          question:
+            "In the assignment axiom {Q(e)} x := e {Q(x)}, what does Q(e) represent?",
+          options: [
+            "Postcondition",
+            "Precondition with x replaced by e",
+            "Loop invariant",
+            "Program statement",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the purpose of a loop invariant in Hoare logic?",
+          options: [
+            "To ensure termination",
+            "To remain true before and after each loop iteration",
+            "To define postconditions",
+            "To handle exceptions",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "For the program while (n > 0) do n := n - 1, what is a suitable loop invariant?",
+          options: ["n = 0", "n ≥ 0", "n < 0", "n > 0"],
+          answer: 1,
+        },
+        {
+          question:
+            "What does the proof rule for sequential composition state?",
+          options: [
+            "{P} S1 {Q} {Q} S2 {R} implies {P} S1; S2 {R}",
+            "{P} S1 {R} {R} S2 {Q} implies {P} S1; S2 {Q}",
+            "{P} S1 {Q} implies {P} S2 {Q}",
+            "{P} S1 {R} implies {R} S2 {Q}",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the primary benefit of formal specification in software development?",
+          options: [
+            "Reduces development time",
+            "Detects requirements errors early",
+            "Eliminates all bugs",
+            "Simplifies user interface design",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "Which approach describes a system in terms of operations and their relationships?",
+          options: [
+            "Model-based approach",
+            "Algebraic approach",
+            "Behavioral approach",
+            "Semantic approach",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "Which language is used for protocol specification in ISO OSI standards?",
+          options: ["Z notation", "LOTOS", "Petri net", "UML"],
+          answer: 1,
+        },
+        {
+          question: "What is the Z notation primarily used for?",
+          options: [
+            "Hardware verification",
+            "Describing and verifying computer systems",
+            "Real-time protocol specification",
+            "User interface design",
+          ],
+          answer: 1,
+        },
+        {
+          question: "Who originally proposed the Z notation?",
+          options: [
+            "Tony Hoare",
+            "Jean-Raymond Abrial",
+            "Carl Adam Petri",
+            "Robert W. Floyd",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is a Petri net used to describe?",
+          options: [
+            "User interfaces",
+            "Distributed systems",
+            "Database schemas",
+            "Network protocols",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What does SPIN primarily verify?",
+          options: [
+            "Hardware components",
+            "Distributed and asynchronous software systems",
+            "User interfaces",
+            "Database transactions",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the Unified Modeling Language (UML) primarily used for?",
+          options: [
+            "Hardware simulation",
+            "Visual modeling of software systems",
+            "Protocol verification",
+            "Data encryption",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is Asml developed by Microsoft used for?",
+          options: [
+            "Database management",
+            "Specifying hardware and software systems",
+            "User interface design",
+            "Network optimization",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the main goal of software adaptation?",
+          options: [
+            "To optimize hardware performance",
+            "To ensure components interact correctly at multiple levels",
+            "To reduce development costs",
+            "To simplify user interfaces",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What does adaptive programming aim to address?",
+          options: [
+            "Hardware compatibility",
+            "Changing user needs and environments",
+            "Database optimization",
+            "Network security",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is an Interface Description Language (IDL) used for?",
+          options: [
+            "Specifying user interfaces",
+            "Describing component APIs in a language-independent way",
+            "Optimizing code execution",
+            "Verifying hardware",
+          ],
+          answer: 1,
+        },
+        {
+          question: "At which level does Behavioral IDL (BIDL) operate?",
+          options: [
+            "Signature level",
+            "Behavioral level",
+            "Semantic level",
+            "Service level",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "Which technology is associated with the Semantic Web for component specification?",
+          options: ["WSCDL", "OWL-S", "Q3M", "UML"],
+          answer: 1,
+        },
+        {
+          question:
+            "What does the QoS Modeling Language (Q3M) primarily specify?",
+          options: [
+            "Functional properties",
+            "Non-functional properties",
+            "User interfaces",
+            "Hardware configurations",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is a key challenge in Component-Based Software Engineering (CBSE)?",
+          options: [
+            "Lack of hardware support",
+            "Specifying components for reuse and integration",
+            "High development costs",
+            "User training",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the purpose of autonomic computing in software adaptation?",
+          options: [
+            "To reduce hardware costs",
+            "To manage complexity in self-adaptive systems",
+            "To optimize database queries",
+            "To simplify user interfaces",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "In the decision-making process for software adaptation, what is the first step?",
+          options: [
+            "Define decision parameters",
+            "Define the decision object",
+            "Specify monitoring notifications",
+            "Evaluate decision performance",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "Which decision approach uses utility functions as decision rules?",
+          options: [
+            "Situation-actions",
+            "Goal-oriented",
+            "Utility-oriented",
+            "Behavior-oriented",
+          ],
+          answer: 2,
+        },
+        {
+          question:
+            "What is the main focus of data-oriented coordination models?",
+          options: [
+            "Simplifying composition by softening data interactions",
+            "Managing hardware resources",
+            "Optimizing network performance",
+            "Verifying user inputs",
+          ],
+          answer: 0,
+        },
+        {
+          question: "What do control-oriented coordination models emphasize?",
+          options: [
+            "Data storage",
+            "Sequencing actions and managing dependencies",
+            "User interface design",
+            "Hardware optimization",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is a current research direction in software adaptation?",
+          options: [
+            "Developing new hardware platforms",
+            "Creating adaptive middleware for dynamic adaptation",
+            "Simplifying user training",
+            "Reducing database size",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is a key challenge in dynamic adaptation?",
+          options: [
+            "High development costs",
+            "Detecting mismatches like deadlocks at runtime",
+            "Lack of user feedback",
+            "Hardware limitations",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is a legacy system in the context of computing?",
+          options: [
+            "A new software platform",
+            "An outdated system still in use",
+            "A high-performance computing system",
+            "A cloud-based application",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What complicates adding adaptation to legacy systems?",
+          options: [
+            "Lack of user interest",
+            "Heterogeneous components and poor documentation",
+            "High hardware costs",
+            "Simplified architectures",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the purpose of proof-carrying code (PCC)?",
+          options: [
+            "To optimize code performance",
+            "To ensure safe execution of machine code",
+            "To simplify user interfaces",
+            "To reduce development time",
+          ],
+          answer: 1,
+        },
+        {
+          question: "In PCC, what does the kernel validate?",
+          options: [
+            "User inputs",
+            "A proof that the code adheres to a security policy",
+            "Hardware compatibility",
+            "Network connectivity",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is a challenge of PCC related to certificate size?",
+          options: [
+            "Certificates are too small",
+            "Certificates can be large due to repetition",
+            "Certificates are hardware-dependent",
+            "Certificates are user-specific",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the role of the Verification Condition Generator (VCGen) in PCC?",
+          options: [
+            "To compile source code",
+            "To generate a safety theorem for the machine code",
+            "To optimize network performance",
+            "To design user interfaces",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is a key component of the trusted code base (TCB) in PCC?",
+          options: [
+            "User interface",
+            "VC generation and validation components",
+            "Database management system",
+            "Network protocol",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the primary application of the Prototype Verification System (PVS)?",
+          options: [
+            "User interface design",
+            "Formalization of mathematical concepts and proofs",
+            "Network optimization",
+            "Database management",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the Java Modeling Language (JML) used for?",
+          options: [
+            "Hardware simulation",
+            "Specifying Java program behavior",
+            "Network protocol design",
+            "User interface creation",
+          ],
+          answer: 1,
+        },
+        {
+          question: "How are JML specifications typically written?",
+          options: [
+            "As separate configuration files",
+            "As Java annotation comments",
+            "As XML documents",
+            "As LaTeX documents",
+          ],
+          answer: 1,
+        },
+        {
+          question: "In JML, what does the pure keyword indicate?",
+          options: [
+            "A method modifies all fields",
+            "A method is side-effect-free",
+            "A method is hardware-dependent",
+            "A method handles user inputs",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What does the invariant keyword in JML define?",
+          options: [
+            "A loop condition",
+            "A class's invariant property",
+            "A postcondition",
+            "A user interface",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the purpose of the assignable keyword in JML?",
+          options: [
+            "To define loop invariants",
+            "To specify fields a method can modify",
+            "To optimize code execution",
+            "To handle exceptions",
+          ],
+          answer: 1,
+        },
+        {
+          question: "In JML, what does \\result represent?",
+          options: [
+            "The method's input parameters",
+            "The method's return value",
+            "The loop invariant",
+            "The precondition",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the role of the also keyword in JML?",
+          options: [
+            "To define preconditions",
+            "To combine specification cases or inherit specifications",
+            "To optimize performance",
+            "To handle errors",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What does the spec_public keyword in JML do?",
+          options: [
+            "Declares a variable public for specification purposes",
+            "Optimizes code execution",
+            "Defines a loop invariant",
+            "Handles network protocols",
+          ],
+          answer: 0,
+        },
+        {
+          question: "What is the universal quantifier in JML used for?",
+          options: [
+            "To define loop conditions",
+            "To specify logical properties over a range",
+            "To optimize code",
+            "To manage hardware",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is a key advantage of formal verification over testing?",
+          options: [
+            "It reduces development time",
+            "It can reason about behavior outside test scenarios",
+            "It eliminates all bugs",
+            "It simplifies user interfaces",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What caused the AT&T network failure in 1990?",
+          options: [
+            "A hardware issue",
+            "A break statement in an if clause within a switch",
+            "A network overload",
+            "A user error",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the primary goal of the Z notation?",
+          options: [
+            "To design user interfaces",
+            "To provide clear specifications for computer systems",
+            "To optimize network performance",
+            "To manage databases",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is a key feature of Petri nets?",
+          options: [
+            "They are used for user interface design",
+            "They have an exact mathematical definition of execution semantics",
+            "They optimize hardware",
+            "They simplify testing",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the purpose of SPIN's PROMELA language?",
+          options: [
+            "To design user interfaces",
+            "To specify distributed systems",
+            "To optimize code",
+            "To manage databases",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is a key challenge in testing a program with many paths?",
+          options: [
+            "High hardware costs",
+            "Testing all paths is practically impossible",
+            "Lack of user feedback",
+            "Simplified algorithms",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What does the proof rule for conditional composition verify?",
+          options: [
+            "Loop termination",
+            "Each branch of a conditional statement",
+            "Network connectivity",
+            "User inputs",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "In the Hoare triple {x = 2} x := x + 1 {x = 3}, what is the postcondition?",
+          options: ["x = 2", "x = 3", "x > 0", "x = 1"],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the weakest precondition for x := x + 1 with postcondition x ≤ 5?",
+          options: ["x ≤ 4", "x ≤ 5", "x ≥ 5", "true"],
+          answer: 0,
+        },
+        {
+          question:
+            "What is the purpose of Dijkstra's healthiness conditions in program verification?",
+          options: [
+            "To optimize performance",
+            "To ensure termination and correctness",
+            "To design user interfaces",
+            "To manage databases",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is a loop invariant in the context of a while loop?",
+          options: [
+            "A condition that changes each iteration",
+            "A property true before and after each iteration",
+            "A postcondition",
+            "A hardware constraint",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the postcondition for the program while (i ≤ n) do i := i + 1; s := s + (2^(i-1) - 1) with invariant s = i^2?",
+          options: ["s = n^2", "s = i^2", "i = n", "s = 0"],
+          answer: 0,
+        },
+        {
+          question:
+            "What does formal specification help detect in the development process?",
+          options: [
+            "Hardware failures",
+            "Requirements errors and inconsistencies",
+            "User interface issues",
+            "Network problems",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "Which approach uses mathematical constructs like sets and sequences?",
+          options: [
+            "Algebraic approach",
+            "Model-based approach",
+            "Behavioral approach",
+            "Semantic approach",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is LOTOS primarily used for?",
+          options: [
+            "Hardware design",
+            "Protocol specification in ISO OSI standards",
+            "User interface modeling",
+            "Database management",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is a key feature of the Z notation?",
+          options: [
+            "It uses ASCII symbols exclusively",
+            "It supports non-ASCII symbols with LaTeX rendering",
+            "It is hardware-specific",
+            "It optimizes network performance",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the primary focus of adaptive middleware in software adaptation?",
+          options: [
+            "User interface design",
+            "Dynamic adaptation at runtime",
+            "Hardware optimization",
+            "Database management",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is a key issue in Component-Based Software Engineering (CBSE)?",
+          options: [
+            "Lack of user training",
+            "Specifying components for reuse",
+            "High hardware costs",
+            "Simplified algorithms",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What does the loop_invariant keyword in JML specify?",
+          options: [
+            "A method's return value",
+            "A property true for each loop iteration",
+            "A postcondition",
+            "A hardware constraint",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the purpose of proof-carrying code's safety policy?",
+          options: [
+            "To optimize code execution",
+            "To specify properties the code must obey",
+            "To design user interfaces",
+            "To manage databases",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is a key challenge in PCC validation performance?",
+          options: [
+            "It is too slow for user interfaces",
+            "It is on the critical path of code execution",
+            "It requires hardware upgrades",
+            "It simplifies testing",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the role of the certifying compiler in PCC?",
+          options: [
+            "To optimize network performance",
+            "To produce machine code and type annotations",
+            "To design user interfaces",
+            "To manage databases",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is a key application of PVS?",
+          options: [
+            "User interface design",
+            "Verification of hardware and algorithms",
+            "Network optimization",
+            "Database management",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the weakest precondition for x := 0 with postcondition x = 0?",
+          options: ["x = 1", "true", "x = 0", "false"],
+          answer: 1,
+        },
+        {
+          question: "What is the purpose of branch coverage in testing?",
+          options: [
+            "To execute all statements",
+            "To ensure all branches are tested",
+            "To verify loop invariants",
+            "To optimize performance",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the primary goal of adaptive programming?",
+          options: [
+            "To optimize hardware",
+            "To anticipate and handle changing user needs",
+            "To simplify testing",
+            "To manage databases",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is a key feature of control-oriented coordination models?",
+          options: [
+            "They focus on data storage",
+            "They manage action sequences and dependencies",
+            "They optimize network performance",
+            "They simplify user interfaces",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is a key issue in dynamic adaptation?",
+          options: [
+            "Simplified algorithms",
+            "Detecting mismatches at runtime",
+            "Lack of user feedback",
+            "High hardware costs",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the purpose of the QoS Modeling Language (Q3M)?",
+          options: [
+            "To specify functional properties",
+            "To describe non-functional properties",
+            "To design user interfaces",
+            "To optimize hardware",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the primary challenge of retrofitting legacy systems with adaptation?",
+          options: [
+            "High user training costs",
+            "Heterogeneous components and poor documentation",
+            "Simplified architectures",
+            "Lack of hardware support",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the role of the proof checker in PCC?",
+          options: [
+            "To generate machine code",
+            "To validate the safety proof",
+            "To optimize performance",
+            "To design user interfaces",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is a key feature of JML specifications?",
+          options: [
+            "They are written in XML",
+            "They are Java annotation comments",
+            "They are hardware-specific",
+            "They optimize network performance",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the purpose of the assert keyword in JML?",
+          options: [
+            "To define a loop invariant",
+            "To specify a JML assertion",
+            "To optimize code",
+            "To handle exceptions",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the weakest precondition for x := x + 1 with postcondition x = 3?",
+          options: ["x = 2", "x = 3", "x = 1", "true"],
+          answer: 0,
+        },
+        {
+          question: "What is the purpose of the proof rule for while loops?",
+          options: [
+            "To optimize performance",
+            "To verify loop correctness using invariants",
+            "To design user interfaces",
+            "To manage databases",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is a key advantage of formal methods in software development?",
+          options: [
+            "They reduce hardware costs",
+            "They provide assurance of correct behavior",
+            "They simplify user training",
+            "They optimize network performance",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the primary focus of the algebraic approach in formal specification?",
+          options: [
+            "Modeling system state",
+            "Describing operations and their relationships",
+            "Optimizing performance",
+            "Designing user interfaces",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is the purpose of the while loop invariant n ≥ 0 in the program while (n > 0) do n := n - 1?",
+          options: [
+            "To ensure termination",
+            "To remain true before and after each iteration",
+            "To define the postcondition",
+            "To handle exceptions",
+          ],
+          answer: 1,
+        },
+        {
+          question:
+            "What is a key challenge in specifying components for CBSE?",
+          options: [
+            "Lack of user feedback",
+            "Ensuring compatibility at multiple levels",
+            "High hardware costs",
+            "Simplified algorithms",
+          ],
+          answer: 1,
+        },
+        {
+          question: "What is the purpose of the \\old expression in JML?",
+          options: [
+            "To refer to a method's return value",
+            "To refer to a value at method entry",
+            "To define a loop invariant",
+            "To optimize code",
+          ],
+          answer: 1,
+        },
+      ];
+
+      // DOM elements
+      const quizContent = document.getElementById("quiz-content");
+      const loadingElement = document.getElementById("loading");
+      const quizElement = document.getElementById("quiz");
+      const resultContainer = document.getElementById("result-container");
+      const questionCountElement = document.getElementById("question-count");
+      const questionTextElement = document.getElementById("question-text");
+      const optionsContainer = document.getElementById("options-container");
+      const progressBar = document.getElementById("progress-bar");
+      const prevBtn = document.getElementById("prev-btn");
+      const nextBtn = document.getElementById("next-btn");
+      const restartBtn = document.getElementById("restart-btn");
+      const resultScoreElement = document.getElementById("result-score");
+      const resultMessageElement = document.getElementById("result-message");
+      const leaderboardBody = document.getElementById("leaderboard-body");
+      const reviewContainer = document.getElementById("review-container");
+      const nameModal = document.getElementById("name-modal");
+      const userNameInput = document.getElementById("user-name");
+      const saveScoreBtn = document.getElementById("save-score-btn");
+      const closeModalBtn = document.getElementById("close-modal");
+      const tabButtons = document.querySelectorAll(".tab-btn");
+      const tabContents = document.querySelectorAll(".tab-content");
+
+      // Quiz state
+      let currentQuestionIndex = 0;
+      let score = 0;
+      let userAnswers = Array(quizData.length).fill(null);
+      let quizCompleted = false;
+
+      // Initialize the quiz
+      function initQuiz() {
+        // Hide loading screen and show quiz content after a short delay
+        setTimeout(() => {
+          loadingElement.style.display = "none";
+          quizContent.style.display = "block";
+          showQuestion();
+        }, 1500);
+      }
+
+      // Show current question
+      function showQuestion() {
+        const currentQuestion = quizData[currentQuestionIndex];
+        const questionNumber = currentQuestionIndex + 1;
+
+        questionCountElement.textContent = `Question ${questionNumber} of ${quizData.length}`;
+        questionTextElement.textContent = currentQuestion.question;
+
+        // Update progress bar
+        const progressPercentage = (questionNumber / quizData.length) * 100;
+        progressBar.style.width = `${progressPercentage}%`;
+
+        // Clear previous options
+        optionsContainer.innerHTML = "";
+
+        // Add new options
+        currentQuestion.options.forEach((option, index) => {
+          const optionElement = document.createElement("div");
+          optionElement.classList.add("option");
+
+          // Check if this option was previously selected
+          if (userAnswers[currentQuestionIndex] === index) {
+            optionElement.classList.add("selected");
+          }
+
+          optionElement.textContent = option;
+          optionElement.dataset.index = index;
+
+          optionElement.addEventListener("click", selectOption);
+          optionsContainer.appendChild(optionElement);
+        });
+
+        // Update navigation buttons
+        prevBtn.disabled = currentQuestionIndex === 0;
+
+        // If we've reached the end, change the next button to submit
+        if (currentQuestionIndex === quizData.length - 1) {
+          nextBtn.textContent = "Submit";
+          nextBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit';
+        } else {
+          nextBtn.textContent = "Next";
+          nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+        }
+      }
+
+      // Select an option
+      function selectOption(e) {
+        const selectedOption = e.target;
+        const optionIndex = parseInt(selectedOption.dataset.index);
+
+        // Remove selected class from all options
+        document.querySelectorAll(".option").forEach((option) => {
+          option.classList.remove("selected");
+        });
+
+        // Add selected class to clicked option
+        selectedOption.classList.add("selected");
+
+        // Save the user's answer
+        userAnswers[currentQuestionIndex] = optionIndex;
+      }
+
+      // Show the next question
+      function showNextQuestion() {
+        // Check if an option is selected
+        if (userAnswers[currentQuestionIndex] === null && !quizCompleted) {
+          alert("Please select an answer before proceeding.");
+          return;
+        }
+
+        if (currentQuestionIndex < quizData.length - 1) {
+          currentQuestionIndex++;
+          showQuestion();
+        } else {
+          // If we're on the last question and next is clicked, submit the quiz
+          if (!quizCompleted) {
+            submitQuiz();
+          }
+        }
+      }
+
+      // Show the previous question
+      function showPrevQuestion() {
+        if (currentQuestionIndex > 0) {
+          currentQuestionIndex--;
+          showQuestion();
+        }
+      }
+
+      // Submit the quiz and calculate results
+      function submitQuiz() {
+        quizCompleted = true;
+
+        // Calculate score
+        score = 0;
+        for (let i = 0; i < quizData.length; i++) {
+          if (userAnswers[i] === quizData[i].answer) {
+            score++;
+          }
+        }
+
+        // Calculate percentage
+        const percentage = Math.round((score / quizData.length) * 100);
+
+        // Show result container
+        quizElement.style.display = "none";
+        resultContainer.style.display = "block";
+
+        // Display score
+        resultScoreElement.textContent = `${percentage}%`;
+
+        // Display message based on score
+        if (percentage >= 80) {
+          resultMessageElement.textContent =
+            "Excellent! You have a strong understanding of Formal Methods and Software Development.";
+        } else if (percentage >= 60) {
+          resultMessageElement.textContent =
+            "Good job! You have a decent understanding, but there is room for improvement.";
+        } else if (percentage >= 40) {
+          resultMessageElement.textContent =
+            "Not bad! Review the material to strengthen your understanding.";
+        } else {
+          resultMessageElement.textContent =
+            "Keep practicing! Review the course material and try again.";
+        }
+
+        // Load leaderboard
+        loadLeaderboard();
+
+        // Prepare review content
+        prepareReviewContent();
+
+        // Show name modal to save score
+        setTimeout(() => {
+          nameModal.classList.add("active");
+        }, 1000);
+      }
+
+      // Load leaderboard from Firebase
+      function loadLeaderboard() {
+        const scoresRef = database.ref("scores");
+
+        scoresRef
+          .orderByChild("score")
+          .limitToLast(10)
+          .on("value", (snapshot) => {
+            const scores = [];
+            snapshot.forEach((childSnapshot) => {
+              scores.push(childSnapshot.val());
+            });
+
+            // Sort scores in descending order
+            scores.sort((a, b) => b.score - a.score);
+
+            // Clear previous leaderboard
+            leaderboardBody.innerHTML = "";
+
+            // Add scores to leaderboard
+            scores.forEach((scoreData, index) => {
+              const row = document.createElement("tr");
+
+              const rankCell = document.createElement("td");
+              rankCell.textContent = index + 1;
+
+              const nameCell = document.createElement("td");
+              nameCell.textContent = scoreData.name;
+
+              const scoreCell = document.createElement("td");
+              scoreCell.textContent = `${scoreData.score}%`;
+
+              row.appendChild(rankCell);
+              row.appendChild(nameCell);
+              row.appendChild(scoreCell);
+
+              leaderboardBody.appendChild(row);
+            });
+          });
+      }
+
+      // Prepare review content with correct/incorrect answers
+      function prepareReviewContent() {
+        reviewContainer.innerHTML = "";
+
+        quizData.forEach((question, index) => {
+          const reviewItem = document.createElement("div");
+          reviewItem.classList.add("review-item");
+
+          const questionElement = document.createElement("div");
+          questionElement.classList.add("review-question");
+          questionElement.textContent = `${index + 1}. ${question.question}`;
+          reviewItem.appendChild(questionElement);
+
+          // Add all options
+          question.options.forEach((option, optionIndex) => {
+            const answerElement = document.createElement("div");
+            answerElement.classList.add("review-answer");
+            answerElement.textContent = option;
+
+            // Mark correct answer
+            if (optionIndex === question.answer) {
+              answerElement.classList.add("correct");
+            }
+
+            // Mark user's answer if incorrect
+            if (
+              userAnswers[index] !== null &&
+              userAnswers[index] === optionIndex &&
+              userAnswers[index] !== question.answer
+            ) {
+              answerElement.classList.add("incorrect", "user-selected");
+            }
+
+            // Mark user's answer if correct
+            if (
+              userAnswers[index] !== null &&
+              userAnswers[index] === optionIndex &&
+              userAnswers[index] === question.answer
+            ) {
+              answerElement.classList.add("user-selected");
+            }
+
+            reviewItem.appendChild(answerElement);
+          });
+
+          reviewContainer.appendChild(reviewItem);
+        });
+      }
+
+      // Save score to Firebase
+      function saveScore() {
+        const name = userNameInput.value.trim();
+
+        if (name === "") {
+          alert("Please enter your name to save your score.");
+          return;
+        }
+
+        // Calculate percentage
+        const percentage = Math.round((score / quizData.length) * 100);
+
+        // Save to Firebase
+        const scoresRef = database.ref("scores");
+        const newScoreRef = scoresRef.push();
+
+        newScoreRef.set(
+          {
+            name: name,
+            score: percentage,
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+          },
+          (error) => {
+            if (error) {
+              alert("Error saving score. Please try again.");
+            } else {
+              alert("Score saved successfully!");
+              nameModal.classList.remove("active");
+
+              // Reload leaderboard to show new score
+              loadLeaderboard();
+            }
+          }
+        );
+      }
+
+      // Restart the quiz
+      function restartQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        userAnswers = Array(quizData.length).fill(null);
+        quizCompleted = false;
+
+        resultContainer.style.display = "none";
+        quizElement.style.display = "block";
+
+        showQuestion();
+      }
+
+      // Switch tabs
+      function switchTab(e) {
+        const tabId = e.target.dataset.tab;
+
+        // Update active tab button
+        tabButtons.forEach((button) => {
+          button.classList.remove("active");
+        });
+        e.target.classList.add("active");
+
+        // Show active tab content
+        tabContents.forEach((content) => {
+          content.classList.remove("active");
+        });
+        document.getElementById(`${tabId}-tab`).classList.add("active");
+      }
+
+      // Event listeners
+      nextBtn.addEventListener("click", showNextQuestion);
+      prevBtn.addEventListener("click", showPrevQuestion);
+      restartBtn.addEventListener("click", restartQuiz);
+      saveScoreBtn.addEventListener("click", saveScore);
+      closeModalBtn.addEventListener("click", () => {
+        nameModal.classList.remove("active");
+      });
+
+      tabButtons.forEach((button) => {
+        button.addEventListener("click", switchTab);
+      });
+
+      // Initialize the quiz when the page loads
+      window.addEventListener("load", initQuiz);
+
+      // Prevent the website from being flagged as dangerous
+      if (window.trustedTypes && window.trustedTypes.createPolicy) {
+        window.trustedTypes.createPolicy("default", {
+          createHTML: (string) => string,
+          createScriptURL: (string) => string,
+          createScript: (string) => string,
+        });
+      }
+    </script>
+  </body>
+</html>
