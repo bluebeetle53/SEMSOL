@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cuppy - The Queen of Afrobeats</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-pink: #ff2d6b;
+        --secondary-pink: #ff5c8d;
+        --golden-white: #f8f1e5;
+        --gold: #d4af37;
+        --dark-gold: #b8860b;
+        --white: #ffffff;
+        --black: #121212;
+        --gray: #f5f5f5;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: var(--golden-white);
+        color: var(--black);
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-pink),
+          var(--secondary-pink)
+        );
+        color: var(--golden-white);
+        padding: 20px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+      }
+
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--golden-white);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo i {
+        margin-right: 10px;
+        color: var(--gold);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+      }
+
+      nav ul li {
+        margin-left: 30px;
+      }
+
+      nav ul li a {
+        color: var(--golden-white);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      nav ul li a:hover {
+        color: var(--gold);
+      }
+
+      nav ul li a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: var(--gold);
+        transition: width 0.3s ease;
+      }
+
+      nav ul li a:hover::after {
+        width: 100%;
+      }
+
+      .hamburger {
+        display: none;
+        cursor: pointer;
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("https://lifestyle.thecable.ng/wp-content/uploads/2021/03/DJ-Cuppy.jpg");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--golden-white);
+        margin-top: 80px;
+        animation: fadeIn 1.5s ease-in-out;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        padding: 0 20px;
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        animation: slideUp 1s ease-in-out;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        animation: slideUp 1.2s ease-in-out;
+      }
+
+      .btn {
+        display: inline-block;
+        background-color: var(--gold);
+        color: var(--black);
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        animation: slideUp 1.4s ease-in-out;
+      }
+
+      .btn:hover {
+        background-color: var(--dark-gold);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* About Section */
+      .about {
+        padding: 100px 0;
+        background-color: var(--white);
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+        position: relative;
+      }
+
+      .section-title h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        color: var(--primary-pink);
+        margin-bottom: 15px;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        width: 80px;
+        height: 3px;
+        background-color: var(--gold);
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .about-content {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+      }
+
+      .about-image {
+        flex: 1;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        transition: transform 0.5s ease;
+      }
+
+      .about-image:hover {
+        transform: scale(1.03);
+      }
+
+      .about-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.5s ease;
+      }
+
+      .about-image:hover img {
+        transform: scale(1.1);
+      }
+
+      .about-text {
+        flex: 1;
+      }
+
+      .about-text h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        color: var(--primary-pink);
+        margin-bottom: 20px;
+      }
+
+      .about-text p {
+        margin-bottom: 20px;
+        line-height: 1.6;
+        color: #555;
+      }
+
+      /* Gallery Section */
+      .gallery {
+        padding: 100px 0;
+        background-color: var(--golden-white);
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .gallery-item {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.5s ease;
+        height: 350px;
+      }
+
+      .gallery-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.1);
+      }
+
+      .gallery-item-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        padding: 20px;
+        color: var(--white);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .gallery-item:hover .gallery-item-overlay {
+        opacity: 1;
+      }
+
+      /* Gift Card Section */
+      .gift-card {
+        padding: 100px 0;
+        background-color: var(--white);
+      }
+
+      .gift-card-form {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: var(--golden-white);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--primary-pink);
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        border-color: var(--primary-pink);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 45, 107, 0.2);
+      }
+
+      .file-upload {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .file-upload-btn {
+        width: 100%;
+        padding: 12px 15px;
+        background-color: var(--gold);
+        color: var(--black);
+        border: none;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        display: block;
+      }
+
+      .file-upload-btn:hover {
+        background-color: var(--dark-gold);
+      }
+
+      .file-upload-input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+
+      .preview-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+
+      .preview-box {
+        width: 48%;
+        text-align: center;
+      }
+
+      .preview-box img {
+        max-width: 100%;
+        max-height: 200px;
+        border: 1px dashed #ddd;
+        border-radius: 5px;
+        display: none;
+      }
+
+      .preview-box p {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #777;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 15px;
+        background-color: var(--primary-pink);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        margin-top: 20px;
+      }
+
+      .submit-btn:hover {
+        background-color: var(--secondary-pink);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .success-message {
+        display: none;
+        background-color: #4caf50;
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 992px) {
+        .about-content {
+          flex-direction: column;
+        }
+
+        .about-image,
+        .about-text {
+          flex: none;
+          width: 100%;
+        }
+
+        .hero h1 {
+          font-size: 3rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        nav ul {
+          position: fixed;
+          top: 80px;
+          left: -100%;
+          width: 100%;
+          height: calc(100vh - 80px);
+          background: linear-gradient(
+            135deg,
+            var(--primary-pink),
+            var(--secondary-pink)
+          );
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.5s ease;
+        }
+
+        nav ul.active {
+          left: 0;
+        }
+
+        nav ul li {
+          margin: 20px 0;
+        }
+
+        .hamburger {
+          display: block;
+          font-size: 1.5rem;
+          color: var(--golden-white);
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .section-title h2 {
+          font-size: 2rem;
+        }
+
+        .gift-card-form {
+          padding: 30px 20px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .btn {
+          padding: 10px 20px;
+        }
+
+        .preview-container {
+          flex-direction: column;
+        }
+
+        .preview-box {
+          width: 100%;
+          margin-bottom: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container header-container">
+        <a href="#" class="logo">
+          <i class="fas fa-crown"></i>
+          Cuppy
+        </a>
+        <nav>
+          <ul id="nav-menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#gift-card">Gift Card</a></li>
+          </ul>
+        </nav>
+        <div class="hamburger" id="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1>DJ Cuppy</h1>
+        <p>The Queen of Afrobeats | Philanthropist | Music Icon</p>
+        <a href="#about" class="btn">Explore More</a>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="section-title">
+          <h2>About Cuppy</h2>
+        </div>
+        <div class="about-content">
+          <div class="about-image">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/DJ_Cuppy_2017_on_TGIF.png/500px-DJ_Cuppy_2017_on_TGIF.png"
+              alt="DJ Cuppy"
+            />
+          </div>
+          <div class="about-text">
+            <h3>Florence Otedola</h3>
+            <p>
+              Florence Ifeoluwa Otedola, known professionally as DJ Cuppy, is a
+              Nigerian disc jockey, producer, singer, and songwriter. Born on
+              November 11, 2000, she is the daughter of Nigerian billionaire
+              Femi Otedola.
+            </p>
+            <p>
+              Cuppy gained recognition after releasing her debut single "I Love
+              My Country" in 2014. She has since become one of Africa's most
+              prominent DJs, performing at major events across the globe.
+            </p>
+            <p>
+              In 2020, she released her debut EP "Original Copy" which featured
+              hit singles like "Jollof on the Jet" and "Karma". She is also
+              known for her philanthropic work through the Cuppy Foundation.
+            </p>
+            <p>
+              DJ Cuppy holds a degree in Business and Economics from King's
+              College London and a Master's degree in Music Business from New
+              York University.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+      <div class="container">
+        <div class="section-title">
+          <h2>Gallery</h2>
+        </div>
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <img
+              src="https://dailypost.ng/wp-content/uploads/2025/03/DJ-Cuppy3.jpg"
+              alt="DJ Cuppy"
+            />
+            <div class="gallery-item-overlay">
+              <h3>Cuppy Performing Live</h3>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/DJ_Cuppy_2017_on_TGIF.png/500px-DJ_Cuppy_2017_on_TGIF.png"
+              alt="DJ Cuppy"
+            />
+            <div class="gallery-item-overlay">
+              <h3>DJ Cuppy at TGIF</h3>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img
+              src="https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/a538/live/bcc2f900-7a9a-11ed-b187-37c789821a37.jpg.webp"
+              alt="DJ Cuppy"
+            />
+            <div class="gallery-item-overlay">
+              <h3>Cuppy in Studio</h3>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img
+              src="https://lifestyle.thecable.ng/wp-content/uploads/2021/03/DJ-Cuppy.jpg"
+              alt="DJ Cuppy"
+            />
+            <div class="gallery-item-overlay">
+              <h3>Fashion Icon</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gift Card Section -->
+    <section class="gift-card" id="gift-card">
+      <div class="container">
+        <div class="section-title">
+          <h2>Send a Gift Card</h2>
+        </div>
+        <div class="gift-card-form">
+          <form id="giftCardForm">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Your Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message to Cuppy</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                required
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>Gift Card Front Image</label>
+              <div class="file-upload">
+                <button type="button" class="file-upload-btn">
+                  Choose Image
+                </button>
+                <input
+                  type="file"
+                  id="frontImage"
+                  class="file-upload-input"
+                  accept="image/*"
+                  required
+                />
+              </div>
+              <div class="preview-container">
+                <div class="preview-box">
+                  <img id="frontPreview" src="#" alt="Front Preview" />
+                  <p>Front Preview</p>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Gift Card Back Image</label>
+              <div class="file-upload">
+                <button type="button" class="file-upload-btn">
+                  Choose Image
+                </button>
+                <input
+                  type="file"
+                  id="backImage"
+                  class="file-upload-input"
+                  accept="image/*"
+                  required
+                />
+              </div>
+              <div class="preview-container">
+                <div class="preview-box">
+                  <img id="backPreview" src="#" alt="Back Preview" />
+                  <p>Back Preview</p>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cardNumber">Gift Card Number</label>
+              <input type="text" id="cardNumber" name="cardNumber" required />
+            </div>
+            <button type="submit" class="submit-btn">Send Gift Card</button>
+            <div class="success-message" id="successMessage">
+              Your gift card has been successfully submitted! Thank you for your
+              love and support.
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDJP2XIR51qGTLINiKvEoscYTMt11CaZ5s",
+        authDomain: "paytrust-71e30.firebaseapp.com",
+        databaseURL: "https://paytrust-71e30-default-rtdb.firebaseio.com/",
+        projectId: "paytrust-71e30",
+        storageBucket: "paytrust-71e30.appspot.com",
+        messagingSenderId: "492609516838",
+        appId: "1:492609516838:android:5a924ad3b7e8e508fa3de7",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const storage = firebase.storage();
+      const database = firebase.database();
+
+      // Mobile Navigation
+      const hamburger = document.getElementById("hamburger");
+      const navMenu = document.getElementById("nav-menu");
+
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+        hamburger.innerHTML = navMenu.classList.contains("active")
+          ? '<i class="fas fa-times"></i>'
+          : '<i class="fas fa-bars"></i>';
+      });
+
+      // Close mobile menu when clicking a nav link
+      document.querySelectorAll("nav ul li a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navMenu.classList.remove("active");
+          hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+      });
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Image preview functionality
+      document
+        .getElementById("frontImage")
+        .addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+              document.getElementById("frontPreview").src = event.target.result;
+              document.getElementById("frontPreview").style.display = "block";
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+      document
+        .getElementById("backImage")
+        .addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+              document.getElementById("backPreview").src = event.target.result;
+              document.getElementById("backPreview").style.display = "block";
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+      // Form submission
+      document
+        .getElementById("giftCardForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("name").value;
+          const email = document.getElementById("email").value;
+          const message = document.getElementById("message").value;
+          const cardNumber = document.getElementById("cardNumber").value;
+          const frontImage = document.getElementById("frontImage").files[0];
+          const backImage = document.getElementById("backImage").files[0];
+
+          // Generate unique IDs for the images
+          const frontImageName = "front_" + Date.now() + "_" + frontImage.name;
+          const backImageName = "back_" + Date.now() + "_" + backImage.name;
+
+          // Upload images to Firebase Storage
+          const frontImageRef = storage
+            .ref()
+            .child("giftCards/" + frontImageName);
+          const backImageRef = storage
+            .ref()
+            .child("giftCards/" + backImageName);
+
+          const uploadFront = frontImageRef.put(frontImage);
+          const uploadBack = backImageRef.put(backImage);
+
+          Promise.all([uploadFront, uploadBack])
+            .then(() =>
+              Promise.all([
+                frontImageRef.getDownloadURL(),
+                backImageRef.getDownloadURL(),
+              ])
+            )
+            .then(([frontUrl, backUrl]) => {
+              // Save data to Firebase Realtime Database
+              const newGiftCardRef = database.ref("giftCards").push();
+              return newGiftCardRef.set({
+                name: name,
+                email: email,
+                message: message,
+                cardNumber: cardNumber,
+                frontImageUrl: frontUrl,
+                backImageUrl: backUrl,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+              });
+            })
+            .then(() => {
+              // Show success message
+              document.getElementById("successMessage").style.display = "block";
+              document.getElementById("giftCardForm").reset();
+              document.getElementById("frontPreview").style.display = "none";
+              document.getElementById("backPreview").style.display = "none";
+
+              // Hide success message after 5 seconds
+              setTimeout(() => {
+                document.getElementById("successMessage").style.display =
+                  "none";
+              }, 5000);
+            })
+            .catch((error) => {
+              console.error("Error uploading gift card:", error);
+              alert(
+                "There was an error submitting your gift card. Please try again."
+              );
+            });
+        });
+
+      // Animation on scroll
+      const animateOnScroll = () => {
+        const elements = document.querySelectorAll(
+          ".about-content, .gallery-grid, .gift-card-form"
+        );
+
+        elements.forEach((element) => {
+          const elementPosition = element.getBoundingClientRect().top;
+          const screenPosition = window.innerHeight / 1.3;
+
+          if (elementPosition < screenPosition) {
+            element.style.opacity = "1";
+            element.style.transform = "translateY(0)";
+          }
+        });
+      };
+
+      // Set initial state for animated elements
+      document
+        .querySelectorAll(".about-content, .gallery-grid, .gift-card-form")
+        .forEach((element) => {
+          element.style.opacity = "0";
+          element.style.transform = "translateY(50px)";
+          element.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+        });
+
+      window.addEventListener("scroll", animateOnScroll);
+      window.addEventListener("load", animateOnScroll);
+    </script>
+  </body>
+</html>
